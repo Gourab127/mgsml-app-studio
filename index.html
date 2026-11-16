@@ -10,13 +10,14 @@
   body { background:#070b14; color:#f3f4f6; font-family:sans-serif; }
   .glass { background:rgba(13, 20, 35, 0.9); backdrop-filter:blur(14px); border:1px solid rgba(56, 189, 248, 0.2); }
   .sky-glow { box-shadow: 0 0 30px rgba(56, 189, 248, 0.15); }
+  .floating-btn { box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4); }
 </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
 <!-- Top Announcement -->
 <div class="bg-sky-500 text-gray-950 text-xs font-bold py-2 px-4 text-center">
-  <marquee scrollamount="5">🚀 Welcome to MGSML App Studio! Explore 44+ Ready Demos & Order Custom Apps via Direct UPI & Crypto!</marquee>
+  <marquee scrollamount="5">🚀 Welcome to MGSML App Studio! 100% Genuine Software & App Solutions. Explore 44+ Ready Demos & Order Now!</marquee>
 </div>
 
 <!-- Navbar -->
@@ -33,9 +34,9 @@
       </div>
     </div>
     <div class="flex items-center gap-2">
-      <button onclick="sharePortal('whatsapp')" class="hidden sm:inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-3.5 py-2.5 rounded-xl transition"><i class="fab fa-whatsapp text-sm"></i> Share WA</button>
-      <button onclick="sharePortal('telegram')" class="hidden sm:inline-flex items-center gap-1.5 bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold px-3.5 py-2.5 rounded-xl transition"><i class="fab fa-telegram text-sm"></i> Share TG</button>
-      <a href="#pay" class="bg-sky-950 text-sky-400 text-xs font-bold px-3.5 py-2.5 rounded-xl border border-sky-500/30"><i class="fas fa-qrcode"></i> Pay</a>
+      <button onclick="sharePortal('whatsapp')" class="hidden sm:inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-3 py-2 rounded-xl transition"><i class="fab fa-whatsapp"></i> Share WA</button>
+      <button onclick="sharePortal('telegram')" class="hidden sm:inline-flex items-center gap-1.5 bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold px-3 py-2 rounded-xl transition"><i class="fab fa-telegram"></i> Share TG</button>
+      <a href="#pay" class="bg-sky-950 text-sky-400 text-xs font-bold px-3.5 py-2 rounded-xl border border-sky-500/30"><i class="fas fa-qrcode mr-1"></i> Pay</a>
     </div>
   </div>
 </nav>
@@ -44,10 +45,10 @@
 <header class="max-w-7xl mx-auto px-4 py-12 text-center">
   <span class="bg-sky-500/10 text-sky-400 text-xs font-bold px-3.5 py-1.5 rounded-full border border-sky-500/20 inline-block mb-4">✨ 100% Genuine | 44+ Ready-to-Launch Solutions</span>
   <h1 class="text-3xl sm:text-5xl font-extrabold text-white mb-4">Explore Our <span class="text-sky-400">App & Website</span> Demos</h1>
-  <p class="text-sky-200/70 max-w-xl mx-auto text-xs sm:text-sm mb-6">100% Genuine Software & App Development Studio. Zero fraud, secure UPI & Crypto payments, and ready-made solutions.</p>
+  <p class="text-sky-200/70 max-w-xl mx-auto text-xs sm:text-sm mb-6">Professional software development studio. Zero fraud, secure UPI & Crypto payments, custom app development, and instant WhatsApp support.</p>
   
   <!-- Quick Share Buttons for Mobile/Desktop -->
-  <div class="flex justify-center gap-3 mb-8">
+  <div class="flex flex-wrap justify-center gap-3 mb-8">
     <button onclick="sharePortal('whatsapp')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-2 transition shadow-lg"><i class="fab fa-whatsapp text-base"></i> Share Portal on WhatsApp</button>
     <button onclick="sharePortal('telegram')" class="bg-sky-600 hover:bg-sky-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-2 transition shadow-lg"><i class="fab fa-telegram text-base"></i> Share Portal on Telegram</button>
   </div>
@@ -153,6 +154,57 @@
   </div>
 </section>
 
+<!-- Floating Support Button & Lead Popup Modal -->
+<div class="fixed bottom-6 right-6 z-50">
+  <button onclick="toggleSupportModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white p-4 rounded-full floating-btn flex items-center justify-center text-xl transition transform hover:scale-110">
+    <i class="fab fa-whatsapp"></i>
+  </button>
+</div>
+
+<!-- Support Lead Form Modal -->
+<div id="supportModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 p-4">
+  <div class="glass max-w-md w-full p-6 rounded-2xl relative border border-emerald-500/40 shadow-2xl">
+    <button onclick="toggleSupportModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+    <div class="flex items-center gap-3 mb-4">
+      <div class="w-10 h-10 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center">
+        <i class="fab fa-whatsapp text-lg"></i>
+      </div>
+      <div>
+        <h3 class="text-sm font-bold text-white">MGSML Live WhatsApp Support</h3>
+        <p class="text-[11px] text-emerald-400">Fill details for instant response</p>
+      </div>
+    </div>
+    
+    <div class="space-y-3">
+      <div>
+        <label class="text-[11px] text-gray-300 block mb-1">Your Name *</label>
+        <input type="text" id="supName" placeholder="Enter your name" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <label class="text-[11px] text-gray-300 block mb-1">Mobile Number *</label>
+          <input type="text" id="supPhone" placeholder="Your WhatsApp No" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
+        </div>
+        <div>
+          <label class="text-[11px] text-gray-300 block mb-1">Location / City</label>
+          <input type="text" id="supCity" placeholder="Your City" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
+        </div>
+      </div>
+      <div>
+        <label class="text-[11px] text-gray-300 block mb-1">Interested App / Inquiry</label>
+        <input type="text" id="supApp" placeholder="e.g. #01 Crypto Mining App" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
+      </div>
+      <div>
+        <label class="text-[11px] text-gray-300 block mb-1">Your Message / Requirements</label>
+        <textarea id="supMsg" rows="3" placeholder="Describe what you want to build..." class="w-full bg-gray-900 border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 resize-none"></textarea>
+      </div>
+      <button onclick="sendSupportForm()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl text-xs transition flex items-center justify-center gap-2">
+        <i class="fab fa-whatsapp"></i> Send to WhatsApp Business
+      </button>
+    </div>
+  </div>
+</div>
+
 <!-- Small Stealth PIN Modal -->
 <div id="stealthModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 p-4">
   <div class="glass max-w-xs w-full p-6 rounded-2xl relative text-center border border-sky-500/40 shadow-2xl">
@@ -190,7 +242,7 @@
             <input type="text" id="setPin" class="w-full bg-gray-900 border border-red-500/40 rounded-lg px-3 py-2 text-xs text-white font-mono">
           </div>
           <div>
-            <label class="text-[11px] text-sky-300 block mb-1">WhatsApp Number</label>
+            <label class="text-[11px] text-sky-300 block mb-1">WhatsApp Business Number</label>
             <input type="text" id="setWa" class="w-full bg-gray-900 border border-sky-500/30 rounded-lg px-3 py-2 text-xs text-white">
           </div>
           <div>
@@ -346,7 +398,7 @@ function checkStealthPinBtn() {
 
 // Professional Share Portal Function (English Description + Live URL)
 function sharePortal(platform) {
-  const siteUrl = window.location.href; // Automatically picks up GitHub Pages or Vercel URL
+  const siteUrl = window.location.href;
   const shareText = 
     `🔥 100% GENUINE MGSML APP STUDIO 🔥\n\n` +
     `Looking for professional, ready-to-launch software, apps, and website solutions? Explore our massive catalog of 44+ high-end digital products!\n\n` +
@@ -384,7 +436,7 @@ function renderApps() {
     selectBox.innerHTML += `<option value="#${num} ${name}">#${num} ${name}</option>`;
 
     let demoBtn = link 
-      ? `<a href="${link}" target="_blank" class="flex-1 bg-sky-500/20 text-sky-300 border border-sky-500/40 text-center font-bold py-2 rounded-lg text-xs hover:bg-sky-500 hover:text-gray-950 transition"><i class="fas fa-eye mr-1"></i>Live Demo</a>`
+      ? `<a href="${link}" target="_blank" class="flex-1 bg-sky-500/20 text-sky-300 border border-sky-500/40 text-center font-bold py-2 rounded-lg text-xs hover:bg-sky-500 hover:text-gray-950 transition flex items-center justify-center gap-1"><i class="fas fa-eye"></i>Visit Demo Now</a>`
       : `<button onclick="alert('Demo coming soon! Please request via WhatsApp.')" class="flex-1 bg-gray-800 text-gray-400 text-center font-semibold py-2 rounded-lg text-xs hover:bg-gray-700 transition">Demo Soon</button>`;
     
     grid.innerHTML += `
@@ -397,9 +449,14 @@ function renderApps() {
           <h3 class="text-base font-bold text-white mb-2">${name}</h3>
           <p class="text-xs text-sky-200/60 mb-5">Complete ready-to-launch web & app solution with admin control panel.</p>
         </div>
-        <div class="flex gap-2">
-          ${demoBtn}
-          <button onclick="selectAppToOrder('#${num} ${name}')" class="flex-1 bg-sky-500 hover:bg-sky-600 text-gray-950 text-center font-bold py-2 rounded-lg text-xs transition"><i class="fas fa-shopping-cart mr-1"></i>Order</button>
+        <div class="space-y-2">
+          <div class="flex gap-2">
+            ${demoBtn}
+            <button onclick="selectAppToOrder('#${num} ${name}')" class="flex-1 bg-sky-500 hover:bg-sky-600 text-gray-950 text-center font-bold py-2 rounded-lg text-xs transition flex items-center justify-center gap-1"><i class="fas fa-shopping-cart"></i>Order</button>
+          </div>
+          <button onclick="chatSpecificApp('#${num} ${name}')" class="w-full bg-emerald-600/20 hover:bg-emerald-600 text-emerald-300 hover:text-white border border-emerald-500/30 text-center font-bold py-2 rounded-lg text-xs transition flex items-center justify-center gap-1.5">
+            <i class="fab fa-whatsapp"></i> Chat on WhatsApp about #${num}
+          </button>
         </div>
       </div>`;
   });
@@ -410,7 +467,43 @@ function renderApps() {
   document.getElementById('displayPhonePeQr').src = globalSettings.phonepeQr;
   document.getElementById('displayTrcQr').src = globalSettings.trcQr;
   document.getElementById('displayBnbQr').src = globalSettings.bnbQr;
-  document.getElementById('navWaBtn').href = `https://wa.me/${globalSettings.wa}`;
+}
+
+// Direct chat for specific app card
+function chatSpecificApp(appTitle) {
+  const msg = `Hello MGSML, I want to inquire about ${appTitle}. Please share more details.`;
+  window.open(`https://wa.me/${globalSettings.wa}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+// Floating Support Modal Toggle
+function toggleSupportModal() {
+  const modal = document.getElementById('supportModal');
+  modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+}
+
+// Send Lead Form to WhatsApp
+function sendSupportForm() {
+  const name = document.getElementById('supName').value.trim();
+  const phone = document.getElementById('supPhone').value.trim();
+  const city = document.getElementById('supCity').value.trim() || 'Not specified';
+  const app = document.getElementById('supApp').value.trim() || 'General Inquiry';
+  const msg = document.getElementById('supMsg').value.trim() || 'No description';
+
+  if (!name || !phone) {
+    alert("Please enter your Name and Mobile Number!");
+    return;
+  }
+
+  const waText = 
+    `🔔 *NEW MGSML SUPPORT INQUIRY* 🔔\n\n` +
+    `👤 *Name:* ${name}\n` +
+    `📞 *Phone:* ${phone}\n` +
+    `🌍 *City:* ${city}\n` +
+    `📱 *App/Service:* ${app}\n` +
+    `💬 *Message:* ${msg}`;
+
+  window.open(`https://wa.me/${globalSettings.wa}?text=${encodeURIComponent(waText)}`, '_blank');
+  toggleSupportModal();
 }
 
 function selectAppToOrder(appTitle) {
@@ -579,9 +672,6 @@ function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
 function filterApps() {
   const q = document.getElementById('search').value.toLowerCase();
-  defaultApps.forEach((name, i) => {
-    // filtering cards based on name
-  });
   document.querySelectorAll('.card').forEach(c => {
     c.style.display = c.dataset.name.includes(q) ? 'flex' : 'none';
   });
