@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MGSML App Studio | Demo & Solutions</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<style>
+  body { background:#070b14; color:#f3f4f6; font-family:sans-serif; }
+  .glass { background:rgba(13, 20, 35, 0.9); backdrop-filter:blur(14px); border:1px solid rgba(56, 189, 248, 0.2); }
+  .sky-glow { box-shadow: 0 0 30px rgba(56, 189, 248, 0.15); }
+</style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+<!-- Top Announcement -->
+<div class="bg-sky-500 text-gray-950 text-xs font-bold py-2 px-4 text-center">
+  <marquee scrollamount="5">🚀 Welcome to MGSML App Studio! Explore 44+ Ready Demos & Order Custom Apps via Direct UPI & Crypto!</marquee>
+</div>
+
+<!-- Navbar -->
+<nav class="glass sticky top-0 z-40 px-5 py-4 border-b border-sky-900/40">
+  <div class="max-w-7xl mx-auto flex justify-between items-center">
+    <div class="flex items-center gap-3 select-none">
+      <!-- Secret Trigger: Tap this logo 5 times -->
+      <div onclick="handleSecretTap()" class="w-10 h-10 bg-sky-500 rounded-xl flex items-center justify-center text-gray-950 font-bold text-xl shadow-lg shadow-sky-500/30 cursor-pointer active:scale-95 transition">
+        <i class="fas fa-layer-group"></i>
+      </div>
+      <div>
+        <span class="text-lg sm:text-xl font-extrabold text-white">MGSML <span class="text-sky-400">APP STUDIO</span></span>
+        <span class="block text-[10px] text-sky-300 uppercase tracking-widest">Portal & Demo Hub</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <button onclick="sharePortal('whatsapp')" class="hidden sm:inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-3.5 py-2.5 rounded-xl transition"><i class="fab fa-whatsapp text-sm"></i> Share WA</button>
+      <button onclick="sharePortal('telegram')" class="hidden sm:inline-flex items-center gap-1.5 bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold px-3.5 py-2.5 rounded-xl transition"><i class="fab fa-telegram text-sm"></i> Share TG</button>
+      <a href="#pay" class="bg-sky-950 text-sky-400 text-xs font-bold px-3.5 py-2.5 rounded-xl border border-sky-500/30"><i class="fas fa-qrcode"></i> Pay</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero & Search -->
+<header class="max-w-7xl mx-auto px-4 py-12 text-center">
+  <span class="bg-sky-500/10 text-sky-400 text-xs font-bold px-3.5 py-1.5 rounded-full border border-sky-500/20 inline-block mb-4">✨ 100% Genuine | 44+ Ready-to-Launch Solutions</span>
+  <h1 class="text-3xl sm:text-5xl font-extrabold text-white mb-4">Explore Our <span class="text-sky-400">App & Website</span> Demos</h1>
+  <p class="text-sky-200/70 max-w-xl mx-auto text-xs sm:text-sm mb-6">100% Genuine Software & App Development Studio. Zero fraud, secure UPI & Crypto payments, and ready-made solutions.</p>
+  
+  <!-- Quick Share Buttons for Mobile/Desktop -->
+  <div class="flex justify-center gap-3 mb-8">
+    <button onclick="sharePortal('whatsapp')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-2 transition shadow-lg"><i class="fab fa-whatsapp text-base"></i> Share Portal on WhatsApp</button>
+    <button onclick="sharePortal('telegram')" class="bg-sky-600 hover:bg-sky-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-2 transition shadow-lg"><i class="fab fa-telegram text-base"></i> Share Portal on Telegram</button>
+  </div>
+
+  <div class="max-w-md mx-auto relative">
+    <i class="fas fa-search absolute left-4 top-3.5 text-sky-400"></i>
+    <input type="text" id="search" onkeyup="filterApps()" placeholder="Search 44+ apps..." class="w-full bg-gray-900/90 border border-sky-500/30 rounded-xl pl-10 pr-4 py-3 text-sm text-white focus:outline-none focus:border-sky-400 shadow-lg">
+  </div>
+</header>
+
+<!-- 44 Apps Grid -->
+<main class="max-w-7xl mx-auto px-4 mb-14 flex-grow w-full">
+  <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+</main>
+
+<!-- Direct Payment & Order Verification Section -->
+<section id="pay" class="max-w-6xl mx-auto px-4 mb-14 w-full">
+  <div class="glass p-6 sm:p-8 rounded-2xl border border-sky-500/30 sky-glow">
+    <div class="text-center mb-8">
+      <h2 class="text-xl sm:text-2xl font-bold text-white mb-2">Direct Payment & Order Verification</h2>
+      <p class="text-xs text-sky-200/70">Step 1: Pay via PhonePe/UPI or Crypto &nbsp;|&nbsp; Step 2: Submit UTR / TxHash below to confirm order.</p>
+    </div>
+    
+    <!-- 3 Payment Gateways -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <!-- 1. PhonePe / UPI Direct -->
+      <div class="bg-gray-950/70 p-5 rounded-2xl border border-purple-500/30 flex flex-col items-center text-center">
+        <span class="bg-purple-500/20 text-purple-300 text-[11px] font-bold px-3 py-1 rounded-full mb-3">PhonePe / UPI Direct</span>
+        <div class="w-32 h-32 bg-white rounded-xl p-2 shadow-md flex items-center justify-center overflow-hidden mb-3">
+          <img id="displayPhonePeQr" src="" alt="PhonePe QR" class="w-full h-full object-contain">
+        </div>
+        <div class="flex gap-1 w-full mb-3">
+          <input type="text" readonly id="displayUpi" value="yourname@ybl" class="bg-gray-900 border border-purple-500/30 text-white font-mono text-[11px] px-2.5 py-1.5 rounded-lg w-full text-center">
+          <button onclick="copyText('displayUpi')" class="bg-purple-500 text-white px-2.5 py-1.5 rounded-lg text-[10px] font-bold">Copy</button>
+        </div>
+        <div class="w-full space-y-2 mt-auto">
+          <input type="number" id="upiPayAmount" placeholder="Enter Amount (₹ INR)" class="w-full bg-gray-900 border border-purple-500/40 rounded-lg px-3 py-2 text-xs text-white text-center focus:outline-none">
+          <button onclick="openUpiApp()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-2.5 rounded-lg text-xs transition flex items-center justify-center gap-1.5">
+            <i class="fas fa-bolt"></i> Pay Now (Open PhonePe/UPI)
+          </button>
+        </div>
+      </div>
+
+      <!-- 2. USDT TRC20 -->
+      <div class="bg-gray-950/70 p-5 rounded-2xl border border-emerald-500/20 flex flex-col items-center text-center">
+        <span class="bg-emerald-500/20 text-emerald-300 text-[11px] font-bold px-3 py-1 rounded-full mb-3">USDT (TRC-20)</span>
+        <div class="w-32 h-32 bg-white rounded-xl p-2 shadow-md flex items-center justify-center overflow-hidden mb-3">
+          <img id="displayTrcQr" src="" alt="TRC20 QR" class="w-full h-full object-contain">
+        </div>
+        <div class="flex gap-1 w-full mb-3">
+          <input type="text" readonly id="displayTrc" value="TQn9Y2khEsLJW1ChVWFMSMeRDow5KcbLSE" class="bg-gray-900 border border-emerald-500/30 text-emerald-400 font-mono text-[11px] px-2.5 py-1.5 rounded-lg w-full">
+          <button onclick="copyText('displayTrc')" class="bg-emerald-500 text-gray-950 px-2.5 py-1.5 rounded-lg text-[10px] font-bold">Copy</button>
+        </div>
+        <p class="text-[11px] text-gray-400 mt-auto">Send USDT via Tron (TRC20) network and copy the TxHash after payment.</p>
+      </div>
+
+      <!-- 3. BNB20 -->
+      <div class="bg-gray-950/70 p-5 rounded-2xl border border-yellow-500/20 flex flex-col items-center text-center">
+        <span class="bg-yellow-500/20 text-yellow-300 text-[11px] font-bold px-3 py-1 rounded-full mb-3">USDT / BNB (BNB-20)</span>
+        <div class="w-32 h-32 bg-white rounded-xl p-2 shadow-md flex items-center justify-center overflow-hidden mb-3">
+          <img id="displayBnbQr" src="" alt="BNB20 QR" class="w-full h-full object-contain">
+        </div>
+        <div class="flex gap-1 w-full mb-3">
+          <input type="text" readonly id="displayBnb" value="0x71C3518B99...B249" class="bg-gray-900 border border-yellow-500/30 text-yellow-400 font-mono text-[11px] px-2.5 py-1.5 rounded-lg w-full">
+          <button onclick="copyText('displayBnb')" class="bg-yellow-500 text-gray-950 px-2.5 py-1.5 rounded-lg text-[10px] font-bold">Copy</button>
+        </div>
+        <p class="text-[11px] text-gray-400 mt-auto">Send USDT/BNB via BSC (BEP20) network and copy the TxHash after payment.</p>
+      </div>
+    </div>
+
+    <!-- Step 2: Transaction ID / Hash Code Verification Box -->
+    <div class="bg-gray-900/90 p-5 sm:p-6 rounded-2xl border border-sky-500/40">
+      <h3 class="text-sm sm:text-base font-bold text-sky-400 mb-3"><i class="fas fa-check-circle mr-1.5"></i> Submit Payment Proof (UTR / TRX ID / Crypto Hash)</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div>
+          <label class="text-[11px] text-gray-400 block mb-1">Select App / Service</label>
+          <select id="verifyAppSelect" class="w-full bg-gray-950 border border-sky-500/30 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none"></select>
+        </div>
+        <div>
+          <label class="text-[11px] text-gray-400 block mb-1">Payment Method</label>
+          <select id="verifyMethod" class="w-full bg-gray-950 border border-sky-500/30 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none">
+            <option value="PhonePe / UPI">PhonePe / UPI</option>
+            <option value="USDT (TRC-20)">USDT (TRC-20)</option>
+            <option value="USDT / BNB (BNB-20)">USDT / BNB (BNB-20)</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-[11px] text-gray-400 block mb-1">Paid Amount (₹ or $)</label>
+          <input type="text" id="verifyAmount" placeholder="e.g. ₹2500 or $30" class="w-full bg-gray-950 border border-sky-500/30 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none">
+        </div>
+        <div>
+          <label class="text-[11px] text-emerald-400 font-bold block mb-1">UTR / TRX ID / Hash Code *</label>
+          <input type="text" id="verifyTxHash" placeholder="Enter 12-digit UTR or Hash" class="w-full bg-gray-950 border border-emerald-500/50 rounded-xl px-3 py-2.5 text-xs text-emerald-300 font-mono focus:outline-none">
+        </div>
+      </div>
+      <div class="mt-4 flex justify-end">
+        <button onclick="submitPaymentProof()" class="w-full sm:w-auto bg-sky-500 hover:bg-sky-400 text-gray-950 font-bold px-6 py-3 rounded-xl text-xs transition flex items-center justify-center gap-2">
+          <i class="fas fa-paper-plane"></i> Confirm Order & Send Proof
+        </button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Small Stealth PIN Modal -->
+<div id="stealthModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 p-4">
+  <div class="glass max-w-xs w-full p-6 rounded-2xl relative text-center border border-sky-500/40 shadow-2xl">
+    <button onclick="closeStealth()" class="absolute top-3 right-3 text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+    <div class="w-10 h-10 bg-sky-500/20 text-sky-400 rounded-full flex items-center justify-center mx-auto mb-3">
+      <i class="fas fa-lock text-sm"></i>
+    </div>
+    <h3 class="text-sm font-bold text-white mb-1">Secret Access</h3>
+    <p class="text-[11px] text-gray-400 mb-4">Enter PIN to open Admin Panel</p>
+    <input type="password" id="stealthPinInput" oninput="checkStealthPin()" placeholder="Enter PIN" autocomplete="off" class="w-full bg-gray-900 border border-sky-500/40 rounded-xl px-4 py-2.5 text-center text-sm text-white tracking-widest mb-3 focus:outline-none focus:border-sky-400">
+    <button onclick="checkStealthPinBtn()" class="w-full bg-sky-500 hover:bg-sky-600 text-gray-950 font-bold py-2 rounded-lg text-xs">Unlock</button>
+  </div>
+</div>
+
+<!-- Admin Dashboard Modal -->
+<div id="adminModal" class="fixed inset-0 bg-black/95 hidden items-center justify-center z-50 p-4 overflow-y-auto">
+  <div class="glass max-w-5xl w-full p-6 rounded-2xl relative max-h-[95vh] overflow-y-auto border border-sky-500/40">
+    <button onclick="closeModal('adminModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg"><i class="fas fa-times"></i></button>
+    <h2 class="text-xl font-bold text-sky-400 mb-1"><i class="fas fa-user-secret mr-2"></i> MGSML Stealth Admin Panel</h2>
+    <p class="text-xs text-sky-200/70 mb-6">Manage PIN, UPI/QR files, Crypto wallets, 44 demo links, and verified UTR/Hash History.</p>
+    
+    <!-- Tabs Header -->
+    <div class="flex gap-2 mb-5 border-b border-gray-800 pb-3">
+      <button onclick="switchTab('settings')" id="tabBtnSettings" class="bg-sky-500 text-gray-950 font-bold px-4 py-2 rounded-lg text-xs transition">Settings & Links</button>
+      <button onclick="switchTab('history')" id="tabBtnHistory" class="bg-gray-800 text-gray-300 font-bold px-4 py-2 rounded-lg text-xs transition">Order & Payment History (<span id="historyCount">0</span>)</button>
+    </div>
+
+    <!-- Tab 1: Settings & Links -->
+    <div id="tabSettings" class="space-y-6">
+      <div class="bg-gray-950/80 p-5 rounded-xl border border-sky-900/50 space-y-4">
+        <h3 class="text-sm font-bold text-white border-b border-gray-800 pb-2">1. Security PIN & Payment Settings</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="text-[11px] text-red-400 font-bold block mb-1"><i class="fas fa-key"></i> Update Secret Admin PIN</label>
+            <input type="text" id="setPin" class="w-full bg-gray-900 border border-red-500/40 rounded-lg px-3 py-2 text-xs text-white font-mono">
+          </div>
+          <div>
+            <label class="text-[11px] text-sky-300 block mb-1">WhatsApp Number</label>
+            <input type="text" id="setWa" class="w-full bg-gray-900 border border-sky-500/30 rounded-lg px-3 py-2 text-xs text-white">
+          </div>
+          <div>
+            <label class="text-[11px] text-purple-300 font-bold block mb-1">PhonePe / UPI ID (For Direct Pay)</label>
+            <input type="text" id="setUpi" placeholder="e.g. 9876543210@ybl" class="w-full bg-gray-900 border border-purple-500/40 rounded-lg px-3 py-2 text-xs text-white">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+          <div>
+            <label class="text-[11px] text-emerald-400 block mb-1">USDT (TRC-20 Address)</label>
+            <input type="text" id="setTrc" class="w-full bg-gray-900 border border-sky-500/30 rounded-lg px-3 py-2 text-xs text-white">
+          </div>
+          <div>
+            <label class="text-[11px] text-yellow-400 block mb-1">USDT / BNB (BNB-20 Address)</label>
+            <input type="text" id="setBnb" class="w-full bg-gray-900 border border-sky-500/30 rounded-lg px-3 py-2 text-xs text-white">
+          </div>
+        </div>
+
+        <h3 class="text-sm font-bold text-white border-b border-gray-800 pb-2 pt-2">2. Upload QR Code Images (Choose from Device)</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="bg-gray-900 p-3 rounded-xl border border-purple-500/30">
+            <label class="text-[11px] text-purple-300 font-bold block mb-1.5">PhonePe QR Image</label>
+            <input type="file" accept="image/*" onchange="handleQrUpload(this, 'phonepeQr')" class="text-[11px] text-gray-300 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-purple-500 file:text-white w-full">
+          </div>
+          <div class="bg-gray-900 p-3 rounded-xl border border-emerald-500/30">
+            <label class="text-[11px] text-emerald-300 font-bold block mb-1.5">USDT (TRC-20) QR Image</label>
+            <input type="file" accept="image/*" onchange="handleQrUpload(this, 'trcQr')" class="text-[11px] text-gray-300 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-emerald-500 file:text-gray-950 w-full">
+          </div>
+          <div class="bg-gray-900 p-3 rounded-xl border border-yellow-500/30">
+            <label class="text-[11px] text-yellow-300 font-bold block mb-1.5">BNB-20 QR Image</label>
+            <input type="file" accept="image/*" onchange="handleQrUpload(this, 'bnbQr')" class="text-[11px] text-gray-300 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-yellow-500 file:text-gray-950 w-full">
+          </div>
+        </div>
+
+        <button onclick="saveGlobalSettings()" class="bg-sky-500 hover:bg-sky-600 text-gray-950 font-bold px-5 py-2.5 rounded-lg text-xs mt-2"><i class="fas fa-save mr-1"></i> Save All Settings</button>
+      </div>
+
+      <!-- 44 Demo Links Manager -->
+      <h3 class="text-sm font-bold text-white mb-3">3. Manage 44 App Demo Links (GitHub URLs)</h3>
+      <div id="adminAppList" class="space-y-3"></div>
+    </div>
+
+    <!-- Tab 2: Order & Payment History with Hash/UTR -->
+    <div id="tabHistory" class="hidden space-y-4">
+      <div class="flex justify-between items-center mb-2">
+        <h3 class="text-sm font-bold text-white"><i class="fas fa-history mr-1 text-sky-400"></i> Customer Orders & UTR / TxHash Logs</h3>
+        <button onclick="clearHistory()" class="bg-red-500/20 text-red-400 border border-red-500/40 hover:bg-red-500 hover:text-white px-3 py-1.5 rounded-lg text-xs font-bold transition">Clear History</button>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs text-gray-300">
+          <thead class="bg-gray-900 text-sky-400 border-b border-gray-800">
+            <tr>
+              <th class="p-3">Date / Time</th>
+              <th class="p-3">App / Service</th>
+              <th class="p-3">Method & Amount</th>
+              <th class="p-3">UTR / TRX / Hash Code</th>
+              <th class="p-3">Action</th>
+            </tr>
+          </thead>
+          <tbody id="historyTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+    
+    <div class="mt-6 flex justify-end">
+      <button onclick="closeModal('adminModal'); location.reload();" class="bg-sky-500 text-gray-950 font-bold px-6 py-2.5 rounded-xl text-xs">Done & Refresh</button>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="glass text-center py-6 text-xs text-sky-200/60 border-t border-sky-900/40">
+  <p>&copy; 2026 MGSML App Studio. All Rights Reserved.</p>
+</footer>
+
+<script>
+const defaultApps = [
+  "Crypto Mining & HYIP Platform", "MLM & Referral Network", "Digital Wallet & Crypto Swap",
+  "Micro-Jobs & Task Earning", "Tap-to-Earn Mining Game", "Telegram Daily Reward Bot",
+  "Telegram E-commerce Shop", "Multi-Vendor Marketplace", "Single Product Landing Page",
+  "Digital Product Shop", "Grocery & Food Delivery App", "Doctor Appointment System",
+  "Hotel & Resort Booking", "Car or Bike Rental Platform", "Beauty Parlor Booking App",
+  "Video Streaming & OTT", "Social Club & Forum", "Podcast & Audio Streaming",
+  "Online Learning (LMS)", "Inventory & POS Software", "Real Estate Listing App",
+  "To-Do & Task Manager", "Restaurant QR Menu App", "AI Prompt Dashboard",
+  "AI Customer Support Bot", "AI Resume & Interview Coach", "AI Content Repurposing Tool",
+  "AI Voice Receptionist", "Home Maintenance Booking", "Second-Hand Marketplace",
+  "Coupon & Cashback App", "Subscription Box Manager", "Telemedicine & Health App",
+  "AI Diet & Calorie Tracker", "Micro-Workout & Yoga App", "Telegram DEX Token Swap",
+  "Telegram Prediction Market", "Telegram Paid Channel Bot", "Freelancer Invoice Portal",
+  "Expense & EMI Tracker", "Cloud Kitchen & Tiffin App", "Micro-Learning Skill App",
+  "Digital NFC Business Card", "Event Ticketing Platform"
+];
+
+let appLinks = JSON.parse(localStorage.getItem('mgsml_links')) || Array(44).fill("");
+let orderHistory = JSON.parse(localStorage.getItem('mgsml_history')) || [];
+let globalSettings = JSON.parse(localStorage.getItem('mgsml_settings')) || {};
+
+if (!globalSettings.pin) globalSettings.pin = "1234";
+if (!globalSettings.wa) globalSettings.wa = "919876543210";
+if (!globalSettings.upi) globalSettings.upi = "yourname@ybl";
+if (!globalSettings.trc) globalSettings.trc = "TQn9Y2khEsLJW1ChVWFMSMeRDow5KcbLSE";
+if (!globalSettings.bnb) globalSettings.bnb = "0x71C3518B99...B249";
+if (!globalSettings.phonepeQr) globalSettings.phonepeQr = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=PhonePeUPI";
+if (!globalSettings.trcQr) globalSettings.trcQr = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=TRC20Wallet";
+if (!globalSettings.bnbQr) globalSettings.bnbQr = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=BNB20Wallet";
+
+// 5 Taps on Logo Logic
+let tapCount = 0;
+let tapTimer;
+
+function handleSecretTap() {
+  tapCount++;
+  clearTimeout(tapTimer);
+  tapTimer = setTimeout(() => { tapCount = 0; }, 2000);
+  
+  if (tapCount >= 5) {
+    tapCount = 0;
+    const modal = document.getElementById('stealthModal');
+    const pinInput = document.getElementById('stealthPinInput');
+    modal.style.display = 'flex';
+    pinInput.value = "";
+    pinInput.focus();
+  }
+}
+
+function closeStealth() { document.getElementById('stealthModal').style.display = 'none'; }
+
+function checkStealthPin() {
+  const entered = document.getElementById('stealthPinInput').value.trim();
+  if (entered === globalSettings.pin) {
+    closeStealth();
+    document.getElementById('stealthPinInput').value = "";
+    renderAdminApps();
+    renderHistoryTable();
+    document.getElementById('adminModal').style.display = 'flex';
+  }
+}
+
+function checkStealthPinBtn() {
+  const entered = document.getElementById('stealthPinInput').value.trim();
+  if (entered === globalSettings.pin) {
+    closeStealth();
+    document.getElementById('stealthPinInput').value = "";
+    renderAdminApps();
+    renderHistoryTable();
+    document.getElementById('adminModal').style.display = 'flex';
+  } else {
+    alert("Incorrect PIN!");
+  }
+}
+
+// Professional Share Portal Function (English Description + Live URL)
+function sharePortal(platform) {
+  const siteUrl = window.location.href; // Automatically picks up GitHub Pages or Vercel URL
+  const shareText = 
+    `🔥 100% GENUINE MGSML APP STUDIO 🔥\n\n` +
+    `Looking for professional, ready-to-launch software, apps, and website solutions? Explore our massive catalog of 44+ high-end digital products!\n\n` +
+    `🚀 What We Build:\n` +
+    `• Crypto Mining, HYIP & MLM Platforms\n` +
+    `• Telegram Mini Apps, Bots & DEX Token Swaps\n` +
+    `• E-Commerce, Food Delivery & OTT Streaming Apps\n` +
+    `• AI Powered Dashboards, Support Bots & Tools\n` +
+    `• SaaS, LMS, POS & Enterprise Solutions\n\n` +
+    `💎 Why Choose MGSML App Studio?\n` +
+    `• 100% Genuine & Trusted Service (Zero Fraud)\n` +
+    `• Secure Direct UPI & Crypto (TRC20/BNB20) Gateways\n` +
+    `• Live Demos available for all 44+ products!\n\n` +
+    `👉 Visit our official portal now to check live demos and choose your next project: \n${siteUrl}`;
+
+  const encodedText = encodeURIComponent(shareText);
+
+  if (platform === 'whatsapp') {
+    window.open(`https://api.whatsapp.com/send?text=${encodedText}`, '_blank');
+  } else if (platform === 'telegram') {
+    window.open(`https://t.me/share/url?url=${encodeURIComponent(siteUrl)}&text=${encodedText}`, '_blank');
+  }
+}
+
+function renderApps() {
+  const grid = document.getElementById('grid');
+  const selectBox = document.getElementById('verifyAppSelect');
+  grid.innerHTML = "";
+  selectBox.innerHTML = `<option value="Custom Project">Custom Project / Service</option>`;
+
+  defaultApps.forEach((name, i) => {
+    const num = String(i+1).padStart(2,'0');
+    const link = appLinks[i];
+    
+    selectBox.innerHTML += `<option value="#${num} ${name}">#${num} ${name}</option>`;
+
+    let demoBtn = link 
+      ? `<a href="${link}" target="_blank" class="flex-1 bg-sky-500/20 text-sky-300 border border-sky-500/40 text-center font-bold py-2 rounded-lg text-xs hover:bg-sky-500 hover:text-gray-950 transition"><i class="fas fa-eye mr-1"></i>Live Demo</a>`
+      : `<button onclick="alert('Demo coming soon! Please request via WhatsApp.')" class="flex-1 bg-gray-800 text-gray-400 text-center font-semibold py-2 rounded-lg text-xs hover:bg-gray-700 transition">Demo Soon</button>`;
+    
+    grid.innerHTML += `
+      <div class="glass p-5 rounded-2xl flex flex-col justify-between card border border-sky-500/20 hover:border-sky-400 transition" data-name="${name.toLowerCase()}">
+        <div>
+          <div class="flex justify-between items-center mb-3">
+            <span class="text-[11px] font-bold text-sky-400 bg-sky-500/10 px-2 py-0.5 rounded border border-sky-500/20">#${num}</span>
+            <i class="fas fa-code text-sky-400/60 text-sm"></i>
+          </div>
+          <h3 class="text-base font-bold text-white mb-2">${name}</h3>
+          <p class="text-xs text-sky-200/60 mb-5">Complete ready-to-launch web & app solution with admin control panel.</p>
+        </div>
+        <div class="flex gap-2">
+          ${demoBtn}
+          <button onclick="selectAppToOrder('#${num} ${name}')" class="flex-1 bg-sky-500 hover:bg-sky-600 text-gray-950 text-center font-bold py-2 rounded-lg text-xs transition"><i class="fas fa-shopping-cart mr-1"></i>Order</button>
+        </div>
+      </div>`;
+  });
+
+  document.getElementById('displayUpi').value = globalSettings.upi;
+  document.getElementById('displayTrc').value = globalSettings.trc;
+  document.getElementById('displayBnb').value = globalSettings.bnb;
+  document.getElementById('displayPhonePeQr').src = globalSettings.phonepeQr;
+  document.getElementById('displayTrcQr').src = globalSettings.trcQr;
+  document.getElementById('displayBnbQr').src = globalSettings.bnbQr;
+  document.getElementById('navWaBtn').href = `https://wa.me/${globalSettings.wa}`;
+}
+
+function selectAppToOrder(appTitle) {
+  document.getElementById('verifyAppSelect').value = appTitle;
+  document.getElementById('pay').scrollIntoView({ behavior: 'smooth' });
+}
+
+function openUpiApp() {
+  const amt = document.getElementById('upiPayAmount').value.trim();
+  if (!amt || amt <= 0) {
+    alert("Please enter the amount (₹) first!");
+    return;
+  }
+  const upiId = globalSettings.upi;
+  const upiLink = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=MGSML%20App%20Studio&am=${amt}&cu=INR`;
+  
+  document.getElementById('verifyAmount').value = `₹${amt}`;
+  document.getElementById('verifyMethod').value = "PhonePe / UPI";
+  
+  window.location.href = upiLink;
+}
+
+function submitPaymentProof() {
+  const app = document.getElementById('verifyAppSelect').value;
+  const method = document.getElementById('verifyMethod').value;
+  const amount = document.getElementById('verifyAmount').value.trim() || "Not Specified";
+  const txHash = document.getElementById('verifyTxHash').value.trim();
+
+  if (!txHash) {
+    alert("⚠️ Please enter your PhonePe UTR / Transaction ID or Crypto Hash Code!");
+    return;
+  }
+
+  const now = new Date().toLocaleString();
+  const orderObj = {
+    date: now,
+    item: app,
+    method: `${method} (${amount})`,
+    hash: txHash,
+    status: 'Pending'
+  };
+
+  orderHistory.unshift(orderObj);
+  localStorage.setItem('mgsml_history', JSON.stringify(orderHistory));
+  
+  document.getElementById('verifyTxHash').value = "";
+  alert("✅ Order & Payment Proof Submitted Successfully!\n\nRedirecting to WhatsApp for instant confirmation...");
+  
+  const waMsg = `Hello MGSML, I have placed an order!\n*App:* ${app}\n*Method:* ${method}\n*Amount:* ${amount}\n*UTR / Hash:* ${txHash}`;
+  window.open(`https://wa.me/${globalSettings.wa}?text=${encodeURIComponent(waMsg)}`, '_blank');
+}
+
+function renderHistoryTable() {
+  const tbody = document.getElementById('historyTableBody');
+  document.getElementById('historyCount').innerText = orderHistory.length;
+  if(orderHistory.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-500">No order history found yet.</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = "";
+  orderHistory.forEach((ord, index) => {
+    const badgeColor = ord.status === 'Verified' ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' : 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30';
+    tbody.innerHTML += `
+      <tr class="border-b border-gray-800 hover:bg-gray-900/50">
+        <td class="p-3 text-gray-400 text-[11px]">${ord.date}</td>
+        <td class="p-3 font-bold text-white">${ord.item}</td>
+        <td class="p-3 text-sky-300">${ord.method}</td>
+        <td class="p-3 font-mono text-emerald-300 text-[11px]">${ord.hash || 'N/A'}</td>
+        <td class="p-3">
+          <button onclick="toggleOrderStatus(${index})" class="${badgeColor} px-2.5 py-1 rounded text-[10px] font-bold border">${ord.status}</button>
+        </td>
+      </tr>`;
+  });
+}
+
+function toggleOrderStatus(index) {
+  orderHistory[index].status = orderHistory[index].status === 'Pending' ? 'Verified' : 'Pending';
+  localStorage.setItem('mgsml_history', JSON.stringify(orderHistory));
+  renderHistoryTable();
+}
+
+function clearHistory() {
+  if(confirm("Are you sure you want to clear all order history?")) {
+    orderHistory = [];
+    localStorage.removeItem('mgsml_history');
+    renderHistoryTable();
+    alert("History cleared successfully!");
+  }
+}
+
+function switchTab(tab) {
+  const btnSet = document.getElementById('tabBtnSettings');
+  const btnHis = document.getElementById('tabBtnHistory');
+  const divSet = document.getElementById('tabSettings');
+  const divHis = document.getElementById('tabHistory');
+
+  if(tab === 'settings') {
+    btnSet.className = "bg-sky-500 text-gray-950 font-bold px-4 py-2 rounded-lg text-xs transition";
+    btnHis.className = "bg-gray-800 text-gray-300 font-bold px-4 py-2 rounded-lg text-xs transition";
+    divSet.classList.remove('hidden');
+    divHis.classList.add('hidden');
+  } else {
+    btnHis.className = "bg-sky-500 text-gray-950 font-bold px-4 py-2 rounded-lg text-xs transition";
+    btnSet.className = "bg-gray-800 text-gray-300 font-bold px-4 py-2 rounded-lg text-xs transition";
+    divHis.classList.remove('hidden');
+    divSet.classList.add('hidden');
+    renderHistoryTable();
+  }
+}
+
+function handleQrUpload(input, key) {
+  const file = input.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      globalSettings[key] = e.target.result;
+      alert("QR Image loaded! Click 'Save All Settings' to apply.");
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+function renderAdminApps() {
+  const adminList = document.getElementById('adminAppList');
+  adminList.innerHTML = "";
+  defaultApps.forEach((name, i) => {
+    const num = String(i+1).padStart(2,'0');
+    adminList.innerHTML += `
+      <div class="flex flex-col sm:flex-row items-center gap-2 bg-gray-900 p-3 rounded-xl border border-sky-900/50">
+        <span class="text-xs font-bold text-sky-400 w-12">#${num}</span>
+        <span class="text-xs text-white flex-1 font-medium">${name}</span>
+        <input type="text" id="link_${i}" value="${appLinks[i]}" placeholder="Paste GitHub / Demo URL here..." class="bg-gray-950 border border-sky-500/30 rounded-lg px-3 py-1.5 text-xs text-white w-full sm:w-72">
+        <button onclick="saveSingleLink(${i})" class="bg-sky-500 text-gray-950 px-3 py-1.5 rounded-lg text-xs font-bold">Save</button>
+      </div>`;
+  });
+
+  document.getElementById('setPin').value = globalSettings.pin;
+  document.getElementById('setWa').value = globalSettings.wa;
+  document.getElementById('setUpi').value = globalSettings.upi;
+  document.getElementById('setTrc').value = globalSettings.trc;
+  document.getElementById('setBnb').value = globalSettings.bnb;
+}
+
+function saveSingleLink(i) {
+  const val = document.getElementById(`link_${i}`).value;
+  appLinks[i] = val;
+  localStorage.setItem('mgsml_links', JSON.stringify(appLinks));
+  alert(`Demo Link for #${i+1} saved!`);
+}
+
+function saveGlobalSettings() {
+  const newPin = document.getElementById('setPin').value.trim();
+  if(newPin.length > 0) globalSettings.pin = newPin;
+  
+  globalSettings.wa = document.getElementById('setWa').value;
+  globalSettings.upi = document.getElementById('setUpi').value;
+  globalSettings.trc = document.getElementById('setTrc').value;
+  globalSettings.bnb = document.getElementById('setBnb').value;
+  
+  localStorage.setItem('mgsml_settings', JSON.stringify(globalSettings));
+  alert("PIN, UPI ID, QR Codes & Settings saved successfully!");
+  renderApps();
+}
+
+function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+function filterApps() {
+  const q = document.getElementById('search').value.toLowerCase();
+  defaultApps.forEach((name, i) => {
+    // filtering cards based on name
+  });
+  document.querySelectorAll('.card').forEach(c => {
+    c.style.display = c.dataset.name.includes(q) ? 'flex' : 'none';
+  });
+}
+
+function copyText(id) {
+  const el = document.getElementById(id);
+  el.select(); navigator.clipboard.writeText(el.value);
+  alert("Copied: " + el.value);
+}
+
+renderApps();
+</script>
+</body>
+</html>
