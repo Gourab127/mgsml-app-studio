@@ -81,7 +81,7 @@
           <img id="displayPhonePeQr" src="" alt="PhonePe QR" class="w-full h-full object-contain">
         </div>
         <div class="flex gap-1 w-full mb-3">
-          <input type="text" readonly id="displayUpi" value="yourname@ybl" class="bg-gray-900 border border-purple-500/30 text-white font-mono text-[11px] px-2.5 py-1.5 rounded-lg w-full text-center">
+          <input type="text" readonly id="displayUpi" class="bg-gray-900 border border-purple-500/30 text-white font-mono text-[11px] px-2.5 py-1.5 rounded-lg w-full text-center">
           <button onclick="copyText('displayUpi')" class="bg-purple-500 text-white px-2.5 py-1.5 rounded-lg text-[10px] font-bold">Copy</button>
         </div>
         <div class="w-full space-y-2 mt-auto">
@@ -99,7 +99,7 @@
           <img id="displayTrcQr" src="" alt="TRC20 QR" class="w-full h-full object-contain">
         </div>
         <div class="flex gap-1 w-full mb-3">
-          <input type="text" readonly id="displayTrc" value="TQn9Y2khEsLJW1ChVWFMSMeRDow5KcbLSE" class="bg-gray-900 border border-emerald-500/30 text-emerald-400 font-mono text-[11px] px-2.5 py-1.5 rounded-lg w-full">
+          <input type="text" readonly id="displayTrc" class="bg-gray-900 border border-emerald-500/30 text-emerald-400 font-mono text-[11px] px-2.5 py-1.5 rounded-lg w-full">
           <button onclick="copyText('displayTrc')" class="bg-emerald-500 text-gray-950 px-2.5 py-1.5 rounded-lg text-[10px] font-bold">Copy</button>
         </div>
         <p class="text-[11px] text-gray-400 mt-auto">Send USDT via Tron (TRC20) network and copy the TxHash after payment.</p>
@@ -112,7 +112,7 @@
           <img id="displayBnbQr" src="" alt="BNB20 QR" class="w-full h-full object-contain">
         </div>
         <div class="flex gap-1 w-full mb-3">
-          <input type="text" readonly id="displayBnb" value="0x71C3518B99...B249" class="bg-gray-900 border border-yellow-500/30 text-yellow-400 font-mono text-[11px] px-2.5 py-1.5 rounded-lg w-full">
+          <input type="text" readonly id="displayBnb" class="bg-gray-900 border border-yellow-500/30 text-yellow-400 font-mono text-[11px] px-2.5 py-1.5 rounded-lg w-full">
           <button onclick="copyText('displayBnb')" class="bg-yellow-500 text-gray-950 px-2.5 py-1.5 rounded-lg text-[10px] font-bold">Copy</button>
         </div>
         <p class="text-[11px] text-gray-400 mt-auto">Send USDT/BNB via BSC (BEP20) network and copy the TxHash after payment.</p>
@@ -154,7 +154,7 @@
   </div>
 </section>
 
-<!-- Floating Support Button & Lead Popup Modal -->
+<!-- Floating Support Button -->
 <div class="fixed bottom-6 right-6 z-50">
   <button onclick="toggleSupportModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white p-4 rounded-full floating-btn flex items-center justify-center text-xl transition transform hover:scale-110">
     <i class="fab fa-whatsapp"></i>
@@ -223,8 +223,8 @@
 <div id="adminModal" class="fixed inset-0 bg-black/95 hidden items-center justify-center z-50 p-4 overflow-y-auto">
   <div class="glass max-w-5xl w-full p-6 rounded-2xl relative max-h-[95vh] overflow-y-auto border border-sky-500/40">
     <button onclick="closeModal('adminModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg"><i class="fas fa-times"></i></button>
-    <h2 class="text-xl font-bold text-sky-400 mb-1"><i class="fas fa-user-secret mr-2"></i> MGSML Stealth Admin Panel</h2>
-    <p class="text-xs text-sky-200/70 mb-6">Manage PIN, UPI/QR files, Crypto wallets, 44 demo links, and verified UTR/Hash History.</p>
+    <h2 class="text-xl font-bold text-sky-400 mb-1"><i class="fas fa-user-secret mr-2"></i> MGSML Stealth Admin Panel (Cloud Sync)</h2>
+    <p class="text-xs text-sky-200/70 mb-6">Manage PIN, UPI/QR files, Crypto wallets, 44 demo links, and verified UTR/Hash History via Firebase.</p>
     
     <!-- Tabs Header -->
     <div class="flex gap-2 mb-5 border-b border-gray-800 pb-3">
@@ -278,7 +278,7 @@
           </div>
         </div>
 
-        <button onclick="saveGlobalSettings()" class="bg-sky-500 hover:bg-sky-600 text-gray-950 font-bold px-5 py-2.5 rounded-lg text-xs mt-2"><i class="fas fa-save mr-1"></i> Save All Settings</button>
+        <button onclick="saveGlobalSettings()" class="bg-sky-500 hover:bg-sky-600 text-gray-950 font-bold px-5 py-2.5 rounded-lg text-xs mt-2"><i class="fas fa-save mr-1"></i> Save All Settings to Cloud</button>
       </div>
 
       <!-- 44 Demo Links Manager -->
@@ -319,39 +319,92 @@
   <p>&copy; 2026 MGSML App Studio. All Rights Reserved.</p>
 </footer>
 
+<!-- Firebase SDK & Database Script -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyD2RyjcogqDGnm5ds4ZrmgRHJHS-LQZdDQ",
+    authDomain: "mgsml-app-studio.firebaseapp.com",
+    projectId: "mgsml-app-studio",
+    storageBucket: "mgsml-app-studio.firebasestorage.app",
+    messagingSenderId: "264235148192",
+    appId: "1:264235148192:web:7fd175e761bd2746f73ac5"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const defaultApps = [
+    "Crypto Mining & HYIP Platform", "MLM & Referral Network", "Digital Wallet & Crypto Swap",
+    "Micro-Jobs & Task Earning", "Tap-to-Earn Mining Game", "Telegram Daily Reward Bot",
+    "Telegram E-commerce Shop", "Multi-Vendor Marketplace", "Single Product Landing Page",
+    "Digital Product Shop", "Grocery & Food Delivery App", "Doctor Appointment System",
+    "Hotel & Resort Booking", "Car or Bike Rental Platform", "Beauty Parlor Booking App",
+    "Video Streaming & OTT", "Social Club & Forum", "Podcast & Audio Streaming",
+    "Online Learning (LMS)", "Inventory & POS Software", "Real Estate Listing App",
+    "To-Do & Task Manager", "Restaurant QR Menu App", "AI Prompt Dashboard",
+    "AI Customer Support Bot", "AI Resume & Interview Coach", "AI Content Repurposing Tool",
+    "AI Voice Receptionist", "Home Maintenance Booking", "Second-Hand Marketplace",
+    "Coupon & Cashback App", "Subscription Box Manager", "Telemedicine & Health App",
+    "AI Diet & Calorie Tracker", "Micro-Workout & Yoga App", "Telegram DEX Token Swap",
+    "Telegram Prediction Market", "Telegram Paid Channel Bot", "Freelancer Invoice Portal",
+    "Expense & EMI Tracker", "Cloud Kitchen & Tiffin App", "Micro-Learning Skill App",
+    "Digital NFC Business Card", "Event Ticketing Platform"
+  ];
+
+  window.appLinks = Array(44).fill("");
+  window.orderHistory = [];
+  window.globalSettings = {
+    pin: "1234",
+    wa: "919876543210",
+    upi: "yourname@ybl",
+    trc: "TQn9Y2khEsLJW1ChVWFMSMeRDow5KcbLSE",
+    bnb: "0x71C3518B99...B249",
+    phonepeQr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=PhonePeUPI",
+    trcQr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=TRC20Wallet",
+    bnbQr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=BNB20Wallet"
+  };
+
+  window.defaultApps = defaultApps;
+
+  // Load data from Firebase Firestore
+  async function loadDataFromCloud() {
+    try {
+      const docRef = doc(db, "mgsml_store", "config_data");
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        if (data.links) window.appLinks = data.links;
+        if (data.history) window.orderHistory = data.history;
+        if (data.settings) window.globalSettings = {...window.globalSettings, ...data.settings};
+      }
+    } catch (e) {
+      console.log("Cloud load fallback to default", e);
+    }
+    renderApps();
+  }
+
+  // Save data to Firebase Firestore
+  window.saveDataToCloud = async function() {
+    try {
+      await setDoc(doc(db, "mgsml_store", "config_data"), {
+        links: window.appLinks,
+        history: window.orderHistory,
+        settings: window.globalSettings
+      });
+      alert("✅ All Settings & Links Saved Successfully to Firebase Cloud (Lifetime Permanent)!");
+    } catch (e) {
+      alert("Error saving to cloud: " + e.message);
+    }
+  }
+
+  loadDataFromCloud();
+</script>
+
 <script>
-const defaultApps = [
-  "Crypto Mining & HYIP Platform", "MLM & Referral Network", "Digital Wallet & Crypto Swap",
-  "Micro-Jobs & Task Earning", "Tap-to-Earn Mining Game", "Telegram Daily Reward Bot",
-  "Telegram E-commerce Shop", "Multi-Vendor Marketplace", "Single Product Landing Page",
-  "Digital Product Shop", "Grocery & Food Delivery App", "Doctor Appointment System",
-  "Hotel & Resort Booking", "Car or Bike Rental Platform", "Beauty Parlor Booking App",
-  "Video Streaming & OTT", "Social Club & Forum", "Podcast & Audio Streaming",
-  "Online Learning (LMS)", "Inventory & POS Software", "Real Estate Listing App",
-  "To-Do & Task Manager", "Restaurant QR Menu App", "AI Prompt Dashboard",
-  "AI Customer Support Bot", "AI Resume & Interview Coach", "AI Content Repurposing Tool",
-  "AI Voice Receptionist", "Home Maintenance Booking", "Second-Hand Marketplace",
-  "Coupon & Cashback App", "Subscription Box Manager", "Telemedicine & Health App",
-  "AI Diet & Calorie Tracker", "Micro-Workout & Yoga App", "Telegram DEX Token Swap",
-  "Telegram Prediction Market", "Telegram Paid Channel Bot", "Freelancer Invoice Portal",
-  "Expense & EMI Tracker", "Cloud Kitchen & Tiffin App", "Micro-Learning Skill App",
-  "Digital NFC Business Card", "Event Ticketing Platform"
-];
-
-let appLinks = JSON.parse(localStorage.getItem('mgsml_links')) || Array(44).fill("");
-let orderHistory = JSON.parse(localStorage.getItem('mgsml_history')) || [];
-let globalSettings = JSON.parse(localStorage.getItem('mgsml_settings')) || {};
-
-if (!globalSettings.pin) globalSettings.pin = "1234";
-if (!globalSettings.wa) globalSettings.wa = "919876543210";
-if (!globalSettings.upi) globalSettings.upi = "yourname@ybl";
-if (!globalSettings.trc) globalSettings.trc = "TQn9Y2khEsLJW1ChVWFMSMeRDow5KcbLSE";
-if (!globalSettings.bnb) globalSettings.bnb = "0x71C3518B99...B249";
-if (!globalSettings.phonepeQr) globalSettings.phonepeQr = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=PhonePeUPI";
-if (!globalSettings.trcQr) globalSettings.trcQr = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=TRC20Wallet";
-if (!globalSettings.bnbQr) globalSettings.bnbQr = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=BNB20Wallet";
-
-// 5 Taps on Logo Logic
+// UI & Interaction Logic
 let tapCount = 0;
 let tapTimer;
 
@@ -374,7 +427,7 @@ function closeStealth() { document.getElementById('stealthModal').style.display 
 
 function checkStealthPin() {
   const entered = document.getElementById('stealthPinInput').value.trim();
-  if (entered === globalSettings.pin) {
+  if (entered === window.globalSettings.pin) {
     closeStealth();
     document.getElementById('stealthPinInput').value = "";
     renderAdminApps();
@@ -385,7 +438,7 @@ function checkStealthPin() {
 
 function checkStealthPinBtn() {
   const entered = document.getElementById('stealthPinInput').value.trim();
-  if (entered === globalSettings.pin) {
+  if (entered === window.globalSettings.pin) {
     closeStealth();
     document.getElementById('stealthPinInput').value = "";
     renderAdminApps();
@@ -396,7 +449,6 @@ function checkStealthPinBtn() {
   }
 }
 
-// Professional Share Portal Function (English Description + Live URL)
 function sharePortal(platform) {
   const siteUrl = window.location.href;
   const shareText = 
@@ -427,13 +479,13 @@ function renderApps() {
   const grid = document.getElementById('grid');
   const selectBox = document.getElementById('verifyAppSelect');
   grid.innerHTML = "";
-  selectBox.innerHTML = `<option value="Custom Project">Custom Project / Service</option>`;
+  if(selectBox) selectBox.innerHTML = `<option value="Custom Project">Custom Project / Service</option>`;
 
-  defaultApps.forEach((name, i) => {
+  window.defaultApps.forEach((name, i) => {
     const num = String(i+1).padStart(2,'0');
-    const link = appLinks[i];
+    const link = window.appLinks[i];
     
-    selectBox.innerHTML += `<option value="#${num} ${name}">#${num} ${name}</option>`;
+    if(selectBox) selectBox.innerHTML += `<option value="#${num} ${name}">#${num} ${name}</option>`;
 
     let demoBtn = link 
       ? `<a href="${link}" target="_blank" class="flex-1 bg-sky-500/20 text-sky-300 border border-sky-500/40 text-center font-bold py-2 rounded-lg text-xs hover:bg-sky-500 hover:text-gray-950 transition flex items-center justify-center gap-1"><i class="fas fa-eye"></i>Visit Demo Now</a>`
@@ -461,27 +513,24 @@ function renderApps() {
       </div>`;
   });
 
-  document.getElementById('displayUpi').value = globalSettings.upi;
-  document.getElementById('displayTrc').value = globalSettings.trc;
-  document.getElementById('displayBnb').value = globalSettings.bnb;
-  document.getElementById('displayPhonePeQr').src = globalSettings.phonepeQr;
-  document.getElementById('displayTrcQr').src = globalSettings.trcQr;
-  document.getElementById('displayBnbQr').src = globalSettings.bnbQr;
+  if(document.getElementById('displayUpi')) document.getElementById('displayUpi').value = window.globalSettings.upi || "";
+  if(document.getElementById('displayTrc')) document.getElementById('displayTrc').value = window.globalSettings.trc || "";
+  if(document.getElementById('displayBnb')) document.getElementById('displayBnb').value = window.globalSettings.bnb || "";
+  if(document.getElementById('displayPhonePeQr')) document.getElementById('displayPhonePeQr').src = window.globalSettings.phonepeQr || "";
+  if(document.getElementById('displayTrcQr')) document.getElementById('displayTrcQr').src = window.globalSettings.trcQr || "";
+  if(document.getElementById('displayBnbQr')) document.getElementById('displayBnbQr').src = window.globalSettings.bnbQr || "";
 }
 
-// Direct chat for specific app card
 function chatSpecificApp(appTitle) {
   const msg = `Hello MGSML, I want to inquire about ${appTitle}. Please share more details.`;
-  window.open(`https://wa.me/${globalSettings.wa}?text=${encodeURIComponent(msg)}`, '_blank');
+  window.open(`https://wa.me/${window.globalSettings.wa}?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
-// Floating Support Modal Toggle
 function toggleSupportModal() {
   const modal = document.getElementById('supportModal');
   modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
 }
 
-// Send Lead Form to WhatsApp
 function sendSupportForm() {
   const name = document.getElementById('supName').value.trim();
   const phone = document.getElementById('supPhone').value.trim();
@@ -502,7 +551,7 @@ function sendSupportForm() {
     `📱 *App/Service:* ${app}\n` +
     `💬 *Message:* ${msg}`;
 
-  window.open(`https://wa.me/${globalSettings.wa}?text=${encodeURIComponent(waText)}`, '_blank');
+  window.open(`https://wa.me/${window.globalSettings.wa}?text=${encodeURIComponent(waText)}`, '_blank');
   toggleSupportModal();
 }
 
@@ -517,7 +566,7 @@ function openUpiApp() {
     alert("Please enter the amount (₹) first!");
     return;
   }
-  const upiId = globalSettings.upi;
+  const upiId = window.globalSettings.upi;
   const upiLink = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=MGSML%20App%20Studio&am=${amt}&cu=INR`;
   
   document.getElementById('verifyAmount').value = `₹${amt}`;
@@ -546,25 +595,25 @@ function submitPaymentProof() {
     status: 'Pending'
   };
 
-  orderHistory.unshift(orderObj);
-  localStorage.setItem('mgsml_history', JSON.stringify(orderHistory));
+  window.orderHistory.unshift(orderObj);
+  saveDataToCloud();
   
   document.getElementById('verifyTxHash').value = "";
   alert("✅ Order & Payment Proof Submitted Successfully!\n\nRedirecting to WhatsApp for instant confirmation...");
   
   const waMsg = `Hello MGSML, I have placed an order!\n*App:* ${app}\n*Method:* ${method}\n*Amount:* ${amount}\n*UTR / Hash:* ${txHash}`;
-  window.open(`https://wa.me/${globalSettings.wa}?text=${encodeURIComponent(waMsg)}`, '_blank');
+  window.open(`https://wa.me/${window.globalSettings.wa}?text=${encodeURIComponent(waMsg)}`, '_blank');
 }
 
 function renderHistoryTable() {
   const tbody = document.getElementById('historyTableBody');
-  document.getElementById('historyCount').innerText = orderHistory.length;
-  if(orderHistory.length === 0) {
+  document.getElementById('historyCount').innerText = window.orderHistory.length;
+  if(window.orderHistory.length === 0) {
     tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-500">No order history found yet.</td></tr>`;
     return;
   }
   tbody.innerHTML = "";
-  orderHistory.forEach((ord, index) => {
+  window.orderHistory.forEach((ord, index) => {
     const badgeColor = ord.status === 'Verified' ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' : 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30';
     tbody.innerHTML += `
       <tr class="border-b border-gray-800 hover:bg-gray-900/50">
@@ -580,15 +629,15 @@ function renderHistoryTable() {
 }
 
 function toggleOrderStatus(index) {
-  orderHistory[index].status = orderHistory[index].status === 'Pending' ? 'Verified' : 'Pending';
-  localStorage.setItem('mgsml_history', JSON.stringify(orderHistory));
+  window.orderHistory[index].status = window.orderHistory[index].status === 'Pending' ? 'Verified' : 'Pending';
+  saveDataToCloud();
   renderHistoryTable();
 }
 
 function clearHistory() {
   if(confirm("Are you sure you want to clear all order history?")) {
-    orderHistory = [];
-    localStorage.removeItem('mgsml_history');
+    window.orderHistory = [];
+    saveDataToCloud();
     renderHistoryTable();
     alert("History cleared successfully!");
   }
@@ -619,8 +668,9 @@ function handleQrUpload(input, key) {
   if (file) {
     const reader = new FileReader();
     reader.onload = function(e) {
-      globalSettings[key] = e.target.result;
-      alert("QR Image loaded! Click 'Save All Settings' to apply.");
+      window.globalSettings[key] = e.target.result;
+      saveDataToCloud();
+      renderApps();
     };
     reader.readAsDataURL(file);
   }
@@ -629,42 +679,41 @@ function handleQrUpload(input, key) {
 function renderAdminApps() {
   const adminList = document.getElementById('adminAppList');
   adminList.innerHTML = "";
-  defaultApps.forEach((name, i) => {
+  window.defaultApps.forEach((name, i) => {
     const num = String(i+1).padStart(2,'0');
     adminList.innerHTML += `
       <div class="flex flex-col sm:flex-row items-center gap-2 bg-gray-900 p-3 rounded-xl border border-sky-900/50">
         <span class="text-xs font-bold text-sky-400 w-12">#${num}</span>
         <span class="text-xs text-white flex-1 font-medium">${name}</span>
-        <input type="text" id="link_${i}" value="${appLinks[i]}" placeholder="Paste GitHub / Demo URL here..." class="bg-gray-950 border border-sky-500/30 rounded-lg px-3 py-1.5 text-xs text-white w-full sm:w-72">
+        <input type="text" id="link_${i}" value="${window.appLinks[i] || ''}" placeholder="Paste GitHub / Demo URL here..." class="bg-gray-950 border border-sky-500/30 rounded-lg px-3 py-1.5 text-xs text-white w-full sm:w-72">
         <button onclick="saveSingleLink(${i})" class="bg-sky-500 text-gray-950 px-3 py-1.5 rounded-lg text-xs font-bold">Save</button>
       </div>`;
   });
 
-  document.getElementById('setPin').value = globalSettings.pin;
-  document.getElementById('setWa').value = globalSettings.wa;
-  document.getElementById('setUpi').value = globalSettings.upi;
-  document.getElementById('setTrc').value = globalSettings.trc;
-  document.getElementById('setBnb').value = globalSettings.bnb;
+  document.getElementById('setPin').value = window.globalSettings.pin || "";
+  document.getElementById('setWa').value = window.globalSettings.wa || "";
+  document.getElementById('setUpi').value = window.globalSettings.upi || "";
+  document.getElementById('setTrc').value = window.globalSettings.trc || "";
+  document.getElementById('setBnb').value = window.globalSettings.bnb || "";
 }
 
 function saveSingleLink(i) {
-  const val = document.getElementById(`link_${i}`).value;
-  appLinks[i] = val;
-  localStorage.setItem('mgsml_links', JSON.stringify(appLinks));
-  alert(`Demo Link for #${i+1} saved!`);
+  const val = document.getElementById(`link_${i}`).value.trim();
+  window.appLinks[i] = val;
+  saveDataToCloud();
+  renderApps();
 }
 
 function saveGlobalSettings() {
   const newPin = document.getElementById('setPin').value.trim();
-  if(newPin.length > 0) globalSettings.pin = newPin;
+  if(newPin.length > 0) window.globalSettings.pin = newPin;
   
-  globalSettings.wa = document.getElementById('setWa').value;
-  globalSettings.upi = document.getElementById('setUpi').value;
-  globalSettings.trc = document.getElementById('setTrc').value;
-  globalSettings.bnb = document.getElementById('setBnb').value;
+  window.globalSettings.wa = document.getElementById('setWa').value.trim();
+  window.globalSettings.upi = document.getElementById('setUpi').value.trim();
+  window.globalSettings.trc = document.getElementById('setTrc').value.trim();
+  window.globalSettings.bnb = document.getElementById('setBnb').value.trim();
   
-  localStorage.setItem('mgsml_settings', JSON.stringify(globalSettings));
-  alert("PIN, UPI ID, QR Codes & Settings saved successfully!");
+  saveDataToCloud();
   renderApps();
 }
 
@@ -682,8 +731,6 @@ function copyText(id) {
   el.select(); navigator.clipboard.writeText(el.value);
   alert("Copied: " + el.value);
 }
-
-renderApps();
 </script>
 </body>
 </html>
