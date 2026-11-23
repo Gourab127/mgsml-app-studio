@@ -223,8 +223,8 @@
 <div id="adminModal" class="fixed inset-0 bg-black/95 hidden items-center justify-center z-50 p-4 overflow-y-auto">
   <div class="glass max-w-5xl w-full p-6 rounded-2xl relative max-h-[95vh] overflow-y-auto border border-sky-500/40">
     <button onclick="closeModal('adminModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg"><i class="fas fa-times"></i></button>
-    <h2 class="text-xl font-bold text-sky-400 mb-1"><i class="fas fa-user-secret mr-2"></i> MGSML Stealth Admin Panel (Cloud Sync)</h2>
-    <p class="text-xs text-sky-200/70 mb-6">Manage PIN, UPI/QR files, Crypto wallets, 44 demo links, and verified UTR/Hash History via Firebase.</p>
+    <h2 class="text-xl font-bold text-sky-400 mb-1"><i class="fas fa-user-secret mr-2"></i> MGSML Stealth Admin Panel (Realtime DB Sync)</h2>
+    <p class="text-xs text-sky-200/70 mb-6">Manage PIN, UPI/QR files, Crypto wallets, 44 demo links, and verified UTR/Hash History via Firebase Realtime Database.</p>
     
     <!-- Tabs Header -->
     <div class="flex gap-2 mb-5 border-b border-gray-800 pb-3">
@@ -262,27 +262,30 @@
           </div>
         </div>
 
-        <h3 class="text-sm font-bold text-white border-b border-gray-800 pb-2 pt-2">2. Upload QR Code Images (Choose from Device)</h3>
+        <h3 class="text-sm font-bold text-white border-b border-gray-800 pb-2 pt-2">2. Choose QR Code from Device / File or Paste Image URL</h3>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div class="bg-gray-900 p-3 rounded-xl border border-purple-500/30">
-            <label class="text-[11px] text-purple-300 font-bold block mb-1.5">PhonePe QR Image</label>
+          <div class="bg-gray-900 p-3 rounded-xl border border-purple-500/30 space-y-2">
+            <label class="text-[11px] text-purple-300 font-bold block">PhonePe QR Image</label>
             <input type="file" accept="image/*" onchange="handleQrUpload(this, 'phonepeQr')" class="text-[11px] text-gray-300 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-purple-500 file:text-white w-full">
+            <input type="text" id="setPhonepeQrUrl" placeholder="Or paste QR image URL..." class="w-full bg-gray-950 border border-purple-500/20 rounded-lg px-2.5 py-1.5 text-[11px] text-white">
           </div>
-          <div class="bg-gray-900 p-3 rounded-xl border border-emerald-500/30">
-            <label class="text-[11px] text-emerald-300 font-bold block mb-1.5">USDT (TRC-20) QR Image</label>
+          <div class="bg-gray-900 p-3 rounded-xl border border-emerald-500/30 space-y-2">
+            <label class="text-[11px] text-emerald-300 font-bold block">USDT (TRC-20) QR Image</label>
             <input type="file" accept="image/*" onchange="handleQrUpload(this, 'trcQr')" class="text-[11px] text-gray-300 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-emerald-500 file:text-gray-950 w-full">
+            <input type="text" id="setTrcQrUrl" placeholder="Or paste QR image URL..." class="w-full bg-gray-950 border border-emerald-500/20 rounded-lg px-2.5 py-1.5 text-[11px] text-white">
           </div>
-          <div class="bg-gray-900 p-3 rounded-xl border border-yellow-500/30">
-            <label class="text-[11px] text-yellow-300 font-bold block mb-1.5">BNB-20 QR Image</label>
+          <div class="bg-gray-900 p-3 rounded-xl border border-yellow-500/30 space-y-2">
+            <label class="text-[11px] text-yellow-300 font-bold block">BNB-20 QR Image</label>
             <input type="file" accept="image/*" onchange="handleQrUpload(this, 'bnbQr')" class="text-[11px] text-gray-300 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-yellow-500 file:text-gray-950 w-full">
+            <input type="text" id="setBnbQrUrl" placeholder="Or paste QR image URL..." class="w-full bg-gray-950 border border-yellow-500/20 rounded-lg px-2.5 py-1.5 text-[11px] text-white">
           </div>
         </div>
 
-        <button onclick="saveGlobalSettings()" class="bg-sky-500 hover:bg-sky-600 text-gray-950 font-bold px-5 py-2.5 rounded-lg text-xs mt-2"><i class="fas fa-save mr-1"></i> Save All Settings to Cloud</button>
+        <button onclick="saveGlobalSettings()" class="bg-sky-500 hover:bg-sky-600 text-gray-950 font-bold px-5 py-2.5 rounded-lg text-xs mt-2"><i class="fas fa-save mr-1"></i> Save All Settings to Realtime DB</button>
       </div>
 
       <!-- 44 Demo Links Manager -->
-      <h3 class="text-sm font-bold text-white mb-3">3. Manage 44 App Demo Links (GitHub URLs)</h3>
+      <h3 class="text-sm font-bold text-white mb-3">3. Manage 44 App Demo Links (GitHub / Demo URLs)</h3>
       <div id="adminAppList" class="space-y-3"></div>
     </div>
 
@@ -309,7 +312,7 @@
     </div>
     
     <div class="mt-6 flex justify-end">
-      <button onclick="closeModal('adminModal'); location.reload();" class="bg-sky-500 text-gray-950 font-bold px-6 py-2.5 rounded-xl text-xs">Done & Refresh</button>
+      <button onclick="closeModal('adminModal');" class="bg-sky-500 text-gray-950 font-bold px-6 py-2.5 rounded-xl text-xs">Done</button>
     </div>
   </div>
 </div>
@@ -319,22 +322,24 @@
   <p>&copy; 2026 MGSML App Studio. All Rights Reserved.</p>
 </footer>
 
-<!-- Firebase SDK & Database Script -->
+<!-- Firebase Realtime Database SDK & Sync Script -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
   const firebaseConfig = {
-    apiKey: "AIzaSyD2RyjcogqDGnm5ds4ZrmgRHJHS-LQZdDQ",
-    authDomain: "mgsml-app-studio.firebaseapp.com",
-    projectId: "mgsml-app-studio",
-    storageBucket: "mgsml-app-studio.firebasestorage.app",
-    messagingSenderId: "264235148192",
-    appId: "1:264235148192:web:7fd175e761bd2746f73ac5"
+    apiKey: "AIzaSyA5s0SEZuGDapBtszVKcKkXPIaFQ-niXyk",
+    authDomain: "mgsml-app-store.firebaseapp.com",
+    databaseURL: "https://mgsml-app-store-default-rtdb.firebaseio.com",
+    projectId: "mgsml-app-store",
+    storageBucket: "mgsml-app-store.firebasestorage.app",
+    messagingSenderId: "25990515693",
+    appId: "1:25990515693:web:8aaaf568ff0a240a0975e4",
+    measurementId: "G-L2DYJRHCQB"
   };
 
   const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+  const db = getDatabase(app);
 
   const defaultApps = [
     "Crypto Mining & HYIP Platform", "MLM & Referral Network", "Digital Wallet & Crypto Swap",
@@ -369,38 +374,57 @@
 
   window.defaultApps = defaultApps;
 
-  // Load data from Firebase Firestore
-  async function loadDataFromCloud() {
+  const storeRef = ref(db, "mgsml_store");
+
+  // Realtime Database Live Listener
+  onValue(storeRef, (snapshot) => {
+    if (snapshot.exists()) {
+      const data = snapshot.val();
+      if (Array.isArray(data.app_links)) {
+        window.appLinks = data.app_links;
+      } else if (data.app_links && typeof data.app_links === "object") {
+        window.appLinks = Object.values(data.app_links);
+      }
+
+      if (Array.isArray(data.orders)) {
+        window.orderHistory = data.orders;
+      } else if (data.orders && typeof data.orders === "object") {
+        window.orderHistory = Object.values(data.orders);
+      } else {
+        window.orderHistory = [];
+      }
+
+      if (data.settings) {
+        window.globalSettings = { ...window.globalSettings, ...data.settings };
+      }
+    }
+    window.renderApps();
+    if (document.getElementById("historyCount")) {
+      document.getElementById("historyCount").innerText = window.orderHistory.length;
+    }
+    if (document.getElementById("adminModal")?.style.display === "flex") {
+      window.renderHistoryTable();
+    }
+  }, (error) => {
+    console.error("Realtime DB read error:", error);
+    window.renderApps();
+  });
+
+  // Save full store state to Firebase Realtime Database
+  window.saveDataToCloud = async function(silent = false) {
     try {
-      const docRef = doc(db, "mgsml_store", "config_data");
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        if (data.links) window.appLinks = data.links;
-        if (data.history) window.orderHistory = data.history;
-        if (data.settings) window.globalSettings = {...window.globalSettings, ...data.settings};
+      await set(storeRef, {
+        settings: window.globalSettings,
+        app_links: window.appLinks,
+        orders: window.orderHistory
+      });
+      if (!silent) {
+        alert("✅ Saved to Firebase Realtime Database!");
       }
     } catch (e) {
-      console.log("Cloud load fallback to default", e);
+      alert("❌ Error saving to Realtime DB: " + e.message);
     }
-    renderApps();
-  }
-
-  // Save data to Firebase Firestore
-  window.saveDataToCloud = async function() {
-    try {
-      await setDoc(doc(db, "mgsml_store", "config_data"), {
-        links: window.appLinks,
-        history: window.orderHistory,
-        settings: window.globalSettings
-      });
-      alert("✅ All Settings & Links Saved Successfully to Firebase Cloud (Lifetime Permanent)!");
-    } catch (e) {
-      alert("Error saving to cloud: " + e.message);
-    }
-  }
-
-  loadDataFromCloud();
+  };
 </script>
 
 <script>
@@ -478,6 +502,7 @@ function sharePortal(platform) {
 function renderApps() {
   const grid = document.getElementById('grid');
   const selectBox = document.getElementById('verifyAppSelect');
+  const prevSelected = selectBox ? selectBox.value : "";
   grid.innerHTML = "";
   if(selectBox) selectBox.innerHTML = `<option value="Custom Project">Custom Project / Service</option>`;
 
@@ -512,6 +537,10 @@ function renderApps() {
         </div>
       </div>`;
   });
+
+  if (selectBox && prevSelected) {
+    selectBox.value = prevSelected;
+  }
 
   if(document.getElementById('displayUpi')) document.getElementById('displayUpi').value = window.globalSettings.upi || "";
   if(document.getElementById('displayTrc')) document.getElementById('displayTrc').value = window.globalSettings.trc || "";
@@ -575,7 +604,7 @@ function openUpiApp() {
   window.location.href = upiLink;
 }
 
-function submitPaymentProof() {
+async function submitPaymentProof() {
   const app = document.getElementById('verifyAppSelect').value;
   const method = document.getElementById('verifyMethod').value;
   const amount = document.getElementById('verifyAmount').value.trim() || "Not Specified";
@@ -596,10 +625,10 @@ function submitPaymentProof() {
   };
 
   window.orderHistory.unshift(orderObj);
-  saveDataToCloud();
+  await window.saveDataToCloud(true);
   
   document.getElementById('verifyTxHash').value = "";
-  alert("✅ Order & Payment Proof Submitted Successfully!\n\nRedirecting to WhatsApp for instant confirmation...");
+  alert("✅ Order & Payment Proof Saved to Realtime DB!\n\nRedirecting to WhatsApp for instant confirmation...");
   
   const waMsg = `Hello MGSML, I have placed an order!\n*App:* ${app}\n*Method:* ${method}\n*Amount:* ${amount}\n*UTR / Hash:* ${txHash}`;
   window.open(`https://wa.me/${window.globalSettings.wa}?text=${encodeURIComponent(waMsg)}`, '_blank');
@@ -628,16 +657,16 @@ function renderHistoryTable() {
   });
 }
 
-function toggleOrderStatus(index) {
+async function toggleOrderStatus(index) {
   window.orderHistory[index].status = window.orderHistory[index].status === 'Pending' ? 'Verified' : 'Pending';
-  saveDataToCloud();
+  await window.saveDataToCloud(true);
   renderHistoryTable();
 }
 
-function clearHistory() {
+async function clearHistory() {
   if(confirm("Are you sure you want to clear all order history?")) {
     window.orderHistory = [];
-    saveDataToCloud();
+    await window.saveDataToCloud(true);
     renderHistoryTable();
     alert("History cleared successfully!");
   }
@@ -664,13 +693,16 @@ function switchTab(tab) {
 }
 
 function handleQrUpload(input, key) {
-  const file = input.files[0];
+  const file = input.files && input.files[0];
   if (file) {
     const reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = async function(e) {
       window.globalSettings[key] = e.target.result;
-      saveDataToCloud();
+      if (key === 'phonepeQr') document.getElementById('setPhonepeQrUrl').value = e.target.result;
+      if (key === 'trcQr') document.getElementById('setTrcQrUrl').value = e.target.result;
+      if (key === 'bnbQr') document.getElementById('setBnbQrUrl').value = e.target.result;
       renderApps();
+      await window.saveDataToCloud(false);
     };
     reader.readAsDataURL(file);
   }
@@ -695,16 +727,19 @@ function renderAdminApps() {
   document.getElementById('setUpi').value = window.globalSettings.upi || "";
   document.getElementById('setTrc').value = window.globalSettings.trc || "";
   document.getElementById('setBnb').value = window.globalSettings.bnb || "";
+  document.getElementById('setPhonepeQrUrl').value = window.globalSettings.phonepeQr || "";
+  document.getElementById('setTrcQrUrl').value = window.globalSettings.trcQr || "";
+  document.getElementById('setBnbQrUrl').value = window.globalSettings.bnbQr || "";
 }
 
-function saveSingleLink(i) {
+async function saveSingleLink(i) {
   const val = document.getElementById(`link_${i}`).value.trim();
   window.appLinks[i] = val;
-  saveDataToCloud();
   renderApps();
+  await window.saveDataToCloud(false);
 }
 
-function saveGlobalSettings() {
+async function saveGlobalSettings() {
   const newPin = document.getElementById('setPin').value.trim();
   if(newPin.length > 0) window.globalSettings.pin = newPin;
   
@@ -712,9 +747,17 @@ function saveGlobalSettings() {
   window.globalSettings.upi = document.getElementById('setUpi').value.trim();
   window.globalSettings.trc = document.getElementById('setTrc').value.trim();
   window.globalSettings.bnb = document.getElementById('setBnb').value.trim();
+
+  const pQrUrl = document.getElementById('setPhonepeQrUrl').value.trim();
+  const tQrUrl = document.getElementById('setTrcQrUrl').value.trim();
+  const bQrUrl = document.getElementById('setBnbQrUrl').value.trim();
+
+  if (pQrUrl) window.globalSettings.phonepeQr = pQrUrl;
+  if (tQrUrl) window.globalSettings.trcQr = tQrUrl;
+  if (bQrUrl) window.globalSettings.bnbQr = bQrUrl;
   
-  saveDataToCloud();
   renderApps();
+  await window.saveDataToCloud(false);
 }
 
 function closeModal(id) { document.getElementById(id).style.display = 'none'; }
