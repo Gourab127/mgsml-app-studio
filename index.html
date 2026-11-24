@@ -17,6 +17,12 @@
     backdrop-filter: blur(14px);
     border: 1px solid rgba(56, 189, 248, 0.25);
   }
+  .bottom-nav-glass {
+    background: rgba(9, 16, 31, 0.96);
+    backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(56, 189, 248, 0.35);
+    box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.55);
+  }
   .sky-glow {
     box-shadow: 0 0 35px rgba(56, 189, 248, 0.16);
   }
@@ -33,21 +39,21 @@
   }
   .red-sky-btn {
     background: linear-gradient(135deg, #ef4444 0%, #e11d48 45%, #0ea5e9 100%);
-    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.28), 0 4px 16px rgba(14, 165, 233, 0.25);
+    box-shadow: 0 4px 16px rgba(239, 68, 68, 0.25), 0 4px 14px rgba(14, 165, 233, 0.22);
   }
   .red-sky-btn:hover {
     background: linear-gradient(135deg, #f87171 0%, #f43f5e 45%, #38bdf8 100%);
   }
 </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col pb-24">
 
 <!-- Top Announcement -->
 <div class="bg-gradient-to-r from-sky-400 via-cyan-300 to-sky-500 text-gray-950 text-xs font-extrabold py-2 px-4 text-center tracking-wide">
   <marquee scrollamount="5">🚀 Welcome to MGSML App Studio! 100% Genuine Software & App Solutions. Explore 44+ Ready Demos & Custom Buttons — Order Now!</marquee>
 </div>
 
-<!-- Navbar -->
+<!-- Top Navbar -->
 <nav class="glass sticky top-0 z-40 px-4 sm:px-6 py-4 border-b border-sky-500/25">
   <div class="max-w-7xl mx-auto flex justify-between items-center gap-2">
     <div class="flex items-center gap-3 select-none">
@@ -80,36 +86,38 @@
 </header>
 
 <!-- 44 + Custom Apps Grid (Clean Homepage with Only Demo & Custom Cards) -->
-<main class="max-w-7xl mx-auto px-4 mb-16 flex-grow w-full">
+<main class="max-w-7xl mx-auto px-4 mb-12 flex-grow w-full">
   <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
 </main>
 
-<!-- Footer with 3 Red + Sky Mixed Buttons -->
-<footer class="glass py-7 px-4 border-t border-sky-900/50 mt-auto">
-  <div class="max-w-4xl mx-auto space-y-5">
-    <div class="grid grid-cols-3 gap-2.5 sm:gap-4">
-      <!-- Left Button: Share -->
-      <button onclick="openShareModal()" class="red-sky-btn text-white font-extrabold py-3 px-3 rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-2">
-        <i class="fas fa-share-nodes"></i> <span>Share</span>
-      </button>
-
-      <!-- Middle Button: My Site (Reserved for Next Project / 25% Promo Link) -->
-      <button onclick="openMySite()" class="red-sky-btn text-white font-extrabold py-3 px-3 rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-2">
-        <i class="fas fa-globe"></i> <span>My Site</span>
-      </button>
-
-      <!-- Right Button: Pay -->
-      <button onclick="openPayModal()" class="red-sky-btn text-white font-extrabold py-3 px-3 rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-2">
-        <i class="fas fa-qrcode"></i> <span>Pay</span>
-      </button>
-    </div>
-    <p class="text-center text-xs text-sky-200/60">&copy; 2026 MGSML App Studio. All Rights Reserved.</p>
-  </div>
+<!-- Page End Note (Above Fixed Bottom Navigation Bar) -->
+<footer class="text-center py-5 px-4 text-xs text-sky-200/50">
+  <p>&copy; 2026 MGSML App Studio. All Rights Reserved.</p>
 </footer>
 
-<!-- Floating Support Button -->
-<div class="fixed bottom-24 right-5 z-40">
-  <button onclick="toggleSupportModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white p-4 rounded-full floating-btn flex items-center justify-center text-xl transition transform hover:scale-110">
+<!-- Fixed Bottom Navigation Bar (Stays Anchored at Screen Bottom While Scrolling) -->
+<div class="fixed bottom-0 inset-x-0 z-40 bottom-nav-glass px-3 py-2.5">
+  <div class="max-w-3xl mx-auto grid grid-cols-3 gap-2.5">
+    <!-- Left Button: Share -->
+    <button onclick="openShareModal()" class="red-sky-btn text-white font-extrabold py-2.5 px-2 rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-1.5 active:scale-95">
+      <i class="fas fa-share-nodes"></i> <span>Share</span>
+    </button>
+
+    <!-- Middle Button: My Site (Reserved for Next Project / 25% Promo Link) -->
+    <button onclick="openMySite()" class="red-sky-btn text-white font-extrabold py-2.5 px-2 rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-1.5 active:scale-95">
+      <i class="fas fa-globe"></i> <span>My Site</span>
+    </button>
+
+    <!-- Right Button: Pay -->
+    <button onclick="openPayModal()" class="red-sky-btn text-white font-extrabold py-2.5 px-2 rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-1.5 active:scale-95">
+      <i class="fas fa-qrcode"></i> <span>Pay</span>
+    </button>
+  </div>
+</div>
+
+<!-- Floating Support Button (Positioned Above Fixed Bottom Navigation Bar) -->
+<div class="fixed bottom-20 right-4 z-40">
+  <button onclick="toggleSupportModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white p-3.5 rounded-full floating-btn flex items-center justify-center text-xl transition transform hover:scale-110">
     <i class="fab fa-whatsapp"></i>
   </button>
 </div>
@@ -330,7 +338,7 @@
             <input type="text" id="setBnb" class="w-full bg-gray-900 border border-sky-500/30 rounded-lg px-3 py-2 text-xs text-white">
           </div>
           <div>
-            <label class="text-[11px] text-rose-300 font-bold block mb-1">My Site GitHub Link (Footer Middle Button)</label>
+            <label class="text-[11px] text-rose-300 font-bold block mb-1">My Site GitHub Link (Bottom Nav Middle Button)</label>
             <input type="text" id="setMySiteUrl" placeholder="Paste My Site GitHub URL (for next project)..." class="w-full bg-gray-900 border border-rose-500/40 rounded-lg px-3 py-2 text-xs text-white">
           </div>
         </div>
@@ -513,7 +521,6 @@ loadLocalCache();
       : "text-[11px] font-bold px-2.5 py-1 rounded-full bg-red-500/20 text-red-300 border border-red-500/30";
   }
 
-  // Listen separately to settings
   onValue(settingsRef, (snap) => {
     if (snap.exists() && snap.val() && typeof snap.val() === "object") {
       window.globalSettings = { ...window.globalSettings, ...snap.val() };
@@ -528,7 +535,6 @@ loadLocalCache();
     updateSyncBadge("Firebase Read Error: " + err.code, false);
   });
 
-  // Listen separately to 44 app links
   onValue(linksRef, (snap) => {
     if (snap.exists() && snap.val()) {
       const val = snap.val();
@@ -538,7 +544,6 @@ loadLocalCache();
     }
   });
 
-  // Listen separately to custom buttons/apps
   onValue(customAppsRef, (snap) => {
     if (snap.exists() && snap.val()) {
       const val = snap.val();
@@ -553,7 +558,6 @@ loadLocalCache();
     }
   });
 
-  // Listen separately to orders
   onValue(ordersRef, (snap) => {
     if (snap.exists() && snap.val()) {
       const val = snap.val();
@@ -570,7 +574,6 @@ loadLocalCache();
     }
   });
 
-  // Dedicated Firebase Save Functions
   window.saveSettingsToFirebase = async function(silent = false) {
     saveLocalCache();
     try {
@@ -982,7 +985,6 @@ function switchTab(tab) {
   }
 }
 
-// Auto-compress QR image so it saves reliably in Firebase Realtime Database
 function compressQrImage(file, callback) {
   const reader = new FileReader();
   reader.onload = function(event) {
