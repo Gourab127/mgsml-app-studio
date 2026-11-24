@@ -13,7 +13,7 @@
     font-family: sans-serif;
   }
   .glass {
-    background: rgba(13, 22, 40, 0.92);
+    background: rgba(13, 22, 40, 0.94);
     backdrop-filter: blur(14px);
     border: 1px solid rgba(56, 189, 248, 0.25);
   }
@@ -30,6 +30,13 @@
   }
   .floating-btn {
     box-shadow: 0 6px 24px rgba(16, 185, 129, 0.45);
+  }
+  .red-sky-btn {
+    background: linear-gradient(135deg, #ef4444 0%, #e11d48 45%, #0ea5e9 100%);
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.28), 0 4px 16px rgba(14, 165, 233, 0.25);
+  }
+  .red-sky-btn:hover {
+    background: linear-gradient(135deg, #f87171 0%, #f43f5e 45%, #38bdf8 100%);
   }
 </style>
 </head>
@@ -54,9 +61,8 @@
       </div>
     </div>
     <div class="flex items-center gap-2">
-      <button onclick="sharePortal('whatsapp')" class="hidden sm:inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-extrabold px-3.5 py-2.5 rounded-xl transition shadow-md"><i class="fab fa-whatsapp"></i> Share WA</button>
-      <button onclick="sharePortal('telegram')" class="hidden sm:inline-flex items-center gap-1.5 bg-sky-600 hover:bg-sky-500 text-white text-xs font-extrabold px-3.5 py-2.5 rounded-xl transition shadow-md"><i class="fab fa-telegram"></i> Share TG</button>
-      <a href="#pay" class="bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-300 hover:to-orange-400 text-gray-950 text-xs font-extrabold px-4 py-2.5 rounded-xl shadow-md transition"><i class="fas fa-qrcode mr-1"></i> Pay Now</a>
+      <button onclick="openShareModal()" class="inline-flex items-center gap-1.5 bg-sky-600 hover:bg-sky-500 text-white text-xs font-extrabold px-3.5 py-2.5 rounded-xl transition shadow-md"><i class="fas fa-share-alt"></i> Share</button>
+      <button onclick="openPayModal()" class="red-sky-btn text-white text-xs font-extrabold px-4 py-2.5 rounded-xl transition"><i class="fas fa-qrcode mr-1"></i> Pay</button>
     </div>
   </div>
 </nav>
@@ -65,37 +71,84 @@
 <header class="max-w-7xl mx-auto px-4 pt-12 pb-8 text-center">
   <span class="bg-sky-500/15 text-sky-300 text-xs font-extrabold px-4 py-1.5 rounded-full border border-sky-400/30 inline-block mb-4">⚡ 100% Genuine | 44+ Ready Demos & Custom Solutions</span>
   <h1 class="text-3xl sm:text-5xl font-black text-white mb-4 leading-tight">Explore Our <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300">App & Website</span> Demos</h1>
-  <p class="text-sky-200/75 max-w-2xl mx-auto text-xs sm:text-sm mb-6 leading-relaxed">Professional software, Android/WebView, Telegram apps & custom solutions. Direct UPI & Crypto payments, instant order verification, and live WhatsApp support.</p>
+  <p class="text-sky-200/75 max-w-2xl mx-auto text-xs sm:text-sm mb-6 leading-relaxed">Professional software, Android/WebView, Telegram apps & custom solutions. Direct UPI & Crypto payments inside Pay, instant order verification, and live WhatsApp support.</p>
   
-  <!-- Quick Share Buttons -->
-  <div class="flex flex-wrap justify-center gap-3 mb-8">
-    <button onclick="sharePortal('whatsapp')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold px-4 py-2.5 rounded-xl text-xs flex items-center gap-2 transition shadow-lg"><i class="fab fa-whatsapp text-base"></i> Share Portal on WhatsApp</button>
-    <button onclick="sharePortal('telegram')" class="bg-sky-600 hover:bg-sky-500 text-white font-extrabold px-4 py-2.5 rounded-xl text-xs flex items-center gap-2 transition shadow-lg"><i class="fab fa-telegram text-base"></i> Share Portal on Telegram</button>
-  </div>
-
   <div class="max-w-md mx-auto relative">
     <i class="fas fa-search absolute left-4 top-3.5 text-sky-400"></i>
     <input type="text" id="search" onkeyup="filterApps()" placeholder="Search 44+ apps or custom buttons..." class="w-full bg-gray-950/90 border border-sky-500/40 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-sky-400 shadow-lg">
   </div>
 </header>
 
-<!-- 44 + Custom Apps Grid -->
+<!-- 44 + Custom Apps Grid (Clean Homepage with Only Demo & Custom Cards) -->
 <main class="max-w-7xl mx-auto px-4 mb-16 flex-grow w-full">
   <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
 </main>
 
-<!-- Direct Payment & Order Verification Section -->
-<section id="pay" class="max-w-6xl mx-auto px-4 mb-16 w-full">
-  <div class="glass p-6 sm:p-8 rounded-2xl border border-sky-500/35 sky-glow">
-    <div class="text-center mb-8">
-      <h2 class="text-xl sm:text-2xl font-black text-white mb-2">Direct Payment & Order Verification</h2>
-      <p class="text-xs text-sky-200/75">Step 1: Pay via PhonePe/UPI or Crypto &nbsp;|&nbsp; Step 2: Submit UTR / TxHash below to confirm order.</p>
+<!-- Footer with 3 Red + Sky Mixed Buttons -->
+<footer class="glass py-7 px-4 border-t border-sky-900/50 mt-auto">
+  <div class="max-w-4xl mx-auto space-y-5">
+    <div class="grid grid-cols-3 gap-2.5 sm:gap-4">
+      <!-- Left Button: Share -->
+      <button onclick="openShareModal()" class="red-sky-btn text-white font-extrabold py-3 px-3 rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-2">
+        <i class="fas fa-share-nodes"></i> <span>Share</span>
+      </button>
+
+      <!-- Middle Button: My Site (Reserved for Next Project / 25% Promo Link) -->
+      <button onclick="openMySite()" class="red-sky-btn text-white font-extrabold py-3 px-3 rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-2">
+        <i class="fas fa-globe"></i> <span>My Site</span>
+      </button>
+
+      <!-- Right Button: Pay -->
+      <button onclick="openPayModal()" class="red-sky-btn text-white font-extrabold py-3 px-3 rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-2">
+        <i class="fas fa-qrcode"></i> <span>Pay</span>
+      </button>
     </div>
+    <p class="text-center text-xs text-sky-200/60">&copy; 2026 MGSML App Studio. All Rights Reserved.</p>
+  </div>
+</footer>
+
+<!-- Floating Support Button -->
+<div class="fixed bottom-24 right-5 z-40">
+  <button onclick="toggleSupportModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white p-4 rounded-full floating-btn flex items-center justify-center text-xl transition transform hover:scale-110">
+    <i class="fab fa-whatsapp"></i>
+  </button>
+</div>
+
+<!-- Share Choice Modal (WhatsApp / Telegram) -->
+<div id="shareModal" class="fixed inset-0 bg-black/85 hidden items-center justify-center z-50 p-4">
+  <div class="glass max-w-sm w-full p-6 rounded-2xl relative border border-sky-500/40 shadow-2xl text-center">
+    <button onclick="closeModal('shareModal')" class="absolute top-3.5 right-3.5 text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+    <div class="w-11 h-11 bg-sky-500/20 text-sky-400 rounded-full flex items-center justify-center mx-auto mb-3">
+      <i class="fas fa-share-alt text-base"></i>
+    </div>
+    <h3 class="text-base font-black text-white mb-1">Share MGSML App Studio</h3>
+    <p class="text-xs text-sky-200/70 mb-5">Choose your preferred platform to share this portal</p>
+    <div class="grid grid-cols-2 gap-3">
+      <button onclick="sharePortal('whatsapp'); closeModal('shareModal');" class="bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3 px-3 rounded-xl text-xs flex items-center justify-center gap-2 transition shadow-lg">
+        <i class="fab fa-whatsapp text-base"></i> WhatsApp
+      </button>
+      <button onclick="sharePortal('telegram'); closeModal('shareModal');" class="bg-sky-600 hover:bg-sky-500 text-white font-extrabold py-3 px-3 rounded-xl text-xs flex items-center justify-center gap-2 transition shadow-lg">
+        <i class="fab fa-telegram text-base"></i> Telegram
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Pay & 12-Digit UTR / Hash Verification Modal -->
+<div id="payModal" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-50 p-3 sm:p-4 overflow-y-auto">
+  <div class="glass max-w-5xl w-full p-5 sm:p-7 rounded-2xl relative max-h-[94vh] overflow-y-auto border border-sky-500/40 sky-glow">
+    <button onclick="closeModal('payModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg"><i class="fas fa-times"></i></button>
     
-    <!-- 3 Payment Gateways -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div class="text-center mb-6">
+      <span class="bg-sky-500/15 text-sky-300 text-[11px] font-extrabold px-3 py-1 rounded-full border border-sky-400/25 inline-block mb-2">SECURE GATEWAY</span>
+      <h2 class="text-xl sm:text-2xl font-black text-white mb-1">Direct Payment & Order Verification</h2>
+      <p class="text-xs text-sky-200/75">Step 1: Pay via PhonePe/UPI or Crypto &nbsp;|&nbsp; Step 2: Submit 12-Digit UTR / TxHash below.</p>
+    </div>
+
+    <!-- 3 Payment Gateways inside Pay Modal -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
       <!-- 1. PhonePe / UPI Direct -->
-      <div class="bg-gray-950/80 p-5 rounded-2xl border border-purple-500/35 flex flex-col items-center text-center">
+      <div class="bg-gray-950/85 p-5 rounded-2xl border border-purple-500/35 flex flex-col items-center text-center">
         <span class="bg-purple-500/20 text-purple-300 text-[11px] font-extrabold px-3 py-1 rounded-full mb-3 border border-purple-400/20">PhonePe / UPI Direct</span>
         <div class="w-32 h-32 bg-white rounded-xl p-2 shadow-md flex items-center justify-center overflow-hidden mb-3">
           <img id="displayPhonePeQr" src="" alt="PhonePe QR" class="w-full h-full object-contain">
@@ -113,7 +166,7 @@
       </div>
 
       <!-- 2. USDT TRC20 -->
-      <div class="bg-gray-950/80 p-5 rounded-2xl border border-emerald-500/30 flex flex-col items-center text-center">
+      <div class="bg-gray-950/85 p-5 rounded-2xl border border-emerald-500/30 flex flex-col items-center text-center">
         <span class="bg-emerald-500/20 text-emerald-300 text-[11px] font-extrabold px-3 py-1 rounded-full mb-3 border border-emerald-400/20">USDT (TRC-20)</span>
         <div class="w-32 h-32 bg-white rounded-xl p-2 shadow-md flex items-center justify-center overflow-hidden mb-3">
           <img id="displayTrcQr" src="" alt="TRC20 QR" class="w-full h-full object-contain">
@@ -126,7 +179,7 @@
       </div>
 
       <!-- 3. BNB20 -->
-      <div class="bg-gray-950/80 p-5 rounded-2xl border border-yellow-500/30 flex flex-col items-center text-center">
+      <div class="bg-gray-950/85 p-5 rounded-2xl border border-yellow-500/30 flex flex-col items-center text-center">
         <span class="bg-yellow-500/20 text-yellow-300 text-[11px] font-extrabold px-3 py-1 rounded-full mb-3 border border-yellow-400/20">USDT / BNB (BNB-20)</span>
         <div class="w-32 h-32 bg-white rounded-xl p-2 shadow-md flex items-center justify-center overflow-hidden mb-3">
           <img id="displayBnbQr" src="" alt="BNB20 QR" class="w-full h-full object-contain">
@@ -139,9 +192,9 @@
       </div>
     </div>
 
-    <!-- Step 2: Transaction ID / Hash Code Verification Box -->
-    <div class="bg-gray-900/95 p-5 sm:p-6 rounded-2xl border border-sky-500/40">
-      <h3 class="text-sm sm:text-base font-extrabold text-sky-400 mb-3"><i class="fas fa-check-circle mr-1.5"></i> Submit Payment Proof (UTR / TRX ID / Crypto Hash)</h3>
+    <!-- Step 2: 12-Digit UTR / Transaction ID / Hash Verification Box -->
+    <div class="bg-gray-900/95 p-5 rounded-2xl border border-sky-500/40">
+      <h3 class="text-sm font-extrabold text-sky-400 mb-3"><i class="fas fa-check-circle mr-1.5"></i> Submit Payment Proof (12-Digit UTR / TRX ID / Crypto Hash)</h3>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         <div>
           <label class="text-[11px] text-gray-400 block mb-1">Select App / Service</label>
@@ -160,25 +213,18 @@
           <input type="text" id="verifyAmount" placeholder="e.g. ₹2500 or $30" class="w-full bg-gray-950 border border-sky-500/30 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none">
         </div>
         <div>
-          <label class="text-[11px] text-emerald-400 font-bold block mb-1">UTR / TRX ID / Hash Code *</label>
+          <label class="text-[11px] text-emerald-400 font-bold block mb-1">12-Digit UTR / Hash Code *</label>
           <input type="text" id="verifyTxHash" placeholder="Enter 12-digit UTR or Hash" class="w-full bg-gray-950 border border-emerald-500/50 rounded-xl px-3 py-2.5 text-xs text-emerald-300 font-mono focus:outline-none">
         </div>
       </div>
-      <div class="mt-4 flex justify-end">
+      <div class="mt-4 flex flex-wrap justify-between items-center gap-2">
+        <button onclick="closeModal('payModal')" class="bg-gray-800 hover:bg-gray-700 text-gray-300 font-bold px-4 py-2.5 rounded-xl text-xs">Close</button>
         <button onclick="submitPaymentProof()" class="w-full sm:w-auto bg-gradient-to-r from-sky-400 to-cyan-400 hover:from-sky-300 hover:to-cyan-300 text-gray-950 font-extrabold px-6 py-3 rounded-xl text-xs transition flex items-center justify-center gap-2 shadow-lg">
           <i class="fas fa-paper-plane"></i> Confirm Order & Send Proof
         </button>
       </div>
     </div>
-
   </div>
-</section>
-
-<!-- Floating Support Button -->
-<div class="fixed bottom-6 right-6 z-50">
-  <button onclick="toggleSupportModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white p-4 rounded-full floating-btn flex items-center justify-center text-xl transition transform hover:scale-110">
-    <i class="fab fa-whatsapp"></i>
-  </button>
 </div>
 
 <!-- Support Lead Form Modal -->
@@ -243,8 +289,11 @@
 <div id="adminModal" class="fixed inset-0 bg-black/95 hidden items-center justify-center z-50 p-4 overflow-y-auto">
   <div class="glass max-w-5xl w-full p-6 rounded-2xl relative max-h-[95vh] overflow-y-auto border border-sky-500/40">
     <button onclick="closeModal('adminModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg"><i class="fas fa-times"></i></button>
-    <h2 class="text-xl font-black text-sky-400 mb-1"><i class="fas fa-user-secret mr-2"></i> MGSML Stealth Admin Panel (Realtime DB Sync)</h2>
-    <p class="text-xs text-sky-200/70 mb-6">Manage PIN, UPI/QR files, Crypto wallets, custom buttons, 44+ demo links, and verified UTR/Hash History.</p>
+    <div class="flex flex-wrap items-center justify-between gap-2 mb-1 pr-8">
+      <h2 class="text-xl font-black text-sky-400"><i class="fas fa-user-secret mr-2"></i> MGSML Stealth Admin Panel (Firebase Cloud Sync)</h2>
+      <span id="firebaseSyncStatus" class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Firebase Ready</span>
+    </div>
+    <p class="text-xs text-sky-200/70 mb-6">All settings, QR images/URLs, My Site GitHub link, custom buttons, 44 demo links, and UTR/Hash history save directly to Firebase Realtime Database.</p>
     
     <!-- Tabs Header -->
     <div class="flex gap-2 mb-5 border-b border-gray-800 pb-3">
@@ -255,14 +304,14 @@
     <!-- Tab 1: Settings, Custom Buttons & Links -->
     <div id="tabSettings" class="space-y-6">
       <div class="bg-gray-950/80 p-5 rounded-xl border border-sky-900/50 space-y-4">
-        <h3 class="text-sm font-bold text-white border-b border-gray-800 pb-2">1. Security PIN & Payment Settings</h3>
+        <h3 class="text-sm font-bold text-white border-b border-gray-800 pb-2">1. Security PIN, Contact, Payment & My Site Link</h3>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div>
             <label class="text-[11px] text-red-400 font-bold block mb-1"><i class="fas fa-key"></i> Update Secret Admin PIN</label>
             <input type="text" id="setPin" class="w-full bg-gray-900 border border-red-500/40 rounded-lg px-3 py-2 text-xs text-white font-mono">
           </div>
           <div>
-            <label class="text-[11px] text-sky-300 block mb-1">WhatsApp Business Number</label>
+            <label class="text-[11px] text-sky-300 block mb-1">Mobile / WhatsApp Number</label>
             <input type="text" id="setWa" class="w-full bg-gray-900 border border-sky-500/30 rounded-lg px-3 py-2 text-xs text-white">
           </div>
           <div>
@@ -271,7 +320,7 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
           <div>
             <label class="text-[11px] text-emerald-400 block mb-1">USDT (TRC-20 Address)</label>
             <input type="text" id="setTrc" class="w-full bg-gray-900 border border-sky-500/30 rounded-lg px-3 py-2 text-xs text-white">
@@ -280,9 +329,13 @@
             <label class="text-[11px] text-yellow-400 block mb-1">USDT / BNB (BNB-20 Address)</label>
             <input type="text" id="setBnb" class="w-full bg-gray-900 border border-sky-500/30 rounded-lg px-3 py-2 text-xs text-white">
           </div>
+          <div>
+            <label class="text-[11px] text-rose-300 font-bold block mb-1">My Site GitHub Link (Footer Middle Button)</label>
+            <input type="text" id="setMySiteUrl" placeholder="Paste My Site GitHub URL (for next project)..." class="w-full bg-gray-900 border border-rose-500/40 rounded-lg px-3 py-2 text-xs text-white">
+          </div>
         </div>
 
-        <h3 class="text-sm font-bold text-white border-b border-gray-800 pb-2 pt-2">2. Choose QR Code from Device / File or Paste Image URL</h3>
+        <h3 class="text-sm font-bold text-white border-b border-gray-800 pb-2 pt-2">2. Upload QR Code Image (Auto-Compressed) or Paste Image URL</h3>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div class="bg-gray-900 p-3 rounded-xl border border-purple-500/30 space-y-2">
             <label class="text-[11px] text-purple-300 font-bold block">PhonePe QR Image</label>
@@ -301,19 +354,19 @@
           </div>
         </div>
 
-        <button onclick="saveGlobalSettings()" class="bg-sky-500 hover:bg-sky-400 text-gray-950 font-extrabold px-5 py-2.5 rounded-lg text-xs mt-2"><i class="fas fa-save mr-1"></i> Save All Settings to Realtime DB</button>
+        <button onclick="saveGlobalSettings()" class="bg-sky-500 hover:bg-sky-400 text-gray-950 font-extrabold px-5 py-2.5 rounded-lg text-xs mt-2"><i class="fas fa-cloud-upload-alt mr-1"></i> Save All Settings to Firebase</button>
       </div>
 
       <!-- Create New Custom Button / App -->
       <div class="bg-gray-950/80 p-5 rounded-xl border border-cyan-500/35 space-y-3">
-        <h3 class="text-sm font-extrabold text-cyan-300"><i class="fas fa-plus-circle mr-1.5"></i> Add New Custom App / Button (No Code Edit Needed)</h3>
+        <h3 class="text-sm font-extrabold text-cyan-300"><i class="fas fa-plus-circle mr-1.5"></i> Add New Custom App / Button (Saved to Firebase)</h3>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <input type="text" id="newCustomName" placeholder="App / Button Name (e.g. AI Trading Bot)" class="bg-gray-900 border border-cyan-500/30 rounded-lg px-3 py-2 text-xs text-white">
+          <input type="text" id="newCustomName" placeholder="App / Button Name (e.g. Hotel Online Order)" class="bg-gray-900 border border-cyan-500/30 rounded-lg px-3 py-2 text-xs text-white">
           <input type="text" id="newCustomDesc" placeholder="Short description (optional)" class="bg-gray-900 border border-cyan-500/30 rounded-lg px-3 py-2 text-xs text-white">
           <input type="text" id="newCustomLink" placeholder="Paste GitHub / Demo URL..." class="bg-gray-900 border border-cyan-500/30 rounded-lg px-3 py-2 text-xs text-white">
         </div>
         <button onclick="addCustomApp()" class="bg-gradient-to-r from-cyan-400 to-sky-500 hover:from-cyan-300 hover:to-sky-400 text-gray-950 font-extrabold px-5 py-2.5 rounded-lg text-xs transition">
-          <i class="fas fa-plus mr-1"></i> Create & Publish Custom Button
+          <i class="fas fa-plus mr-1"></i> Create & Save Custom Button
         </button>
         <div id="customAppsAdminList" class="space-y-2 pt-2"></div>
       </div>
@@ -326,7 +379,7 @@
     <!-- Tab 2: Order & Payment History with Hash/UTR -->
     <div id="tabHistory" class="hidden space-y-4">
       <div class="flex justify-between items-center mb-2">
-        <h3 class="text-sm font-bold text-white"><i class="fas fa-history mr-1 text-sky-400"></i> Customer Orders & UTR / TxHash Logs</h3>
+        <h3 class="text-sm font-bold text-white"><i class="fas fa-history mr-1 text-sky-400"></i> Customer Orders & 12-Digit UTR / TxHash Logs</h3>
         <button onclick="clearHistory()" class="bg-red-500/20 text-red-400 border border-red-500/40 hover:bg-red-500 hover:text-white px-3 py-1.5 rounded-lg text-xs font-bold transition">Clear History</button>
       </div>
       <div class="overflow-x-auto">
@@ -336,7 +389,7 @@
               <th class="p-3">Date / Time</th>
               <th class="p-3">App / Service</th>
               <th class="p-3">Method & Amount</th>
-              <th class="p-3">UTR / TRX / Hash Code</th>
+              <th class="p-3">12-Digit UTR / Hash Code</th>
               <th class="p-3">Action</th>
             </tr>
           </thead>
@@ -351,12 +404,83 @@
   </div>
 </div>
 
-<!-- Footer -->
-<footer class="glass text-center py-6 text-xs text-sky-200/60 border-t border-sky-900/40">
-  <p>&copy; 2026 MGSML App Studio. All Rights Reserved.</p>
-</footer>
+<!-- Default Data & Cache Initialization -->
+<script>
+const CACHE_KEY = "MGSML_FIREBASE_CACHE_V2";
 
-<!-- Firebase Realtime Database SDK & Sync Script -->
+const DEFAULT_APPS = [
+  "Crypto Mining & HYIP Platform", "MLM & Referral Network", "Digital Wallet & Crypto Swap",
+  "Micro-Jobs & Task Earning", "Tap-to-Earn Mining Game", "Telegram Daily Reward Bot",
+  "Telegram E-commerce Shop", "Multi-Vendor Marketplace", "Single Product Landing Page",
+  "Digital Product Shop", "Grocery & Food Delivery App", "Doctor Appointment System",
+  "Hotel & Resort Booking", "Car or Bike Rental Platform", "Beauty Parlor Booking App",
+  "Video Streaming & OTT", "Social Club & Forum", "Podcast & Audio Streaming",
+  "Online Learning (LMS)", "Inventory & POS Software", "Real Estate Listing App",
+  "To-Do & Task Manager", "Restaurant QR Menu App", "AI Prompt Dashboard",
+  "AI Customer Support Bot", "AI Resume & Interview Coach", "AI Content Repurposing Tool",
+  "AI Voice Receptionist", "Home Maintenance Booking", "Second-Hand Marketplace",
+  "Coupon & Cashback App", "Subscription Box Manager", "Telemedicine & Health App",
+  "AI Diet & Calorie Tracker", "Micro-Workout & Yoga App", "Telegram DEX Token Swap",
+  "Telegram Prediction Market", "Telegram Paid Channel Bot", "Freelancer Invoice Portal",
+  "Expense & EMI Tracker", "Cloud Kitchen & Tiffin App", "Micro-Learning Skill App",
+  "Digital NFC Business Card", "Event Ticketing Platform"
+];
+
+const DEFAULT_SETTINGS = {
+  pin: "1234",
+  wa: "919876543210",
+  upi: "yourname@ybl",
+  trc: "TQn9Y2khEsLJW1ChVWFMSMeRDow5KcbLSE",
+  bnb: "0x71C3518B99...B249",
+  mySiteUrl: "",
+  phonepeQr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=PhonePeUPI",
+  trcQr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=TRC20Wallet",
+  bnbQr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=BNB20Wallet"
+};
+
+window.defaultApps = DEFAULT_APPS.slice();
+window.appLinks = Array(44).fill("");
+window.customApps = [];
+window.orderHistory = [];
+window.globalSettings = { ...DEFAULT_SETTINGS };
+
+function loadLocalCache() {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY);
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    if (parsed && typeof parsed === "object") {
+      if (parsed.settings && typeof parsed.settings === "object") {
+        window.globalSettings = { ...DEFAULT_SETTINGS, ...parsed.settings };
+      }
+      if (Array.isArray(parsed.appLinks)) {
+        window.appLinks = Array.from({ length: 44 }, (_, i) => parsed.appLinks[i] || "");
+      }
+      if (Array.isArray(parsed.customApps)) {
+        window.customApps = parsed.customApps.filter(Boolean);
+      }
+      if (Array.isArray(parsed.orderHistory)) {
+        window.orderHistory = parsed.orderHistory.filter(Boolean);
+      }
+    }
+  } catch (e) {}
+}
+
+function saveLocalCache() {
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify({
+      settings: window.globalSettings,
+      appLinks: window.appLinks,
+      customApps: window.customApps,
+      orderHistory: window.orderHistory
+    }));
+  } catch (e) {}
+}
+
+loadLocalCache();
+</script>
+
+<!-- Firebase Realtime Database SDK & Separate Path Save/Sync -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
@@ -375,145 +499,131 @@
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
 
-  const defaultApps = [
-    "Crypto Mining & HYIP Platform", "MLM & Referral Network", "Digital Wallet & Crypto Swap",
-    "Micro-Jobs & Task Earning", "Tap-to-Earn Mining Game", "Telegram Daily Reward Bot",
-    "Telegram E-commerce Shop", "Multi-Vendor Marketplace", "Single Product Landing Page",
-    "Digital Product Shop", "Grocery & Food Delivery App", "Doctor Appointment System",
-    "Hotel & Resort Booking", "Car or Bike Rental Platform", "Beauty Parlor Booking App",
-    "Video Streaming & OTT", "Social Club & Forum", "Podcast & Audio Streaming",
-    "Online Learning (LMS)", "Inventory & POS Software", "Real Estate Listing App",
-    "To-Do & Task Manager", "Restaurant QR Menu App", "AI Prompt Dashboard",
-    "AI Customer Support Bot", "AI Resume & Interview Coach", "AI Content Repurposing Tool",
-    "AI Voice Receptionist", "Home Maintenance Booking", "Second-Hand Marketplace",
-    "Coupon & Cashback App", "Subscription Box Manager", "Telemedicine & Health App",
-    "AI Diet & Calorie Tracker", "Micro-Workout & Yoga App", "Telegram DEX Token Swap",
-    "Telegram Prediction Market", "Telegram Paid Channel Bot", "Freelancer Invoice Portal",
-    "Expense & EMI Tracker", "Cloud Kitchen & Tiffin App", "Micro-Learning Skill App",
-    "Digital NFC Business Card", "Event Ticketing Platform"
-  ];
+  const settingsRef = ref(db, "mgsml_store/settings");
+  const linksRef = ref(db, "mgsml_store/app_links");
+  const customAppsRef = ref(db, "mgsml_store/custom_apps");
+  const ordersRef = ref(db, "mgsml_store/orders");
 
-  window.defaultApps = defaultApps;
-  window.appLinks = Array(44).fill("");
-  window.customApps = [];
-  window.orderHistory = [];
-  window.globalSettings = {
-    pin: "1234",
-    wa: "919876543210",
-    upi: "yourname@ybl",
-    trc: "TQn9Y2khEsLJW1ChVWFMSMeRDow5KcbLSE",
-    bnb: "0x71C3518B99...B249",
-    phonepeQr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=PhonePeUPI",
-    trcQr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=TRC20Wallet",
-    bnbQr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=BNB20Wallet"
-  };
+  function updateSyncBadge(text, ok = true) {
+    const badge = document.getElementById("firebaseSyncStatus");
+    if (!badge) return;
+    badge.innerText = text;
+    badge.className = ok
+      ? "text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
+      : "text-[11px] font-bold px-2.5 py-1 rounded-full bg-red-500/20 text-red-300 border border-red-500/30";
+  }
 
-  const storeRef = ref(db, "mgsml_store");
-
-  onValue(storeRef, (snapshot) => {
-    try {
-      if (snapshot.exists()) {
-        const data = snapshot.val() || {};
-
-        if (Array.isArray(data.app_links)) {
-          window.appLinks = Array.from({ length: 44 }, (_, i) => data.app_links[i] || "");
-        } else if (data.app_links && typeof data.app_links === "object") {
-          window.appLinks = Array.from({ length: 44 }, (_, i) => data.app_links[i] || "");
-        }
-
-        if (Array.isArray(data.custom_apps)) {
-          window.customApps = data.custom_apps.filter(Boolean);
-        } else if (data.custom_apps && typeof data.custom_apps === "object") {
-          window.customApps = Object.values(data.custom_apps).filter(Boolean);
-        } else {
-          window.customApps = [];
-        }
-
-        if (Array.isArray(data.orders)) {
-          window.orderHistory = data.orders.filter(Boolean);
-        } else if (data.orders && typeof data.orders === "object") {
-          window.orderHistory = Object.values(data.orders).filter(Boolean);
-        } else {
-          window.orderHistory = [];
-        }
-
-        if (data.settings && typeof data.settings === "object") {
-          window.globalSettings = { ...window.globalSettings, ...data.settings };
-        }
+  // Listen separately to settings
+  onValue(settingsRef, (snap) => {
+    if (snap.exists() && snap.val() && typeof snap.val() === "object") {
+      window.globalSettings = { ...window.globalSettings, ...snap.val() };
+      saveLocalCache();
+      if (typeof window.renderApps === "function") window.renderApps();
+      if (document.getElementById("adminModal")?.style.display === "flex" && typeof window.syncAdminInputs === "function") {
+        window.syncAdminInputs();
       }
-    } catch (err) {
-      console.error("Snapshot parse warning:", err);
     }
+    updateSyncBadge("Firebase Connected", true);
+  }, (err) => {
+    updateSyncBadge("Firebase Read Error: " + err.code, false);
+  });
 
+  // Listen separately to 44 app links
+  onValue(linksRef, (snap) => {
+    if (snap.exists() && snap.val()) {
+      const val = snap.val();
+      window.appLinks = Array.from({ length: 44 }, (_, i) => val[i] || "");
+      saveLocalCache();
+      if (typeof window.renderApps === "function") window.renderApps();
+    }
+  });
+
+  // Listen separately to custom buttons/apps
+  onValue(customAppsRef, (snap) => {
+    if (snap.exists() && snap.val()) {
+      const val = snap.val();
+      window.customApps = Array.isArray(val) ? val.filter(Boolean) : Object.values(val).filter(Boolean);
+    } else {
+      window.customApps = [];
+    }
+    saveLocalCache();
     if (typeof window.renderApps === "function") window.renderApps();
+    if (document.getElementById("adminModal")?.style.display === "flex" && typeof window.renderCustomAppsAdmin === "function") {
+      window.renderCustomAppsAdmin();
+    }
+  });
+
+  // Listen separately to orders
+  onValue(ordersRef, (snap) => {
+    if (snap.exists() && snap.val()) {
+      const val = snap.val();
+      window.orderHistory = Array.isArray(val) ? val.filter(Boolean) : Object.values(val).filter(Boolean);
+    } else {
+      window.orderHistory = [];
+    }
+    saveLocalCache();
     if (document.getElementById("historyCount")) {
       document.getElementById("historyCount").innerText = window.orderHistory.length;
     }
-    if (document.getElementById("adminModal")?.style.display === "flex") {
-      if (typeof window.renderCustomAppsAdmin === "function") window.renderCustomAppsAdmin();
-      if (typeof window.renderHistoryTable === "function") window.renderHistoryTable();
+    if (document.getElementById("adminModal")?.style.display === "flex" && typeof window.renderHistoryTable === "function") {
+      window.renderHistoryTable();
     }
-  }, (error) => {
-    console.error("Realtime DB read error:", error);
-    if (typeof window.renderApps === "function") window.renderApps();
   });
 
-  window.saveDataToCloud = async function(silent = false) {
+  // Dedicated Firebase Save Functions
+  window.saveSettingsToFirebase = async function(silent = false) {
+    saveLocalCache();
     try {
-      await set(storeRef, {
-        settings: window.globalSettings,
-        app_links: window.appLinks,
-        custom_apps: window.customApps,
-        orders: window.orderHistory
-      });
-      if (!silent) {
-        alert("✅ Saved to Firebase Realtime Database!");
-      }
+      await set(settingsRef, window.globalSettings);
+      updateSyncBadge("Settings Saved to Firebase", true);
+      if (!silent) alert("✅ All Settings & QR Saved to Firebase!");
     } catch (e) {
-      alert("❌ Error saving to Realtime DB: " + e.message);
+      updateSyncBadge("Save Failed: " + e.code, false);
+      alert("❌ Firebase Settings Save Error: " + e.message);
+    }
+  };
+
+  window.saveLinksToFirebase = async function(silent = false) {
+    saveLocalCache();
+    try {
+      await set(linksRef, window.appLinks);
+      updateSyncBadge("Links Saved to Firebase", true);
+      if (!silent) alert("✅ Demo Link Saved to Firebase!");
+    } catch (e) {
+      updateSyncBadge("Save Failed: " + e.code, false);
+      alert("❌ Firebase Link Save Error: " + e.message);
+    }
+  };
+
+  window.saveCustomAppsToFirebase = async function(silent = false) {
+    saveLocalCache();
+    try {
+      await set(customAppsRef, window.customApps);
+      updateSyncBadge("Custom Buttons Saved", true);
+      if (!silent) alert("✅ Custom Button Saved to Firebase!");
+    } catch (e) {
+      updateSyncBadge("Save Failed: " + e.code, false);
+      alert("❌ Firebase Custom Button Save Error: " + e.message);
+    }
+  };
+
+  window.saveOrdersToFirebase = async function(silent = true) {
+    saveLocalCache();
+    try {
+      await set(ordersRef, window.orderHistory);
+      updateSyncBadge("Order Saved to Firebase", true);
+      if (!silent) alert("✅ Order History Updated in Firebase!");
+    } catch (e) {
+      updateSyncBadge("Save Failed: " + e.code, false);
+      alert("❌ Firebase Order Save Error: " + e.message);
     }
   };
 </script>
 
+<!-- UI & Interaction Logic -->
 <script>
-// UI & Interaction Logic
 let tapCount = 0;
 let tapTimer;
-
-if (!window.defaultApps) {
-  window.defaultApps = [
-    "Crypto Mining & HYIP Platform", "MLM & Referral Network", "Digital Wallet & Crypto Swap",
-    "Micro-Jobs & Task Earning", "Tap-to-Earn Mining Game", "Telegram Daily Reward Bot",
-    "Telegram E-commerce Shop", "Multi-Vendor Marketplace", "Single Product Landing Page",
-    "Digital Product Shop", "Grocery & Food Delivery App", "Doctor Appointment System",
-    "Hotel & Resort Booking", "Car or Bike Rental Platform", "Beauty Parlor Booking App",
-    "Video Streaming & OTT", "Social Club & Forum", "Podcast & Audio Streaming",
-    "Online Learning (LMS)", "Inventory & POS Software", "Real Estate Listing App",
-    "To-Do & Task Manager", "Restaurant QR Menu App", "AI Prompt Dashboard",
-    "AI Customer Support Bot", "AI Resume & Interview Coach", "AI Content Repurposing Tool",
-    "AI Voice Receptionist", "Home Maintenance Booking", "Second-Hand Marketplace",
-    "Coupon & Cashback App", "Subscription Box Manager", "Telemedicine & Health App",
-    "AI Diet & Calorie Tracker", "Micro-Workout & Yoga App", "Telegram DEX Token Swap",
-    "Telegram Prediction Market", "Telegram Paid Channel Bot", "Freelancer Invoice Portal",
-    "Expense & EMI Tracker", "Cloud Kitchen & Tiffin App", "Micro-Learning Skill App",
-    "Digital NFC Business Card", "Event Ticketing Platform"
-  ];
-}
-if (!window.appLinks) window.appLinks = Array(44).fill("");
-if (!window.customApps) window.customApps = [];
-if (!window.orderHistory) window.orderHistory = [];
-if (!window.globalSettings) {
-  window.globalSettings = {
-    pin: "1234",
-    wa: "919876543210",
-    upi: "yourname@ybl",
-    trc: "TQn9Y2khEsLJW1ChVWFMSMeRDow5KcbLSE",
-    bnb: "0x71C3518B99...B249",
-    phonepeQr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=PhonePeUPI",
-    trcQr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=TRC20Wallet",
-    bnbQr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=BNB20Wallet"
-  };
-}
 
 function escapeAttr(str) {
   return String(str || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -536,9 +646,22 @@ function handleSecretTap() {
 
 function closeStealth() { document.getElementById('stealthModal').style.display = 'none'; }
 
+function syncAdminInputs() {
+  document.getElementById('setPin').value = window.globalSettings.pin || "";
+  document.getElementById('setWa').value = window.globalSettings.wa || "";
+  document.getElementById('setUpi').value = window.globalSettings.upi || "";
+  document.getElementById('setTrc').value = window.globalSettings.trc || "";
+  document.getElementById('setBnb').value = window.globalSettings.bnb || "";
+  document.getElementById('setMySiteUrl').value = window.globalSettings.mySiteUrl || "";
+  document.getElementById('setPhonepeQrUrl').value = window.globalSettings.phonepeQr || "";
+  document.getElementById('setTrcQrUrl').value = window.globalSettings.trcQr || "";
+  document.getElementById('setBnbQrUrl').value = window.globalSettings.bnbQr || "";
+}
+
 function openAdminPanel() {
   closeStealth();
   document.getElementById('stealthPinInput').value = "";
+  syncAdminInputs();
   renderAdminApps();
   renderCustomAppsAdmin();
   renderHistoryTable();
@@ -558,6 +681,27 @@ function checkStealthPinBtn() {
     openAdminPanel();
   } else {
     alert("Incorrect PIN!");
+  }
+}
+
+function openShareModal() {
+  document.getElementById('shareModal').style.display = 'flex';
+}
+
+function openPayModal(preselectedApp = "") {
+  if (preselectedApp) {
+    const sel = document.getElementById('verifyAppSelect');
+    if (sel) sel.value = preselectedApp;
+  }
+  document.getElementById('payModal').style.display = 'flex';
+}
+
+function openMySite() {
+  const url = (window.globalSettings.mySiteUrl || "").trim();
+  if (url) {
+    window.open(url, "_blank");
+  } else {
+    alert("🚀 My Site (25% Partner & Promotion Portal) will be updated soon! Stay tuned.");
   }
 }
 
@@ -637,7 +781,6 @@ function renderApps() {
   let cardsHtml = "";
   let selectOptionsHtml = `<option value="Custom Project">Custom Project / Service</option>`;
 
-  // 1. Render all 44 default apps
   window.defaultApps.forEach((name, i) => {
     const num = String(i + 1).padStart(2, '0');
     const link = (window.appLinks && window.appLinks[i]) ? window.appLinks[i] : "";
@@ -655,7 +798,6 @@ function renderApps() {
     });
   });
 
-  // 2. Render any custom apps/buttons created from Admin Panel
   (window.customApps || []).forEach((item, idx) => {
     if (!item || !item.name) return;
     const customBadge = `CUSTOM #${idx + 1}`;
@@ -727,9 +869,7 @@ function sendSupportForm() {
 }
 
 function selectAppToOrder(appTitle) {
-  const sel = document.getElementById('verifyAppSelect');
-  if (sel) sel.value = appTitle;
-  document.getElementById('pay').scrollIntoView({ behavior: 'smooth' });
+  openPayModal(appTitle);
 }
 
 function openUpiApp() {
@@ -754,7 +894,7 @@ async function submitPaymentProof() {
   const txHash = document.getElementById('verifyTxHash').value.trim();
 
   if (!txHash) {
-    alert("⚠️ Please enter your PhonePe UTR / Transaction ID or Crypto Hash Code!");
+    alert("⚠️ Please enter your 12-digit PhonePe UTR / Transaction ID or Crypto Hash Code!");
     return;
   }
 
@@ -768,12 +908,15 @@ async function submitPaymentProof() {
   };
 
   window.orderHistory.unshift(orderObj);
-  if (typeof window.saveDataToCloud === "function") {
-    await window.saveDataToCloud(true);
+  if (typeof window.saveOrdersToFirebase === "function") {
+    await window.saveOrdersToFirebase(true);
+  } else {
+    saveLocalCache();
   }
   
   document.getElementById('verifyTxHash').value = "";
-  alert("✅ Order & Payment Proof Saved to Realtime DB!\n\nRedirecting to WhatsApp for instant confirmation...");
+  closeModal('payModal');
+  alert("✅ Order & 12-Digit UTR / Hash Saved to Firebase!\n\nRedirecting to WhatsApp for instant confirmation...");
   
   const waMsg = `Hello MGSML, I have placed an order!\n*App:* ${app}\n*Method:* ${method}\n*Amount:* ${amount}\n*UTR / Hash:* ${txHash}`;
   window.open(`https://wa.me/${window.globalSettings.wa}?text=${encodeURIComponent(waMsg)}`, '_blank');
@@ -805,16 +948,17 @@ function renderHistoryTable() {
 
 async function toggleOrderStatus(index) {
   window.orderHistory[index].status = window.orderHistory[index].status === 'Verified' ? 'Pending' : 'Verified';
-  if (typeof window.saveDataToCloud === "function") await window.saveDataToCloud(true);
+  if (typeof window.saveOrdersToFirebase === "function") await window.saveOrdersToFirebase(true);
+  else saveLocalCache();
   renderHistoryTable();
 }
 
 async function clearHistory() {
   if (confirm("Are you sure you want to clear all order history?")) {
     window.orderHistory = [];
-    if (typeof window.saveDataToCloud === "function") await window.saveDataToCloud(true);
+    if (typeof window.saveOrdersToFirebase === "function") await window.saveOrdersToFirebase(false);
+    else saveLocalCache();
     renderHistoryTable();
-    alert("History cleared successfully!");
   }
 }
 
@@ -838,20 +982,51 @@ function switchTab(tab) {
   }
 }
 
+// Auto-compress QR image so it saves reliably in Firebase Realtime Database
+function compressQrImage(file, callback) {
+  const reader = new FileReader();
+  reader.onload = function(event) {
+    const img = new Image();
+    img.onload = function() {
+      const canvas = document.createElement("canvas");
+      const maxDim = 260;
+      let w = img.width;
+      let h = img.height;
+      if (w > h && w > maxDim) {
+        h = Math.round((h * maxDim) / w);
+        w = maxDim;
+      } else if (h >= w && h > maxDim) {
+        w = Math.round((w * maxDim) / h);
+        h = maxDim;
+      }
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, w, h);
+      ctx.drawImage(img, 0, 0, w, h);
+      callback(canvas.toDataURL("image/jpeg", 0.82));
+    };
+    img.src = event.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
 function handleQrUpload(input, key) {
   const file = input.files && input.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = async function(e) {
-      window.globalSettings[key] = e.target.result;
-      if (key === 'phonepeQr') document.getElementById('setPhonepeQrUrl').value = e.target.result;
-      if (key === 'trcQr') document.getElementById('setTrcQrUrl').value = e.target.result;
-      if (key === 'bnbQr') document.getElementById('setBnbQrUrl').value = e.target.result;
-      renderApps();
-      if (typeof window.saveDataToCloud === "function") await window.saveDataToCloud(false);
-    };
-    reader.readAsDataURL(file);
-  }
+  if (!file) return;
+  compressQrImage(file, async function(compressedDataUrl) {
+    window.globalSettings[key] = compressedDataUrl;
+    if (key === 'phonepeQr') document.getElementById('setPhonepeQrUrl').value = compressedDataUrl;
+    if (key === 'trcQr') document.getElementById('setTrcQrUrl').value = compressedDataUrl;
+    if (key === 'bnbQr') document.getElementById('setBnbQrUrl').value = compressedDataUrl;
+    renderApps();
+    if (typeof window.saveSettingsToFirebase === "function") {
+      await window.saveSettingsToFirebase(false);
+    } else {
+      saveLocalCache();
+    }
+  });
 }
 
 async function addCustomApp() {
@@ -881,8 +1056,10 @@ async function addCustomApp() {
 
   renderApps();
   renderCustomAppsAdmin();
-  if (typeof window.saveDataToCloud === "function") {
-    await window.saveDataToCloud(false);
+  if (typeof window.saveCustomAppsToFirebase === "function") {
+    await window.saveCustomAppsToFirebase(false);
+  } else {
+    saveLocalCache();
   }
 }
 
@@ -899,8 +1076,10 @@ async function saveCustomApp(idx) {
   }
 
   renderApps();
-  if (typeof window.saveDataToCloud === "function") {
-    await window.saveDataToCloud(false);
+  if (typeof window.saveCustomAppsToFirebase === "function") {
+    await window.saveCustomAppsToFirebase(false);
+  } else {
+    saveLocalCache();
   }
 }
 
@@ -909,8 +1088,10 @@ async function deleteCustomApp(idx) {
   window.customApps.splice(idx, 1);
   renderApps();
   renderCustomAppsAdmin();
-  if (typeof window.saveDataToCloud === "function") {
-    await window.saveDataToCloud(true);
+  if (typeof window.saveCustomAppsToFirebase === "function") {
+    await window.saveCustomAppsToFirebase(true);
+  } else {
+    saveLocalCache();
   }
 }
 
@@ -948,23 +1129,16 @@ function renderAdminApps() {
         <button onclick="saveSingleLink(${i})" class="bg-sky-500 hover:bg-sky-400 text-gray-950 px-3.5 py-1.5 rounded-lg text-xs font-extrabold">Save</button>
       </div>`;
   });
-
-  document.getElementById('setPin').value = window.globalSettings.pin || "";
-  document.getElementById('setWa').value = window.globalSettings.wa || "";
-  document.getElementById('setUpi').value = window.globalSettings.upi || "";
-  document.getElementById('setTrc').value = window.globalSettings.trc || "";
-  document.getElementById('setBnb').value = window.globalSettings.bnb || "";
-  document.getElementById('setPhonepeQrUrl').value = window.globalSettings.phonepeQr || "";
-  document.getElementById('setTrcQrUrl').value = window.globalSettings.trcQr || "";
-  document.getElementById('setBnbQrUrl').value = window.globalSettings.bnbQr || "";
 }
 
 async function saveSingleLink(i) {
   const val = document.getElementById(`link_${i}`).value.trim();
   window.appLinks[i] = val;
   renderApps();
-  if (typeof window.saveDataToCloud === "function") {
-    await window.saveDataToCloud(false);
+  if (typeof window.saveLinksToFirebase === "function") {
+    await window.saveLinksToFirebase(false);
+  } else {
+    saveLocalCache();
   }
 }
 
@@ -976,6 +1150,7 @@ async function saveGlobalSettings() {
   window.globalSettings.upi = document.getElementById('setUpi').value.trim();
   window.globalSettings.trc = document.getElementById('setTrc').value.trim();
   window.globalSettings.bnb = document.getElementById('setBnb').value.trim();
+  window.globalSettings.mySiteUrl = document.getElementById('setMySiteUrl').value.trim();
 
   const pQrUrl = document.getElementById('setPhonepeQrUrl').value.trim();
   const tQrUrl = document.getElementById('setTrcQrUrl').value.trim();
@@ -986,8 +1161,10 @@ async function saveGlobalSettings() {
   if (bQrUrl) window.globalSettings.bnbQr = bQrUrl;
   
   renderApps();
-  if (typeof window.saveDataToCloud === "function") {
-    await window.saveDataToCloud(false);
+  if (typeof window.saveSettingsToFirebase === "function") {
+    await window.saveSettingsToFirebase(false);
+  } else {
+    saveLocalCache();
   }
 }
 
@@ -1008,7 +1185,6 @@ function copyText(id) {
   alert("Copied: " + el.value);
 }
 
-// Render immediately on page load so all 44 cards are always shown
 renderApps();
 </script>
 </body>
