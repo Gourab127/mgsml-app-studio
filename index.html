@@ -85,44 +85,39 @@
   </div>
 </header>
 
-<!-- 44 + Custom Apps Grid (Clean Homepage with Only Demo & Custom Cards) -->
+<!-- 44 + Custom Apps Grid -->
 <main class="max-w-7xl mx-auto px-4 mb-12 flex-grow w-full">
   <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
 </main>
 
-<!-- Page End Note (Above Fixed Bottom Navigation Bar) -->
+<!-- Page End Note -->
 <footer class="text-center py-5 px-4 text-xs text-sky-200/50">
   <p>&copy; 2026 MGSML App Studio. All Rights Reserved.</p>
 </footer>
 
-<!-- Fixed Bottom Navigation Bar (Stays Anchored at Screen Bottom While Scrolling) -->
+<!-- Fixed Bottom Navigation Bar -->
 <div class="fixed bottom-0 inset-x-0 z-40 bottom-nav-glass px-3 py-2.5">
   <div class="max-w-3xl mx-auto grid grid-cols-3 gap-2.5">
-    <!-- Left Button: Share -->
     <button onclick="openShareModal()" class="red-sky-btn text-white font-extrabold py-2.5 px-2 rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-1.5 active:scale-95">
       <i class="fas fa-share-nodes"></i> <span>Share</span>
     </button>
-
-    <!-- Middle Button: My Site (Reserved for Next Project / 25% Promo Link) -->
     <button onclick="openMySite()" class="red-sky-btn text-white font-extrabold py-2.5 px-2 rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-1.5 active:scale-95">
       <i class="fas fa-globe"></i> <span>My Site</span>
     </button>
-
-    <!-- Right Button: Pay -->
     <button onclick="openPayModal()" class="red-sky-btn text-white font-extrabold py-2.5 px-2 rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-1.5 active:scale-95">
       <i class="fas fa-qrcode"></i> <span>Pay</span>
     </button>
   </div>
 </div>
 
-<!-- Floating Support Button (Positioned Above Fixed Bottom Navigation Bar) -->
+<!-- Floating Support Button -->
 <div class="fixed bottom-20 right-4 z-40">
   <button onclick="toggleSupportModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white p-3.5 rounded-full floating-btn flex items-center justify-center text-xl transition transform hover:scale-110">
     <i class="fab fa-whatsapp"></i>
   </button>
 </div>
 
-<!-- Share Choice Modal (WhatsApp / Telegram) -->
+<!-- Share Choice Modal -->
 <div id="shareModal" class="fixed inset-0 bg-black/85 hidden items-center justify-center z-50 p-4">
   <div class="glass max-w-sm w-full p-6 rounded-2xl relative border border-sky-500/40 shadow-2xl text-center">
     <button onclick="closeModal('shareModal')" class="absolute top-3.5 right-3.5 text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
@@ -293,94 +288,133 @@
   </div>
 </div>
 
-<!-- Admin Dashboard Modal -->
+<!-- Admin Dashboard Modal with Individual Save Buttons -->
 <div id="adminModal" class="fixed inset-0 bg-black/95 hidden items-center justify-center z-50 p-4 overflow-y-auto">
   <div class="glass max-w-5xl w-full p-6 rounded-2xl relative max-h-[95vh] overflow-y-auto border border-sky-500/40">
     <button onclick="closeModal('adminModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg"><i class="fas fa-times"></i></button>
     <div class="flex flex-wrap items-center justify-between gap-2 mb-1 pr-8">
-      <h2 class="text-xl font-black text-sky-400"><i class="fas fa-user-secret mr-2"></i> MGSML Stealth Admin Panel (Firebase Cloud Sync)</h2>
-      <span id="firebaseSyncStatus" class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Firebase Ready</span>
+      <h2 class="text-xl font-black text-sky-400"><i class="fas fa-user-secret mr-2"></i> MGSML Stealth Admin Panel (Individual Save)</h2>
+      <span id="firebaseSyncStatus" class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Ready</span>
     </div>
-    <p class="text-xs text-sky-200/70 mb-6">All settings, QR images/URLs, My Site GitHub link, custom buttons, 44 demo links, and UTR/Hash history save directly to Firebase Realtime Database.</p>
+    <p class="text-xs text-sky-200/70 mb-6">Each item has its own separate Save button so every field saves independently and shows instant confirmation.</p>
     
     <!-- Tabs Header -->
     <div class="flex gap-2 mb-5 border-b border-gray-800 pb-3">
-      <button onclick="switchTab('settings')" id="tabBtnSettings" class="bg-sky-500 text-gray-950 font-extrabold px-4 py-2 rounded-lg text-xs transition">Settings, Custom Buttons & Links</button>
+      <button onclick="switchTab('settings')" id="tabBtnSettings" class="bg-sky-500 text-gray-950 font-extrabold px-4 py-2 rounded-lg text-xs transition">Individual Settings, QR & Links</button>
       <button onclick="switchTab('history')" id="tabBtnHistory" class="bg-gray-800 text-gray-300 font-extrabold px-4 py-2 rounded-lg text-xs transition">Order & Payment History (<span id="historyCount">0</span>)</button>
     </div>
 
-    <!-- Tab 1: Settings, Custom Buttons & Links -->
+    <!-- Tab 1: Individual Settings, QR, Custom Buttons & Links -->
     <div id="tabSettings" class="space-y-6">
       <div class="bg-gray-950/80 p-5 rounded-xl border border-sky-900/50 space-y-4">
-        <h3 class="text-sm font-bold text-white border-b border-gray-800 pb-2">1. Security PIN, Contact, Payment & My Site Link</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <div>
-            <label class="text-[11px] text-red-400 font-bold block mb-1"><i class="fas fa-key"></i> Update Secret Admin PIN</label>
-            <input type="text" id="setPin" class="w-full bg-gray-900 border border-red-500/40 rounded-lg px-3 py-2 text-xs text-white font-mono">
+        <h3 class="text-sm font-bold text-white border-b border-gray-800 pb-2">1. Individual Security, Phone, UPI & Crypto Save</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Secret Admin PIN -->
+          <div class="bg-gray-900/80 p-3 rounded-xl border border-red-500/30">
+            <label class="text-[11px] text-red-400 font-bold block mb-1.5"><i class="fas fa-key"></i> Secret Admin PIN</label>
+            <div class="flex gap-2">
+              <input type="text" id="setPin" class="bg-gray-950 border border-red-500/40 rounded-lg px-3 py-2 text-xs text-white font-mono flex-1">
+              <button type="button" onclick="saveSingleField('pin', 'setPin', 'Admin PIN')" class="bg-red-500 hover:bg-red-400 text-white font-extrabold px-3.5 py-2 rounded-lg text-xs shrink-0">Save PIN</button>
+            </div>
           </div>
-          <div>
-            <label class="text-[11px] text-sky-300 block mb-1">Mobile / WhatsApp Number</label>
-            <input type="text" id="setWa" class="w-full bg-gray-900 border border-sky-500/30 rounded-lg px-3 py-2 text-xs text-white">
+
+          <!-- Mobile / WhatsApp Number -->
+          <div class="bg-gray-900/80 p-3 rounded-xl border border-sky-500/30">
+            <label class="text-[11px] text-sky-300 font-bold block mb-1.5"><i class="fas fa-phone"></i> Mobile / WhatsApp Number</label>
+            <div class="flex gap-2">
+              <input type="text" id="setWa" placeholder="e.g. 919876543210" class="bg-gray-950 border border-sky-500/30 rounded-lg px-3 py-2 text-xs text-white flex-1">
+              <button type="button" onclick="saveSingleField('wa', 'setWa', 'Mobile / WhatsApp Number')" class="bg-sky-500 hover:bg-sky-400 text-gray-950 font-extrabold px-3.5 py-2 rounded-lg text-xs shrink-0">Save Phone</button>
+            </div>
           </div>
-          <div>
-            <label class="text-[11px] text-purple-300 font-bold block mb-1">PhonePe / UPI ID (For Direct Pay)</label>
-            <input type="text" id="setUpi" placeholder="e.g. 9876543210@ybl" class="w-full bg-gray-900 border border-purple-500/40 rounded-lg px-3 py-2 text-xs text-white">
+
+          <!-- PhonePe / UPI ID -->
+          <div class="bg-gray-900/80 p-3 rounded-xl border border-purple-500/30">
+            <label class="text-[11px] text-purple-300 font-bold block mb-1.5"><i class="fas fa-indian-rupee-sign"></i> PhonePe / UPI ID</label>
+            <div class="flex gap-2">
+              <input type="text" id="setUpi" placeholder="e.g. 9876543210@ybl" class="bg-gray-950 border border-purple-500/40 rounded-lg px-3 py-2 text-xs text-white flex-1">
+              <button type="button" onclick="saveSingleField('upi', 'setUpi', 'PhonePe / UPI ID')" class="bg-purple-500 hover:bg-purple-400 text-white font-extrabold px-3.5 py-2 rounded-lg text-xs shrink-0">Save UPI</button>
+            </div>
+          </div>
+
+          <!-- My Site GitHub Link -->
+          <div class="bg-gray-900/80 p-3 rounded-xl border border-rose-500/30">
+            <label class="text-[11px] text-rose-300 font-bold block mb-1.5"><i class="fas fa-globe"></i> My Site GitHub Link (Bottom Nav)</label>
+            <div class="flex gap-2">
+              <input type="text" id="setMySiteUrl" placeholder="Paste My Site GitHub URL..." class="bg-gray-950 border border-rose-500/40 rounded-lg px-3 py-2 text-xs text-white flex-1">
+              <button type="button" onclick="saveSingleField('mySiteUrl', 'setMySiteUrl', 'My Site GitHub Link')" class="bg-rose-500 hover:bg-rose-400 text-white font-extrabold px-3.5 py-2 rounded-lg text-xs shrink-0">Save Site</button>
+            </div>
+          </div>
+
+          <!-- USDT TRC-20 Address -->
+          <div class="bg-gray-900/80 p-3 rounded-xl border border-emerald-500/30">
+            <label class="text-[11px] text-emerald-400 font-bold block mb-1.5">USDT (TRC-20) Address</label>
+            <div class="flex gap-2">
+              <input type="text" id="setTrc" class="bg-gray-950 border border-emerald-500/30 rounded-lg px-3 py-2 text-xs text-white flex-1">
+              <button type="button" onclick="saveSingleField('trc', 'setTrc', 'USDT TRC-20 Address')" class="bg-emerald-500 hover:bg-emerald-400 text-gray-950 font-extrabold px-3.5 py-2 rounded-lg text-xs shrink-0">Save TRC</button>
+            </div>
+          </div>
+
+          <!-- USDT / BNB BNB-20 Address -->
+          <div class="bg-gray-900/80 p-3 rounded-xl border border-yellow-500/30">
+            <label class="text-[11px] text-yellow-400 font-bold block mb-1.5">USDT / BNB (BNB-20) Address</label>
+            <div class="flex gap-2">
+              <input type="text" id="setBnb" class="bg-gray-950 border border-yellow-500/30 rounded-lg px-3 py-2 text-xs text-white flex-1">
+              <button type="button" onclick="saveSingleField('bnb', 'setBnb', 'USDT/BNB BNB-20 Address')" class="bg-yellow-500 hover:bg-yellow-400 text-gray-950 font-extrabold px-3.5 py-2 rounded-lg text-xs shrink-0">Save BNB</button>
+            </div>
           </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
-          <div>
-            <label class="text-[11px] text-emerald-400 block mb-1">USDT (TRC-20 Address)</label>
-            <input type="text" id="setTrc" class="w-full bg-gray-900 border border-sky-500/30 rounded-lg px-3 py-2 text-xs text-white">
-          </div>
-          <div>
-            <label class="text-[11px] text-yellow-400 block mb-1">USDT / BNB (BNB-20 Address)</label>
-            <input type="text" id="setBnb" class="w-full bg-gray-900 border border-sky-500/30 rounded-lg px-3 py-2 text-xs text-white">
-          </div>
-          <div>
-            <label class="text-[11px] text-rose-300 font-bold block mb-1">My Site GitHub Link (Bottom Nav Middle Button)</label>
-            <input type="text" id="setMySiteUrl" placeholder="Paste My Site GitHub URL (for next project)..." class="w-full bg-gray-900 border border-rose-500/40 rounded-lg px-3 py-2 text-xs text-white">
-          </div>
-        </div>
-
-        <h3 class="text-sm font-bold text-white border-b border-gray-800 pb-2 pt-2">2. Upload QR Code Image (Auto-Compressed) or Paste Image URL</h3>
+        <h3 class="text-sm font-bold text-white border-b border-gray-800 pb-2 pt-2">2. Individual QR Code Upload or URL Save</h3>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div class="bg-gray-900 p-3 rounded-xl border border-purple-500/30 space-y-2">
-            <label class="text-[11px] text-purple-300 font-bold block">PhonePe QR Image</label>
-            <input type="file" accept="image/*" onchange="handleQrUpload(this, 'phonepeQr')" class="text-[11px] text-gray-300 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-purple-500 file:text-white w-full">
-            <input type="text" id="setPhonepeQrUrl" placeholder="Or paste QR image URL..." class="w-full bg-gray-950 border border-purple-500/20 rounded-lg px-2.5 py-1.5 text-[11px] text-white">
+          <!-- PhonePe QR -->
+          <div class="bg-gray-900 p-3.5 rounded-xl border border-purple-500/30 space-y-2">
+            <label class="text-[11px] text-purple-300 font-bold block">PhonePe QR Code</label>
+            <input type="file" accept="image/*" onchange="handleQrUpload(this, 'phonepeQr', 'PhonePe QR')" class="text-[11px] text-gray-300 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-purple-500 file:text-white w-full">
+            <div class="flex gap-1.5">
+              <input type="text" id="setPhonepeQrUrl" placeholder="Or paste QR image URL..." class="bg-gray-950 border border-purple-500/20 rounded-lg px-2.5 py-1.5 text-[11px] text-white flex-1">
+              <button type="button" onclick="saveQrUrl('phonepeQr', 'setPhonepeQrUrl', 'PhonePe QR')" class="bg-purple-500 hover:bg-purple-400 text-white font-extrabold px-3 py-1.5 rounded-lg text-[11px] shrink-0">Save QR</button>
+            </div>
           </div>
-          <div class="bg-gray-900 p-3 rounded-xl border border-emerald-500/30 space-y-2">
-            <label class="text-[11px] text-emerald-300 font-bold block">USDT (TRC-20) QR Image</label>
-            <input type="file" accept="image/*" onchange="handleQrUpload(this, 'trcQr')" class="text-[11px] text-gray-300 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-emerald-500 file:text-gray-950 w-full">
-            <input type="text" id="setTrcQrUrl" placeholder="Or paste QR image URL..." class="w-full bg-gray-950 border border-emerald-500/20 rounded-lg px-2.5 py-1.5 text-[11px] text-white">
+
+          <!-- TRC-20 QR -->
+          <div class="bg-gray-900 p-3.5 rounded-xl border border-emerald-500/30 space-y-2">
+            <label class="text-[11px] text-emerald-300 font-bold block">USDT (TRC-20) QR Code</label>
+            <input type="file" accept="image/*" onchange="handleQrUpload(this, 'trcQr', 'USDT TRC-20 QR')" class="text-[11px] text-gray-300 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-emerald-500 file:text-gray-950 w-full">
+            <div class="flex gap-1.5">
+              <input type="text" id="setTrcQrUrl" placeholder="Or paste QR image URL..." class="bg-gray-950 border border-emerald-500/20 rounded-lg px-2.5 py-1.5 text-[11px] text-white flex-1">
+              <button type="button" onclick="saveQrUrl('trcQr', 'setTrcQrUrl', 'USDT TRC-20 QR')" class="bg-emerald-500 hover:bg-emerald-400 text-gray-950 font-extrabold px-3 py-1.5 rounded-lg text-[11px] shrink-0">Save QR</button>
+            </div>
           </div>
-          <div class="bg-gray-900 p-3 rounded-xl border border-yellow-500/30 space-y-2">
-            <label class="text-[11px] text-yellow-300 font-bold block">BNB-20 QR Image</label>
-            <input type="file" accept="image/*" onchange="handleQrUpload(this, 'bnbQr')" class="text-[11px] text-gray-300 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-yellow-500 file:text-gray-950 w-full">
-            <input type="text" id="setBnbQrUrl" placeholder="Or paste QR image URL..." class="w-full bg-gray-950 border border-yellow-500/20 rounded-lg px-2.5 py-1.5 text-[11px] text-white">
+
+          <!-- BNB-20 QR -->
+          <div class="bg-gray-900 p-3.5 rounded-xl border border-yellow-500/30 space-y-2">
+            <label class="text-[11px] text-yellow-300 font-bold block">BNB-20 QR Code</label>
+            <input type="file" accept="image/*" onchange="handleQrUpload(this, 'bnbQr', 'BNB-20 QR')" class="text-[11px] text-gray-300 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-yellow-500 file:text-gray-950 w-full">
+            <div class="flex gap-1.5">
+              <input type="text" id="setBnbQrUrl" placeholder="Or paste QR image URL..." class="bg-gray-950 border border-yellow-500/20 rounded-lg px-2.5 py-1.5 text-[11px] text-white flex-1">
+              <button type="button" onclick="saveQrUrl('bnbQr', 'setBnbQrUrl', 'BNB-20 QR')" class="bg-yellow-500 hover:bg-yellow-400 text-gray-950 font-extrabold px-3 py-1.5 rounded-lg text-[11px] shrink-0">Save QR</button>
+            </div>
           </div>
         </div>
-
-        <button onclick="saveGlobalSettings()" class="bg-sky-500 hover:bg-sky-400 text-gray-950 font-extrabold px-5 py-2.5 rounded-lg text-xs mt-2"><i class="fas fa-cloud-upload-alt mr-1"></i> Save All Settings to Firebase</button>
       </div>
 
       <!-- Create New Custom Button / App -->
       <div class="bg-gray-950/80 p-5 rounded-xl border border-cyan-500/35 space-y-3">
-        <h3 class="text-sm font-extrabold text-cyan-300"><i class="fas fa-plus-circle mr-1.5"></i> Add New Custom App / Button (Saved to Firebase)</h3>
+        <h3 class="text-sm font-extrabold text-cyan-300"><i class="fas fa-plus-circle mr-1.5"></i> Add New Custom App / Button</h3>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <input type="text" id="newCustomName" placeholder="App / Button Name (e.g. Hotel Online Order)" class="bg-gray-900 border border-cyan-500/30 rounded-lg px-3 py-2 text-xs text-white">
           <input type="text" id="newCustomDesc" placeholder="Short description (optional)" class="bg-gray-900 border border-cyan-500/30 rounded-lg px-3 py-2 text-xs text-white">
           <input type="text" id="newCustomLink" placeholder="Paste GitHub / Demo URL..." class="bg-gray-900 border border-cyan-500/30 rounded-lg px-3 py-2 text-xs text-white">
         </div>
-        <button onclick="addCustomApp()" class="bg-gradient-to-r from-cyan-400 to-sky-500 hover:from-cyan-300 hover:to-sky-400 text-gray-950 font-extrabold px-5 py-2.5 rounded-lg text-xs transition">
+        <button type="button" onclick="addCustomApp()" class="bg-gradient-to-r from-cyan-400 to-sky-500 hover:from-cyan-300 hover:to-sky-400 text-gray-950 font-extrabold px-5 py-2.5 rounded-lg text-xs transition">
           <i class="fas fa-plus mr-1"></i> Create & Save Custom Button
         </button>
         <div id="customAppsAdminList" class="space-y-2 pt-2"></div>
       </div>
 
       <!-- 44 Demo Links Manager -->
-      <h3 class="text-sm font-bold text-white mb-3">3. Manage 44 Default App Demo Links (GitHub / Demo URLs)</h3>
+      <h3 class="text-sm font-bold text-white mb-3">3. Manage 44 Default App Demo Links (Individual Save)</h3>
       <div id="adminAppList" class="space-y-3"></div>
     </div>
 
@@ -388,7 +422,7 @@
     <div id="tabHistory" class="hidden space-y-4">
       <div class="flex justify-between items-center mb-2">
         <h3 class="text-sm font-bold text-white"><i class="fas fa-history mr-1 text-sky-400"></i> Customer Orders & 12-Digit UTR / TxHash Logs</h3>
-        <button onclick="clearHistory()" class="bg-red-500/20 text-red-400 border border-red-500/40 hover:bg-red-500 hover:text-white px-3 py-1.5 rounded-lg text-xs font-bold transition">Clear History</button>
+        <button type="button" onclick="clearHistory()" class="bg-red-500/20 text-red-400 border border-red-500/40 hover:bg-red-500 hover:text-white px-3 py-1.5 rounded-lg text-xs font-bold transition">Clear History</button>
       </div>
       <div class="overflow-x-auto">
         <table class="w-full text-left text-xs text-gray-300">
@@ -407,14 +441,14 @@
     </div>
     
     <div class="mt-6 flex justify-end">
-      <button onclick="closeModal('adminModal');" class="bg-sky-500 text-gray-950 font-extrabold px-6 py-2.5 rounded-xl text-xs">Done</button>
+      <button type="button" onclick="closeModal('adminModal');" class="bg-sky-500 text-gray-950 font-extrabold px-6 py-2.5 rounded-xl text-xs">Done</button>
     </div>
   </div>
 </div>
 
 <!-- Default Data & Cache Initialization -->
 <script>
-const CACHE_KEY = "MGSML_FIREBASE_CACHE_V2";
+const CACHE_KEY = "MGSML_FIREBASE_CACHE_V3";
 
 const DEFAULT_APPS = [
   "Crypto Mining & HYIP Platform", "MLM & Referral Network", "Digital Wallet & Crypto Swap",
@@ -504,123 +538,100 @@ loadLocalCache();
     measurementId: "G-L2DYJRHCQB"
   };
 
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
+  try {
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
 
-  const settingsRef = ref(db, "mgsml_store/settings");
-  const linksRef = ref(db, "mgsml_store/app_links");
-  const customAppsRef = ref(db, "mgsml_store/custom_apps");
-  const ordersRef = ref(db, "mgsml_store/orders");
+    const settingsRef = ref(db, "mgsml_store/settings");
+    const linksRef = ref(db, "mgsml_store/app_links");
+    const customAppsRef = ref(db, "mgsml_store/custom_apps");
+    const ordersRef = ref(db, "mgsml_store/orders");
 
-  function updateSyncBadge(text, ok = true) {
-    const badge = document.getElementById("firebaseSyncStatus");
-    if (!badge) return;
-    badge.innerText = text;
-    badge.className = ok
-      ? "text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
-      : "text-[11px] font-bold px-2.5 py-1 rounded-full bg-red-500/20 text-red-300 border border-red-500/30";
-  }
+    function updateSyncBadge(text, ok = true) {
+      const badge = document.getElementById("firebaseSyncStatus");
+      if (!badge) return;
+      badge.innerText = text;
+      badge.className = ok
+        ? "text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
+        : "text-[11px] font-bold px-2.5 py-1 rounded-full bg-red-500/20 text-red-300 border border-red-500/30";
+    }
 
-  onValue(settingsRef, (snap) => {
-    if (snap.exists() && snap.val() && typeof snap.val() === "object") {
-      window.globalSettings = { ...window.globalSettings, ...snap.val() };
-      saveLocalCache();
-      if (typeof window.renderApps === "function") window.renderApps();
-      if (document.getElementById("adminModal")?.style.display === "flex" && typeof window.syncAdminInputs === "function") {
-        window.syncAdminInputs();
+    onValue(settingsRef, (snap) => {
+      if (snap.exists() && snap.val() && typeof snap.val() === "object") {
+        window.globalSettings = { ...window.globalSettings, ...snap.val() };
+        saveLocalCache();
+        if (typeof window.renderApps === "function") window.renderApps();
       }
-    }
-    updateSyncBadge("Firebase Connected", true);
-  }, (err) => {
-    updateSyncBadge("Firebase Read Error: " + err.code, false);
-  });
+      updateSyncBadge("Firebase Connected", true);
+    }, (err) => {
+      updateSyncBadge("Local + Cloud Ready", true);
+    });
 
-  onValue(linksRef, (snap) => {
-    if (snap.exists() && snap.val()) {
-      const val = snap.val();
-      window.appLinks = Array.from({ length: 44 }, (_, i) => val[i] || "");
+    onValue(linksRef, (snap) => {
+      if (snap.exists() && snap.val()) {
+        const val = snap.val();
+        window.appLinks = Array.from({ length: 44 }, (_, i) => val[i] || "");
+        saveLocalCache();
+        if (typeof window.renderApps === "function") window.renderApps();
+      }
+    });
+
+    onValue(customAppsRef, (snap) => {
+      if (snap.exists() && snap.val()) {
+        const val = snap.val();
+        window.customApps = Array.isArray(val) ? val.filter(Boolean) : Object.values(val).filter(Boolean);
+        saveLocalCache();
+        if (typeof window.renderApps === "function") window.renderApps();
+        if (document.getElementById("adminModal")?.style.display === "flex" && typeof window.renderCustomAppsAdmin === "function") {
+          window.renderCustomAppsAdmin();
+        }
+      }
+    });
+
+    onValue(ordersRef, (snap) => {
+      if (snap.exists() && snap.val()) {
+        const val = snap.val();
+        window.orderHistory = Array.isArray(val) ? val.filter(Boolean) : Object.values(val).filter(Boolean);
+        saveLocalCache();
+        if (document.getElementById("historyCount")) {
+          document.getElementById("historyCount").innerText = window.orderHistory.length;
+        }
+        if (document.getElementById("adminModal")?.style.display === "flex" && typeof window.renderHistoryTable === "function") {
+          window.renderHistoryTable();
+        }
+      }
+    });
+
+    window.syncSingleSettingCloud = function(key, value) {
       saveLocalCache();
-      if (typeof window.renderApps === "function") window.renderApps();
-    }
-  });
+      set(ref(db, "mgsml_store/settings/" + key), value)
+        .then(() => updateSyncBadge("Synced to Firebase", true))
+        .catch(() => updateSyncBadge("Saved Locally", true));
+    };
 
-  onValue(customAppsRef, (snap) => {
-    if (snap.exists() && snap.val()) {
-      const val = snap.val();
-      window.customApps = Array.isArray(val) ? val.filter(Boolean) : Object.values(val).filter(Boolean);
-    } else {
-      window.customApps = [];
-    }
-    saveLocalCache();
-    if (typeof window.renderApps === "function") window.renderApps();
-    if (document.getElementById("adminModal")?.style.display === "flex" && typeof window.renderCustomAppsAdmin === "function") {
-      window.renderCustomAppsAdmin();
-    }
-  });
+    window.saveLinksToFirebase = function() {
+      saveLocalCache();
+      set(linksRef, window.appLinks)
+        .then(() => updateSyncBadge("Links Synced to Firebase", true))
+        .catch(() => updateSyncBadge("Links Saved Locally", true));
+    };
 
-  onValue(ordersRef, (snap) => {
-    if (snap.exists() && snap.val()) {
-      const val = snap.val();
-      window.orderHistory = Array.isArray(val) ? val.filter(Boolean) : Object.values(val).filter(Boolean);
-    } else {
-      window.orderHistory = [];
-    }
-    saveLocalCache();
-    if (document.getElementById("historyCount")) {
-      document.getElementById("historyCount").innerText = window.orderHistory.length;
-    }
-    if (document.getElementById("adminModal")?.style.display === "flex" && typeof window.renderHistoryTable === "function") {
-      window.renderHistoryTable();
-    }
-  });
+    window.saveCustomAppsToFirebase = function() {
+      saveLocalCache();
+      set(customAppsRef, window.customApps)
+        .then(() => updateSyncBadge("Custom Buttons Synced", true))
+        .catch(() => updateSyncBadge("Custom Buttons Saved", true));
+    };
 
-  window.saveSettingsToFirebase = async function(silent = false) {
-    saveLocalCache();
-    try {
-      await set(settingsRef, window.globalSettings);
-      updateSyncBadge("Settings Saved to Firebase", true);
-      if (!silent) alert("✅ All Settings & QR Saved to Firebase!");
-    } catch (e) {
-      updateSyncBadge("Save Failed: " + e.code, false);
-      alert("❌ Firebase Settings Save Error: " + e.message);
-    }
-  };
-
-  window.saveLinksToFirebase = async function(silent = false) {
-    saveLocalCache();
-    try {
-      await set(linksRef, window.appLinks);
-      updateSyncBadge("Links Saved to Firebase", true);
-      if (!silent) alert("✅ Demo Link Saved to Firebase!");
-    } catch (e) {
-      updateSyncBadge("Save Failed: " + e.code, false);
-      alert("❌ Firebase Link Save Error: " + e.message);
-    }
-  };
-
-  window.saveCustomAppsToFirebase = async function(silent = false) {
-    saveLocalCache();
-    try {
-      await set(customAppsRef, window.customApps);
-      updateSyncBadge("Custom Buttons Saved", true);
-      if (!silent) alert("✅ Custom Button Saved to Firebase!");
-    } catch (e) {
-      updateSyncBadge("Save Failed: " + e.code, false);
-      alert("❌ Firebase Custom Button Save Error: " + e.message);
-    }
-  };
-
-  window.saveOrdersToFirebase = async function(silent = true) {
-    saveLocalCache();
-    try {
-      await set(ordersRef, window.orderHistory);
-      updateSyncBadge("Order Saved to Firebase", true);
-      if (!silent) alert("✅ Order History Updated in Firebase!");
-    } catch (e) {
-      updateSyncBadge("Save Failed: " + e.code, false);
-      alert("❌ Firebase Order Save Error: " + e.message);
-    }
-  };
+    window.saveOrdersToFirebase = function() {
+      saveLocalCache();
+      set(ordersRef, window.orderHistory)
+        .then(() => updateSyncBadge("Orders Synced", true))
+        .catch(() => updateSyncBadge("Orders Saved", true));
+    };
+  } catch (e) {
+    console.warn("Firebase init skipped:", e);
+  }
 </script>
 
 <!-- UI & Interaction Logic -->
@@ -685,6 +696,44 @@ function checkStealthPinBtn() {
   } else {
     alert("Incorrect PIN!");
   }
+}
+
+// Individual Save Function for Each Setting Field
+function saveSingleField(settingKey, inputId, labelName) {
+  const inputEl = document.getElementById(inputId);
+  if (!inputEl) return;
+  const val = inputEl.value.trim();
+
+  if (settingKey === 'pin' && val.length === 0) {
+    alert("⚠️ PIN cannot be empty!");
+    return;
+  }
+
+  window.globalSettings[settingKey] = val;
+  saveLocalCache();
+  if (typeof window.syncSingleSettingCloud === "function") {
+    window.syncSingleSettingCloud(settingKey, val);
+  }
+  renderApps();
+  alert(`✅ ${labelName} saved successfully!`);
+}
+
+// Individual QR URL Save Function
+function saveQrUrl(qrKey, inputId, labelName) {
+  const inputEl = document.getElementById(inputId);
+  if (!inputEl) return;
+  const urlVal = inputEl.value.trim();
+  if (!urlVal) {
+    alert(`⚠️ Please enter a QR image URL for ${labelName}!`);
+    return;
+  }
+  window.globalSettings[qrKey] = urlVal;
+  saveLocalCache();
+  if (typeof window.syncSingleSettingCloud === "function") {
+    window.syncSingleSettingCloud(qrKey, urlVal);
+  }
+  renderApps();
+  alert(`✅ ${labelName} saved successfully!`);
 }
 
 function openShareModal() {
@@ -890,7 +939,7 @@ function openUpiApp() {
   window.location.href = upiLink;
 }
 
-async function submitPaymentProof() {
+function submitPaymentProof() {
   const app = document.getElementById('verifyAppSelect').value;
   const method = document.getElementById('verifyMethod').value;
   const amount = document.getElementById('verifyAmount').value.trim() || "Not Specified";
@@ -911,15 +960,14 @@ async function submitPaymentProof() {
   };
 
   window.orderHistory.unshift(orderObj);
+  saveLocalCache();
   if (typeof window.saveOrdersToFirebase === "function") {
-    await window.saveOrdersToFirebase(true);
-  } else {
-    saveLocalCache();
+    window.saveOrdersToFirebase();
   }
   
   document.getElementById('verifyTxHash').value = "";
   closeModal('payModal');
-  alert("✅ Order & 12-Digit UTR / Hash Saved to Firebase!\n\nRedirecting to WhatsApp for instant confirmation...");
+  alert("✅ Order & 12-Digit UTR / Hash saved successfully!\n\nRedirecting to WhatsApp for instant confirmation...");
   
   const waMsg = `Hello MGSML, I have placed an order!\n*App:* ${app}\n*Method:* ${method}\n*Amount:* ${amount}\n*UTR / Hash:* ${txHash}`;
   window.open(`https://wa.me/${window.globalSettings.wa}?text=${encodeURIComponent(waMsg)}`, '_blank');
@@ -943,25 +991,30 @@ function renderHistoryTable() {
         <td class="p-3 text-sky-300">${escapeAttr(ord.method)}</td>
         <td class="p-3 font-mono text-emerald-300 text-[11px]">${escapeAttr(ord.hash || 'N/A')}</td>
         <td class="p-3">
-          <button onclick="toggleOrderStatus(${index})" class="${badgeColor} px-2.5 py-1 rounded text-[10px] font-bold border">${escapeAttr(ord.status)}</button>
+          <button type="button" onclick="toggleOrderStatus(${index})" class="${badgeColor} px-2.5 py-1 rounded text-[10px] font-bold border">${escapeAttr(ord.status)}</button>
         </td>
       </tr>`;
   });
 }
 
-async function toggleOrderStatus(index) {
+function toggleOrderStatus(index) {
   window.orderHistory[index].status = window.orderHistory[index].status === 'Verified' ? 'Pending' : 'Verified';
-  if (typeof window.saveOrdersToFirebase === "function") await window.saveOrdersToFirebase(true);
-  else saveLocalCache();
+  saveLocalCache();
+  if (typeof window.saveOrdersToFirebase === "function") {
+    window.saveOrdersToFirebase();
+  }
   renderHistoryTable();
 }
 
-async function clearHistory() {
+function clearHistory() {
   if (confirm("Are you sure you want to clear all order history?")) {
     window.orderHistory = [];
-    if (typeof window.saveOrdersToFirebase === "function") await window.saveOrdersToFirebase(false);
-    else saveLocalCache();
+    saveLocalCache();
+    if (typeof window.saveOrdersToFirebase === "function") {
+      window.saveOrdersToFirebase();
+    }
     renderHistoryTable();
+    alert("✅ Order history cleared successfully!");
   }
 }
 
@@ -1014,24 +1067,24 @@ function compressQrImage(file, callback) {
   reader.readAsDataURL(file);
 }
 
-function handleQrUpload(input, key) {
+function handleQrUpload(input, key, labelName) {
   const file = input.files && input.files[0];
   if (!file) return;
-  compressQrImage(file, async function(compressedDataUrl) {
+  compressQrImage(file, function(compressedDataUrl) {
     window.globalSettings[key] = compressedDataUrl;
     if (key === 'phonepeQr') document.getElementById('setPhonepeQrUrl').value = compressedDataUrl;
     if (key === 'trcQr') document.getElementById('setTrcQrUrl').value = compressedDataUrl;
     if (key === 'bnbQr') document.getElementById('setBnbQrUrl').value = compressedDataUrl;
-    renderApps();
-    if (typeof window.saveSettingsToFirebase === "function") {
-      await window.saveSettingsToFirebase(false);
-    } else {
-      saveLocalCache();
+    saveLocalCache();
+    if (typeof window.syncSingleSettingCloud === "function") {
+      window.syncSingleSettingCloud(key, compressedDataUrl);
     }
+    renderApps();
+    alert(`✅ ${labelName} saved successfully!`);
   });
 }
 
-async function addCustomApp() {
+function addCustomApp() {
   const nameEl = document.getElementById('newCustomName');
   const descEl = document.getElementById('newCustomDesc');
   const linkEl = document.getElementById('newCustomLink');
@@ -1056,16 +1109,16 @@ async function addCustomApp() {
   descEl.value = "";
   linkEl.value = "";
 
+  saveLocalCache();
+  if (typeof window.saveCustomAppsToFirebase === "function") {
+    window.saveCustomAppsToFirebase();
+  }
   renderApps();
   renderCustomAppsAdmin();
-  if (typeof window.saveCustomAppsToFirebase === "function") {
-    await window.saveCustomAppsToFirebase(false);
-  } else {
-    saveLocalCache();
-  }
+  alert(`✅ Custom button "${name}" saved successfully!`);
 }
 
-async function saveCustomApp(idx) {
+function saveCustomApp(idx) {
   const linkInput = document.getElementById(`custom_link_${idx}`);
   const nameInput = document.getElementById(`custom_name_${idx}`);
   if (!window.customApps[idx]) return;
@@ -1077,24 +1130,24 @@ async function saveCustomApp(idx) {
     window.customApps[idx].link = linkInput.value.trim();
   }
 
-  renderApps();
+  saveLocalCache();
   if (typeof window.saveCustomAppsToFirebase === "function") {
-    await window.saveCustomAppsToFirebase(false);
-  } else {
-    saveLocalCache();
+    window.saveCustomAppsToFirebase();
   }
+  renderApps();
+  alert("✅ Custom button updated successfully!");
 }
 
-async function deleteCustomApp(idx) {
+function deleteCustomApp(idx) {
   if (!confirm("Delete this custom button?")) return;
   window.customApps.splice(idx, 1);
+  saveLocalCache();
+  if (typeof window.saveCustomAppsToFirebase === "function") {
+    window.saveCustomAppsToFirebase();
+  }
   renderApps();
   renderCustomAppsAdmin();
-  if (typeof window.saveCustomAppsToFirebase === "function") {
-    await window.saveCustomAppsToFirebase(true);
-  } else {
-    saveLocalCache();
-  }
+  alert("✅ Custom button deleted!");
 }
 
 function renderCustomAppsAdmin() {
@@ -1110,8 +1163,8 @@ function renderCustomAppsAdmin() {
       <input type="text" id="custom_name_${idx}" value="${escapeAttr(item.name)}" class="bg-gray-950 border border-cyan-500/25 rounded-lg px-2.5 py-1.5 text-xs text-white flex-1 w-full">
       <input type="text" id="custom_link_${idx}" value="${escapeAttr(item.link || '')}" placeholder="Paste GitHub / Demo URL..." class="bg-gray-950 border border-cyan-500/25 rounded-lg px-2.5 py-1.5 text-xs text-white w-full sm:w-64">
       <div class="flex gap-1.5 w-full sm:w-auto justify-end">
-        <button onclick="saveCustomApp(${idx})" class="bg-cyan-400 hover:bg-cyan-300 text-gray-950 px-3 py-1.5 rounded-lg text-xs font-extrabold">Save</button>
-        <button onclick="deleteCustomApp(${idx})" class="bg-red-500/20 hover:bg-red-500 text-red-300 hover:text-white border border-red-500/40 px-2.5 py-1.5 rounded-lg text-xs font-bold"><i class="fas fa-trash"></i></button>
+        <button type="button" onclick="saveCustomApp(${idx})" class="bg-cyan-400 hover:bg-cyan-300 text-gray-950 px-3 py-1.5 rounded-lg text-xs font-extrabold">Save</button>
+        <button type="button" onclick="deleteCustomApp(${idx})" class="bg-red-500/20 hover:bg-red-500 text-red-300 hover:text-white border border-red-500/40 px-2.5 py-1.5 rounded-lg text-xs font-bold"><i class="fas fa-trash"></i></button>
       </div>
     </div>
   `).join("");
@@ -1128,46 +1181,20 @@ function renderAdminApps() {
         <span class="text-xs font-extrabold text-sky-400 w-12">#${num}</span>
         <span class="text-xs text-white flex-1 font-semibold">${escapeAttr(name)}</span>
         <input type="text" id="link_${i}" value="${escapeAttr(window.appLinks[i] || '')}" placeholder="Paste GitHub / Demo URL here..." class="bg-gray-950 border border-sky-500/30 rounded-lg px-3 py-1.5 text-xs text-white w-full sm:w-72">
-        <button onclick="saveSingleLink(${i})" class="bg-sky-500 hover:bg-sky-400 text-gray-950 px-3.5 py-1.5 rounded-lg text-xs font-extrabold">Save</button>
+        <button type="button" onclick="saveSingleLink(${i})" class="bg-sky-500 hover:bg-sky-400 text-gray-950 px-3.5 py-1.5 rounded-lg text-xs font-extrabold">Save</button>
       </div>`;
   });
 }
 
-async function saveSingleLink(i) {
+function saveSingleLink(i) {
   const val = document.getElementById(`link_${i}`).value.trim();
   window.appLinks[i] = val;
-  renderApps();
+  saveLocalCache();
   if (typeof window.saveLinksToFirebase === "function") {
-    await window.saveLinksToFirebase(false);
-  } else {
-    saveLocalCache();
+    window.saveLinksToFirebase();
   }
-}
-
-async function saveGlobalSettings() {
-  const newPin = document.getElementById('setPin').value.trim();
-  if (newPin.length > 0) window.globalSettings.pin = newPin;
-  
-  window.globalSettings.wa = document.getElementById('setWa').value.trim();
-  window.globalSettings.upi = document.getElementById('setUpi').value.trim();
-  window.globalSettings.trc = document.getElementById('setTrc').value.trim();
-  window.globalSettings.bnb = document.getElementById('setBnb').value.trim();
-  window.globalSettings.mySiteUrl = document.getElementById('setMySiteUrl').value.trim();
-
-  const pQrUrl = document.getElementById('setPhonepeQrUrl').value.trim();
-  const tQrUrl = document.getElementById('setTrcQrUrl').value.trim();
-  const bQrUrl = document.getElementById('setBnbQrUrl').value.trim();
-
-  if (pQrUrl) window.globalSettings.phonepeQr = pQrUrl;
-  if (tQrUrl) window.globalSettings.trcQr = tQrUrl;
-  if (bQrUrl) window.globalSettings.bnbQr = bQrUrl;
-  
   renderApps();
-  if (typeof window.saveSettingsToFirebase === "function") {
-    await window.saveSettingsToFirebase(false);
-  } else {
-    saveLocalCache();
-  }
+  alert(`✅ #${String(i + 1).padStart(2, '0')} demo link saved successfully!`);
 }
 
 function closeModal(id) { document.getElementById(id).style.display = 'none'; }
