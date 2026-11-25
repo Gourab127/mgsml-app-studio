@@ -402,7 +402,7 @@
     <div class="flex flex-wrap gap-2 mb-5 border-b border-gray-800 pb-3">
       <button type="button" onclick="switchTab('settings')" id="tabBtnSettings" class="bg-sky-500 text-gray-950 font-extrabold px-4 py-2 rounded-lg text-xs transition">Individual Settings, QR & Links</button>
       <button type="button" onclick="switchTab('history')" id="tabBtnHistory" class="bg-gray-800 text-gray-300 font-extrabold px-4 py-2 rounded-lg text-xs transition">Order & Payment History (<span id="historyCount">0</span>)</button>
-      <button type="button" onclick="switchTab('promoters')" id="tabBtnPromoters" class="bg-gray-800 text-indigo-300 border border-indigo-500/30 font-extrabold px-4 py-2 rounded-lg text-xs transition">Promoters</button>
+      <button type="button" onclick="switchTab('promoters')" id="tabBtnPromoters" class="bg-indigo-600 text-white font-extrabold px-4 py-2 rounded-lg text-xs transition">Promoters</button>
     </div>
 
     <div id="tabSettings" class="space-y-6">
@@ -793,35 +793,40 @@ loadLocalCache();
       }).catch(() => {});
     };
 
-    // নতুন প্রমোটার Google Sign-In করলে অটোমেটিক mgsml_store/promoters/[UID]-এ রেজিস্টার হবে
     async function ensurePromoterAutoRegistered(user) {
-      if (!user || !user.uid) return;
+      if (!user || !user.uid) return null;
       const userRef = ref(db, `mgsml_store/promoters/${user.uid}`);
       try {
         const snap = await get(userRef);
-        if (!snap.exists()) {
-          const autoCode = "PRM-" + String(user.uid).slice(-4).toUpperCase();
-          await set(userRef, {
-            uid: user.uid,
-            email: user.email || "",
-            name: user.displayName || "Partner",
-            code: autoCode,
-            pin: "",
-            approved: false,
-            canViewLeads: true,
-            createdAt: new Date().toLocaleString()
-          });
+        if (snap.exists() && snap.val()) {
+          msPromotersMap[user.uid] = snap.val();
+          return { id: user.uid, ...snap.val() };
         }
+        const autoCode = "PRM-" + String(user.uid).slice(-4).toUpperCase();
+        const newRecord = {
+          uid: user.uid,
+          email: user.email || "",
+          name: user.displayName || "Partner",
+          code: autoCode,
+          pin: "",
+          approved: false,
+          canViewLeads: true,
+          createdAt: new Date().toLocaleString()
+        };
+        await set(userRef, newRecord);
+        msPromotersMap[user.uid] = newRecord;
+        return { id: user.uid, ...newRecord };
       } catch (err) {
         console.warn("Auto-register skipped:", err);
+        return null;
       }
     }
 
-    // Built-in My Site Google Auth + PIN + Dashboard
     window.loginMySiteGoogle = function() {
       signInWithPopup(auth, googleProvider)
         .then(async (result) => {
           await ensurePromoterAutoRegistered(result.user);
+          syncMySiteAuthView();
         })
         .catch((err) => {
           alert("Google Sign-In Error: " + err.message);
@@ -830,6 +835,7 @@ loadLocalCache();
 
     window.logoutMySiteGoogle = function() {
       msUnlocked = false;
+      msCurrentPromoter = null;
       signOut(auth).catch(() => {});
     };
 
@@ -837,12 +843,26 @@ loadLocalCache();
       msAuthUser = user;
       if (!user) {
         msUnlocked = false;
+        msCurrentPromoter = null;
         syncMySiteAuthView();
         return;
       }
       await ensurePromoterAutoRegistered(user);
       syncMySiteAuthView();
     });
+
+    function resolveCurrentPromoterRecord() {
+      if (!msAuthUser) return null;
+      const entries = Object.entries(msPromotersMap || {});
+      const found = entries.find(([key, p]) =>
+        p && (
+          key === msAuthUser.uid ||
+          (p.email && String(p.email).toLowerCase() === String(msAuthUser.email || "").toLowerCase())
+        )
+      );
+      if (!found || !found[1]) return null;
+      return { id: found[0], ...found[1] };
+    }
 
     function syncMySiteAuthView() {
       const badge = document.getElementById("mySiteUserBadge");
@@ -867,15 +887,8 @@ loadLocalCache();
       if (emailTxt) emailTxt.innerText = msAuthUser.email || "";
       loginBox.classList.add("hidden");
 
-      const entries = Object.entries(msPromotersMap || {});
-      const found = entries.find(([key, p]) =>
-        p && (
-          key === msAuthUser.uid ||
-          (p.email && String(p.email).toLowerCase() === String(msAuthUser.email || "").toLowerCase())
-        )
-      );
-
-      if (!found || !found[1].approved) {
+      const rec = resolveCurrentPromoterRecord();
+      if (!rec || !rec.approved) {
         msCurrentPromoter = null;
         msUnlocked = false;
         dash.classList.add("hidden");
@@ -886,7 +899,7 @@ loadLocalCache();
         return;
       }
 
-      msCurrentPromoter = { id: found[0], ...found[1] };
+      msCurrentPromoter = rec;
       if (msUnlocked) {
         pinBox.classList.add("hidden");
         dash.classList.remove("hidden");
@@ -900,16 +913,33 @@ loadLocalCache();
       }
     }
 
-    window.verifyMySitePin = function() {
+    window.verifyMySitePin = async function() {
       const entered = (document.getElementById("mySitePinInput")?.value || "").trim();
       const errEl = document.getElementById("mySitePinError");
-      if (!msCurrentPromoter || !msCurrentPromoter.pin || String(msCurrentPromoter.pin).trim() !== entered) {
+
+      let rec = resolveCurrentPromoterRecord();
+      if (!rec && msAuthUser && msAuthUser.uid) {
+        try {
+          const snap = await get(ref(db, `mgsml_store/promoters/${msAuthUser.uid}`));
+          if (snap.exists() && snap.val()) {
+            msPromotersMap[msAuthUser.uid] = snap.val();
+            rec = { id: msAuthUser.uid, ...snap.val() };
+          }
+        } catch (_) {}
+      }
+
+      const savedPin = rec && rec.pin !== undefined && rec.pin !== null ? String(rec.pin).trim() : "";
+      if (!rec || !rec.approved || !savedPin || savedPin !== entered) {
         if (errEl) {
-          errEl.innerText = "Invalid PIN or account not approved yet!";
+          errEl.innerText = !rec || !rec.approved
+            ? "Account not approved yet! Approve in Admin Panel > Promoters."
+            : "Invalid PIN! Please check PIN in Admin Panel > Promoters.";
           errEl.classList.remove("hidden");
         }
         return;
       }
+
+      msCurrentPromoter = rec;
       if (errEl) errEl.classList.add("hidden");
       msUnlocked = true;
       document.getElementById("mySitePinInput").value = "";
@@ -931,7 +961,6 @@ loadLocalCache();
       }).catch(() => {});
     };
 
-    // Admin Panel Promoters Management
     window.saveSinglePromoterAdmin = async function(uid) {
       if (!uid) return;
       const approvedEl = document.getElementById(`prom_approved_${uid}`);
@@ -956,6 +985,13 @@ loadLocalCache();
           code: codeVal,
           updatedAt: new Date().toLocaleString()
         });
+
+        if (msPromotersMap[uid]) {
+          msPromotersMap[uid].approved = isApproved;
+          msPromotersMap[uid].pin = pinVal;
+          msPromotersMap[uid].code = codeVal;
+        }
+        syncMySiteAuthView();
 
         if (statusEl) {
           statusEl.innerText = "Saved!";
@@ -988,7 +1024,7 @@ loadLocalCache();
         const name = escapeAttr(p?.name || "Partner");
         const email = escapeAttr(p?.email || "");
         const code = escapeAttr(p?.code || ("PRM-" + uid.slice(-4).toUpperCase()));
-        const pin = escapeAttr(p?.pin || "");
+        const pin = escapeAttr(p?.pin !== undefined && p?.pin !== null ? String(p.pin) : "");
         const checkedAttr = p?.approved ? "checked" : "";
 
         return `
@@ -1534,7 +1570,7 @@ function switchTab(tab) {
   const divPro = document.getElementById('tabPromoters');
 
   const inactiveBtn = "bg-gray-800 text-gray-300 font-extrabold px-4 py-2 rounded-lg text-xs transition";
-  const inactiveProBtn = "bg-gray-800 text-indigo-300 border border-indigo-500/30 font-extrabold px-4 py-2 rounded-lg text-xs transition";
+  const inactiveProBtn = "bg-indigo-600/25 text-indigo-300 border border-indigo-500/40 font-extrabold px-4 py-2 rounded-lg text-xs transition";
   const activeBtn = "bg-sky-500 text-gray-950 font-extrabold px-4 py-2 rounded-lg text-xs transition";
 
   btnSet.className = inactiveBtn;
