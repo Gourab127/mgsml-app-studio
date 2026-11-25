@@ -78,6 +78,9 @@
   <span class="bg-sky-500/15 text-sky-300 text-xs font-extrabold px-4 py-1.5 rounded-full border border-sky-400/30 inline-block mb-4">⚡ 100% Genuine | 44+ Ready Demos & Custom Solutions</span>
   <h1 class="text-3xl sm:text-5xl font-black text-white mb-4 leading-tight">Explore Our <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300">App & Website</span> Demos</h1>
   <p class="text-sky-200/75 max-w-2xl mx-auto text-xs sm:text-sm mb-6 leading-relaxed">Professional software, Android/WebView, Telegram apps & custom solutions. Direct UPI & Crypto payments inside Pay, instant order verification, and live WhatsApp support.</p>
+  <div id="activeRefBanner" class="hidden max-w-md mx-auto mb-4 bg-cyan-500/15 border border-cyan-400/35 text-cyan-200 text-xs font-bold px-4 py-2 rounded-xl">
+    Referral Partner Active: <span id="activeRefCodeText" class="text-white font-mono"></span>
+  </div>
   
   <div class="max-w-md mx-auto relative">
     <i class="fas fa-search absolute left-4 top-3.5 text-sky-400"></i>
@@ -117,6 +120,109 @@
   </button>
 </div>
 
+<!-- My Site Partner & Promotion Modal (Inside App Store) -->
+<div id="mySiteModal" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-50 p-3 sm:p-4 overflow-y-auto">
+  <div class="glass max-w-5xl w-full p-5 sm:p-7 rounded-2xl relative max-h-[94vh] overflow-y-auto border border-sky-500/40 sky-glow space-y-6">
+    <button onclick="closeModal('mySiteModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg"><i class="fas fa-times"></i></button>
+
+    <div class="flex flex-wrap items-center justify-between gap-3 pr-8 border-b border-gray-800 pb-4">
+      <div>
+        <h2 class="text-xl sm:text-2xl font-black text-white">MGSML <span class="text-sky-400">MY SITE</span> Partner Hub</h2>
+        <p class="text-xs text-sky-200/70">Google Sign-In + PIN • 25% Direct + 5% Referral Commission • Visitor Call & WhatsApp Lead History</p>
+      </div>
+      <div id="mySiteUserBadge" class="hidden items-center gap-2 text-xs text-cyan-300 font-bold">
+        <span id="mySiteUserEmail"></span>
+        <button type="button" onclick="logoutMySiteGoogle()" class="bg-red-500/20 hover:bg-red-500 text-red-300 hover:text-white border border-red-500/40 px-2.5 py-1 rounded-lg text-[11px] font-bold">Logout</button>
+      </div>
+    </div>
+
+    <!-- Step 1: Google Sign-In -->
+    <div id="mySiteLoginBox" class="bg-gray-950/85 p-6 sm:p-8 rounded-2xl text-center max-w-md mx-auto space-y-4 border border-sky-500/30">
+      <div class="w-12 h-12 rounded-2xl bg-sky-500/20 text-sky-400 flex items-center justify-center mx-auto text-xl">
+        <i class="fas fa-user-shield"></i>
+      </div>
+      <h3 class="text-base font-extrabold text-white">Promoter Google Sign-In</h3>
+      <p class="text-xs text-sky-200/70 leading-relaxed">Sign in with your Google account first, then enter your approved PIN to view referral stats, commission, and visitor call/WhatsApp history.</p>
+      <button type="button" onclick="loginMySiteGoogle()" class="w-full bg-gradient-to-r from-sky-500 to-cyan-400 hover:from-sky-400 hover:to-cyan-300 text-gray-950 font-extrabold py-3 px-4 rounded-xl text-sm flex items-center justify-center gap-2 transition">
+        <i class="fab fa-google"></i> Sign in with Google
+      </button>
+    </div>
+
+    <!-- Step 2: PIN Box -->
+    <div id="mySitePinBox" class="hidden bg-gray-950/85 p-6 rounded-2xl text-center max-w-sm mx-auto space-y-3 border border-cyan-500/30">
+      <h3 class="text-base font-extrabold text-white">Enter Secret PIN</h3>
+      <p id="mySitePromoterStatus" class="text-xs text-cyan-300"></p>
+      <input type="password" id="mySitePinInput" placeholder="Enter your PIN" class="w-full bg-gray-900 border border-sky-500/40 rounded-xl px-4 py-2.5 text-center text-white tracking-widest text-sm focus:outline-none">
+      <button type="button" onclick="verifyMySitePin()" class="w-full bg-sky-500 hover:bg-sky-400 text-gray-950 font-extrabold py-2.5 rounded-xl text-xs">Unlock Partner Dashboard</button>
+      <p id="mySitePinError" class="text-xs text-red-400 hidden"></p>
+    </div>
+
+    <!-- Step 3: Partner Dashboard -->
+    <div id="mySiteDashboard" class="hidden space-y-6">
+      <div class="bg-gray-950/85 p-4 rounded-2xl flex flex-wrap items-center justify-between gap-3 border border-cyan-400/30">
+        <div>
+          <span class="text-[11px] uppercase tracking-wider text-cyan-300 font-bold">Your Referral Link (25% Direct + 5% Referral)</span>
+          <div id="mySiteRefLink" class="text-xs sm:text-sm font-mono text-white mt-1 break-all"></div>
+        </div>
+        <button type="button" onclick="copyMySiteRefLink()" class="bg-sky-500 hover:bg-sky-400 text-gray-950 font-extrabold px-4 py-2 rounded-xl text-xs">Copy Link</button>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="bg-gray-950/85 p-4 rounded-2xl border border-emerald-500/25">
+          <span class="text-xs text-sky-200/70">Direct Commission (25%)</span>
+          <div id="mySiteDirectComm" class="text-2xl font-black text-emerald-400 mt-1">₹0</div>
+        </div>
+        <div class="bg-gray-950/85 p-4 rounded-2xl border border-cyan-500/25">
+          <span class="text-xs text-sky-200/70">Referral Commission (5%)</span>
+          <div id="mySiteRefComm" class="text-2xl font-black text-cyan-300 mt-1">₹0</div>
+        </div>
+        <div class="bg-gray-950/85 p-4 rounded-2xl border border-amber-500/25">
+          <span class="text-xs text-sky-200/70">Total Earned Commission</span>
+          <div id="mySiteGrandComm" class="text-2xl font-black text-amber-300 mt-1">₹0</div>
+        </div>
+      </div>
+
+      <!-- Visitor Call & WhatsApp History Box -->
+      <div class="bg-gray-950/85 p-4 sm:p-5 rounded-2xl border border-sky-500/30 space-y-3">
+        <h3 class="text-sm font-extrabold text-white"><i class="fas fa-phone-volume text-emerald-400 mr-1.5"></i> Visitor Call & WhatsApp Inquiry History (Tap Call to Follow Up)</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-gray-300">
+            <thead class="bg-gray-900 text-sky-300 border-b border-gray-800">
+              <tr>
+                <th class="p-3">Visitor / Source</th>
+                <th class="p-3">Phone / WhatsApp</th>
+                <th class="p-3">App / Message</th>
+                <th class="p-3">Ref ID</th>
+                <th class="p-3">Action</th>
+              </tr>
+            </thead>
+            <tbody id="mySiteLeadsTbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Commission Attribution Table -->
+      <div class="bg-gray-950/85 p-4 sm:p-5 rounded-2xl border border-sky-500/30 space-y-3">
+        <h3 class="text-sm font-extrabold text-white"><i class="fas fa-coins text-amber-400 mr-1.5"></i> Verified Sales & Commission Attribution</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-gray-300">
+            <thead class="bg-gray-900 text-sky-300 border-b border-gray-800">
+              <tr>
+                <th class="p-3">Date</th>
+                <th class="p-3">Order / App</th>
+                <th class="p-3">Sale Value</th>
+                <th class="p-3">Your Share</th>
+                <th class="p-3">Status</th>
+              </tr>
+            </thead>
+            <tbody id="mySiteCommTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Share Choice Modal -->
 <div id="shareModal" class="fixed inset-0 bg-black/85 hidden items-center justify-center z-50 p-4">
   <div class="glass max-w-sm w-full p-6 rounded-2xl relative border border-sky-500/40 shadow-2xl text-center">
@@ -148,9 +254,7 @@
       <p class="text-xs text-sky-200/75">Step 1: Pay via PhonePe/UPI or Crypto &nbsp;|&nbsp; Step 2: Submit 12-Digit UTR / TxHash below.</p>
     </div>
 
-    <!-- 3 Payment Gateways inside Pay Modal -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
-      <!-- 1. PhonePe / UPI Direct -->
       <div class="bg-gray-950/85 p-5 rounded-2xl border border-purple-500/35 flex flex-col items-center text-center">
         <span class="bg-purple-500/20 text-purple-300 text-[11px] font-extrabold px-3 py-1 rounded-full mb-3 border border-purple-400/20">PhonePe / UPI Direct</span>
         <div class="w-32 h-32 bg-white rounded-xl p-2 shadow-md flex items-center justify-center overflow-hidden mb-3">
@@ -168,7 +272,6 @@
         </div>
       </div>
 
-      <!-- 2. USDT TRC20 -->
       <div class="bg-gray-950/85 p-5 rounded-2xl border border-emerald-500/30 flex flex-col items-center text-center">
         <span class="bg-emerald-500/20 text-emerald-300 text-[11px] font-extrabold px-3 py-1 rounded-full mb-3 border border-emerald-400/20">USDT (TRC-20)</span>
         <div class="w-32 h-32 bg-white rounded-xl p-2 shadow-md flex items-center justify-center overflow-hidden mb-3">
@@ -181,7 +284,6 @@
         <p class="text-[11px] text-gray-400 mt-auto">Send USDT via Tron (TRC20) network and copy the TxHash after payment.</p>
       </div>
 
-      <!-- 3. BNB20 -->
       <div class="bg-gray-950/85 p-5 rounded-2xl border border-yellow-500/30 flex flex-col items-center text-center">
         <span class="bg-yellow-500/20 text-yellow-300 text-[11px] font-extrabold px-3 py-1 rounded-full mb-3 border border-yellow-400/20">USDT / BNB (BNB-20)</span>
         <div class="w-32 h-32 bg-white rounded-xl p-2 shadow-md flex items-center justify-center overflow-hidden mb-3">
@@ -195,7 +297,6 @@
       </div>
     </div>
 
-    <!-- Step 2: 12-Digit UTR / Transaction ID / Hash Verification Box -->
     <div class="bg-gray-900/95 p-5 rounded-2xl border border-sky-500/40">
       <h3 class="text-sm font-extrabold text-sky-400 mb-3"><i class="fas fa-check-circle mr-1.5"></i> Submit Payment Proof (12-Digit UTR / TRX ID / Crypto Hash)</h3>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -288,7 +389,7 @@
   </div>
 </div>
 
-<!-- Admin Dashboard Modal with Individual Save Buttons -->
+<!-- Admin Dashboard Modal -->
 <div id="adminModal" class="fixed inset-0 bg-black/95 hidden items-center justify-center z-50 p-4 overflow-y-auto">
   <div class="glass max-w-5xl w-full p-6 rounded-2xl relative max-h-[95vh] overflow-y-auto border border-sky-500/40">
     <button onclick="closeModal('adminModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg"><i class="fas fa-times"></i></button>
@@ -298,19 +399,16 @@
     </div>
     <p class="text-xs text-sky-200/70 mb-6">Each item has its own separate Save button so every field saves independently and shows instant confirmation.</p>
     
-    <!-- Tabs Header -->
     <div class="flex gap-2 mb-5 border-b border-gray-800 pb-3">
       <button onclick="switchTab('settings')" id="tabBtnSettings" class="bg-sky-500 text-gray-950 font-extrabold px-4 py-2 rounded-lg text-xs transition">Individual Settings, QR & Links</button>
       <button onclick="switchTab('history')" id="tabBtnHistory" class="bg-gray-800 text-gray-300 font-extrabold px-4 py-2 rounded-lg text-xs transition">Order & Payment History (<span id="historyCount">0</span>)</button>
     </div>
 
-    <!-- Tab 1: Individual Settings, QR, Custom Buttons & Links -->
     <div id="tabSettings" class="space-y-6">
       <div class="bg-gray-950/80 p-5 rounded-xl border border-sky-900/50 space-y-4">
         <h3 class="text-sm font-bold text-white border-b border-gray-800 pb-2">1. Individual Security, Phone, UPI & Crypto Save</h3>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- Secret Admin PIN -->
           <div class="bg-gray-900/80 p-3 rounded-xl border border-red-500/30">
             <label class="text-[11px] text-red-400 font-bold block mb-1.5"><i class="fas fa-key"></i> Secret Admin PIN</label>
             <div class="flex gap-2">
@@ -319,7 +417,6 @@
             </div>
           </div>
 
-          <!-- Mobile / WhatsApp Number -->
           <div class="bg-gray-900/80 p-3 rounded-xl border border-sky-500/30">
             <label class="text-[11px] text-sky-300 font-bold block mb-1.5"><i class="fas fa-phone"></i> Mobile / WhatsApp Number</label>
             <div class="flex gap-2">
@@ -328,7 +425,6 @@
             </div>
           </div>
 
-          <!-- PhonePe / UPI ID -->
           <div class="bg-gray-900/80 p-3 rounded-xl border border-purple-500/30">
             <label class="text-[11px] text-purple-300 font-bold block mb-1.5"><i class="fas fa-indian-rupee-sign"></i> PhonePe / UPI ID</label>
             <div class="flex gap-2">
@@ -337,16 +433,14 @@
             </div>
           </div>
 
-          <!-- My Site GitHub Link -->
           <div class="bg-gray-900/80 p-3 rounded-xl border border-rose-500/30">
-            <label class="text-[11px] text-rose-300 font-bold block mb-1.5"><i class="fas fa-globe"></i> My Site GitHub Link (Bottom Nav)</label>
+            <label class="text-[11px] text-rose-300 font-bold block mb-1.5"><i class="fas fa-globe"></i> External My Site Link (Optional)</label>
             <div class="flex gap-2">
-              <input type="text" id="setMySiteUrl" placeholder="Paste My Site GitHub URL..." class="bg-gray-950 border border-rose-500/40 rounded-lg px-3 py-2 text-xs text-white flex-1">
-              <button type="button" onclick="saveSingleField('mySiteUrl', 'setMySiteUrl', 'My Site GitHub Link')" class="bg-rose-500 hover:bg-rose-400 text-white font-extrabold px-3.5 py-2 rounded-lg text-xs shrink-0">Save Site</button>
+              <input type="text" id="setMySiteUrl" placeholder="Leave empty for built-in My Site modal" class="bg-gray-950 border border-rose-500/40 rounded-lg px-3 py-2 text-xs text-white flex-1">
+              <button type="button" onclick="saveSingleField('mySiteUrl', 'setMySiteUrl', 'External My Site Link')" class="bg-rose-500 hover:bg-rose-400 text-white font-extrabold px-3.5 py-2 rounded-lg text-xs shrink-0">Save Site</button>
             </div>
           </div>
 
-          <!-- USDT TRC-20 Address -->
           <div class="bg-gray-900/80 p-3 rounded-xl border border-emerald-500/30">
             <label class="text-[11px] text-emerald-400 font-bold block mb-1.5">USDT (TRC-20) Address</label>
             <div class="flex gap-2">
@@ -355,7 +449,6 @@
             </div>
           </div>
 
-          <!-- USDT / BNB BNB-20 Address -->
           <div class="bg-gray-900/80 p-3 rounded-xl border border-yellow-500/30">
             <label class="text-[11px] text-yellow-400 font-bold block mb-1.5">USDT / BNB (BNB-20) Address</label>
             <div class="flex gap-2">
@@ -367,7 +460,6 @@
 
         <h3 class="text-sm font-bold text-white border-b border-gray-800 pb-2 pt-2">2. Individual QR Code Upload or URL Save</h3>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <!-- PhonePe QR -->
           <div class="bg-gray-900 p-3.5 rounded-xl border border-purple-500/30 space-y-2">
             <label class="text-[11px] text-purple-300 font-bold block">PhonePe QR Code</label>
             <input type="file" accept="image/*" onchange="handleQrUpload(this, 'phonepeQr', 'PhonePe QR')" class="text-[11px] text-gray-300 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-purple-500 file:text-white w-full">
@@ -377,7 +469,6 @@
             </div>
           </div>
 
-          <!-- TRC-20 QR -->
           <div class="bg-gray-900 p-3.5 rounded-xl border border-emerald-500/30 space-y-2">
             <label class="text-[11px] text-emerald-300 font-bold block">USDT (TRC-20) QR Code</label>
             <input type="file" accept="image/*" onchange="handleQrUpload(this, 'trcQr', 'USDT TRC-20 QR')" class="text-[11px] text-gray-300 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-emerald-500 file:text-gray-950 w-full">
@@ -387,7 +478,6 @@
             </div>
           </div>
 
-          <!-- BNB-20 QR -->
           <div class="bg-gray-900 p-3.5 rounded-xl border border-yellow-500/30 space-y-2">
             <label class="text-[11px] text-yellow-300 font-bold block">BNB-20 QR Code</label>
             <input type="file" accept="image/*" onchange="handleQrUpload(this, 'bnbQr', 'BNB-20 QR')" class="text-[11px] text-gray-300 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-yellow-500 file:text-gray-950 w-full">
@@ -399,7 +489,6 @@
         </div>
       </div>
 
-      <!-- Create New Custom Button / App -->
       <div class="bg-gray-950/80 p-5 rounded-xl border border-cyan-500/35 space-y-3">
         <h3 class="text-sm font-extrabold text-cyan-300"><i class="fas fa-plus-circle mr-1.5"></i> Add New Custom App / Button</h3>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -413,12 +502,10 @@
         <div id="customAppsAdminList" class="space-y-2 pt-2"></div>
       </div>
 
-      <!-- 44 Demo Links Manager -->
       <h3 class="text-sm font-bold text-white mb-3">3. Manage 44 Default App Demo Links (Individual Save)</h3>
       <div id="adminAppList" class="space-y-3"></div>
     </div>
 
-    <!-- Tab 2: Order & Payment History with Hash/UTR -->
     <div id="tabHistory" class="hidden space-y-4">
       <div class="flex justify-between items-center mb-2">
         <h3 class="text-sm font-bold text-white"><i class="fas fa-history mr-1 text-sky-400"></i> Customer Orders & 12-Digit UTR / TxHash Logs</h3>
@@ -446,9 +533,10 @@
   </div>
 </div>
 
-<!-- Default Data & Cache Initialization -->
+<!-- Default Data & Referral Capture -->
 <script>
-const CACHE_KEY = "MGSML_FIREBASE_CACHE_V3";
+const CACHE_KEY = "MGSML_FIREBASE_CACHE_V4";
+const REF_STORAGE_KEY = "MGSML_ACTIVE_REFERRAL_CODE";
 
 const DEFAULT_APPS = [
   "Crypto Mining & HYIP Platform", "MLM & Referral Network", "Digital Wallet & Crypto Swap",
@@ -486,6 +574,29 @@ window.customApps = [];
 window.orderHistory = [];
 window.globalSettings = { ...DEFAULT_SETTINGS };
 
+(function captureReferralParam() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const refParam = (params.get("ref") || "").trim();
+    if (refParam) {
+      sessionStorage.setItem(REF_STORAGE_KEY, refParam);
+    }
+    const activeRef = sessionStorage.getItem(REF_STORAGE_KEY) || "";
+    if (activeRef && document.getElementById("activeRefBanner")) {
+      document.getElementById("activeRefCodeText").innerText = activeRef;
+      document.getElementById("activeRefBanner").classList.remove("hidden");
+    }
+  } catch (e) {}
+})();
+
+function getActiveReferralCode() {
+  try {
+    return sessionStorage.getItem(REF_STORAGE_KEY) || "";
+  } catch (e) {
+    return "";
+  }
+}
+
 function loadLocalCache() {
   try {
     const raw = localStorage.getItem(CACHE_KEY);
@@ -522,10 +633,11 @@ function saveLocalCache() {
 loadLocalCache();
 </script>
 
-<!-- Firebase Realtime Database SDK & Separate Path Save/Sync -->
+<!-- Firebase Realtime Database + Google Auth for Built-in My Site -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+  import { getDatabase, ref, onValue, set, push, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyA5s0SEZuGDapBtszVKcKkXPIaFQ-niXyk",
@@ -538,14 +650,25 @@ loadLocalCache();
     measurementId: "G-L2DYJRHCQB"
   };
 
+  let msAuthUser = null;
+  let msCurrentPromoter = null;
+  let msUnlocked = false;
+  let msPromotersMap = {};
+  let msLeadsMap = {};
+  let msOrdersMap = {};
+
   try {
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
+    const auth = getAuth(app);
+    const googleProvider = new GoogleAuthProvider();
 
     const settingsRef = ref(db, "mgsml_store/settings");
     const linksRef = ref(db, "mgsml_store/app_links");
     const customAppsRef = ref(db, "mgsml_store/custom_apps");
     const ordersRef = ref(db, "mgsml_store/orders");
+    const leadsRef = ref(db, "mgsml_store/leads_calls");
+    const promotersRef = ref(db, "mgsml_store/promoters");
 
     function updateSyncBadge(text, ok = true) {
       const badge = document.getElementById("firebaseSyncStatus");
@@ -563,7 +686,7 @@ loadLocalCache();
         if (typeof window.renderApps === "function") window.renderApps();
       }
       updateSyncBadge("Firebase Connected", true);
-    }, (err) => {
+    }, () => {
       updateSyncBadge("Local + Cloud Ready", true);
     });
 
@@ -589,6 +712,7 @@ loadLocalCache();
     });
 
     onValue(ordersRef, (snap) => {
+      msOrdersMap = snap.val() || {};
       if (snap.exists() && snap.val()) {
         const val = snap.val();
         window.orderHistory = Array.isArray(val) ? val.filter(Boolean) : Object.values(val).filter(Boolean);
@@ -600,6 +724,18 @@ loadLocalCache();
           window.renderHistoryTable();
         }
       }
+      renderMySiteDashboard();
+    });
+
+    onValue(promotersRef, (snap) => {
+      msPromotersMap = snap.val() || {};
+      syncMySiteAuthView();
+      renderMySiteDashboard();
+    });
+
+    onValue(leadsRef, (snap) => {
+      msLeadsMap = snap.val() || {};
+      renderMySiteDashboard();
     });
 
     window.syncSingleSettingCloud = function(key, value) {
@@ -629,6 +765,198 @@ loadLocalCache();
         .then(() => updateSyncBadge("Orders Synced", true))
         .catch(() => updateSyncBadge("Orders Saved", true));
     };
+
+    window.pushVisitorLeadToFirebase = function(leadPayload) {
+      push(leadsRef, {
+        ...leadPayload,
+        referredBy: getActiveReferralCode() || "Direct",
+        createdAt: new Date().toLocaleString(),
+        status: "New"
+      }).catch(() => {});
+    };
+
+    // Built-in My Site Google Auth + PIN + Dashboard
+    window.loginMySiteGoogle = function() {
+      signInWithPopup(auth, googleProvider).catch((err) => {
+        alert("Google Sign-In Error: " + err.message);
+      });
+    };
+
+    window.logoutMySiteGoogle = function() {
+      msUnlocked = false;
+      signOut(auth).catch(() => {});
+    };
+
+    onAuthStateChanged(auth, (user) => {
+      msAuthUser = user;
+      if (!user) msUnlocked = false;
+      syncMySiteAuthView();
+    });
+
+    function syncMySiteAuthView() {
+      const badge = document.getElementById("mySiteUserBadge");
+      const emailTxt = document.getElementById("mySiteUserEmail");
+      const loginBox = document.getElementById("mySiteLoginBox");
+      const pinBox = document.getElementById("mySitePinBox");
+      const dash = document.getElementById("mySiteDashboard");
+      const statusTxt = document.getElementById("mySitePromoterStatus");
+      if (!loginBox || !pinBox || !dash) return;
+
+      if (!msAuthUser) {
+        badge?.classList.add("hidden");
+        badge?.classList.remove("flex");
+        loginBox.classList.remove("hidden");
+        pinBox.classList.add("hidden");
+        dash.classList.add("hidden");
+        return;
+      }
+
+      badge?.classList.remove("hidden");
+      badge?.classList.add("flex");
+      if (emailTxt) emailTxt.innerText = msAuthUser.email || "";
+      loginBox.classList.add("hidden");
+
+      const entries = Object.entries(msPromotersMap || {});
+      const found = entries.find(([, p]) => p && p.email && String(p.email).toLowerCase() === String(msAuthUser.email || "").toLowerCase());
+
+      if (!found || !found[1].approved) {
+        msCurrentPromoter = null;
+        msUnlocked = false;
+        dash.classList.add("hidden");
+        pinBox.classList.remove("hidden");
+        if (statusTxt) {
+          statusTxt.innerText = `UID: ${msAuthUser.uid} — Approve your email & set PIN in Firebase (mgsml_store/promoters).`;
+        }
+        return;
+      }
+
+      msCurrentPromoter = { id: found[0], ...found[1] };
+      if (msUnlocked) {
+        pinBox.classList.add("hidden");
+        dash.classList.remove("hidden");
+        renderMySiteDashboard();
+      } else {
+        dash.classList.add("hidden");
+        pinBox.classList.remove("hidden");
+        if (statusTxt) {
+          statusTxt.innerText = `Welcome ${msCurrentPromoter.name || ""} (${msCurrentPromoter.code || msCurrentPromoter.id}) — Enter your PIN`;
+        }
+      }
+    }
+
+    window.verifyMySitePin = function() {
+      const entered = (document.getElementById("mySitePinInput")?.value || "").trim();
+      const errEl = document.getElementById("mySitePinError");
+      if (!msCurrentPromoter || String(msCurrentPromoter.pin) !== entered) {
+        if (errEl) {
+          errEl.innerText = "Invalid PIN or account not approved yet!";
+          errEl.classList.remove("hidden");
+        }
+        return;
+      }
+      if (errEl) errEl.classList.add("hidden");
+      msUnlocked = true;
+      document.getElementById("mySitePinInput").value = "";
+      syncMySiteAuthView();
+    };
+
+    window.copyMySiteRefLink = function() {
+      const txt = document.getElementById("mySiteRefLink")?.innerText || "";
+      if (!txt) return;
+      navigator.clipboard.writeText(txt);
+      alert("Referral link copied!");
+    };
+
+    window.markMySiteLeadCalled = function(leadId) {
+      if (!msCurrentPromoter) return;
+      update(ref(db, `mgsml_store/leads_calls/${leadId}`), {
+        lastContactedBy: `${msCurrentPromoter.code || msCurrentPromoter.id} (${msCurrentPromoter.name || ""})`,
+        status: "Called"
+      }).catch(() => {});
+    };
+
+    function renderMySiteDashboard() {
+      if (!msUnlocked || !msCurrentPromoter) return;
+      const myCode = msCurrentPromoter.code || msCurrentPromoter.id;
+      const cleanBaseUrl = window.location.origin + window.location.pathname;
+      const refLinkEl = document.getElementById("mySiteRefLink");
+      if (refLinkEl) {
+        refLinkEl.innerText = `${cleanBaseUrl}?ref=${encodeURIComponent(myCode)}`;
+      }
+
+      const leadsTbody = document.getElementById("mySiteLeadsTbody");
+      if (leadsTbody) {
+        const entries = Object.entries(msLeadsMap || {});
+        if (msCurrentPromoter.canViewLeads === false) {
+          leadsTbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-amber-300">Lead viewing permission is disabled for this promoter.</td></tr>`;
+        } else if (entries.length === 0) {
+          leadsTbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-500">No visitor calls or WhatsApp leads yet.</td></tr>`;
+        } else {
+          leadsTbody.innerHTML = entries.slice().reverse().map(([id, l]) => {
+            if (!l) return "";
+            const safePhone = String(l.phone || "").replace(/'/g, "");
+            return `
+              <tr class="border-b border-gray-800 hover:bg-gray-900/50">
+                <td class="p-3 font-bold text-white">${escapeAttr(l.visitorName || "Visitor")} <span class="text-[10px] text-sky-300">(${escapeAttr(l.source || "web")})</span></td>
+                <td class="p-3 font-mono text-emerald-300">${escapeAttr(l.phone || "N/A")}</td>
+                <td class="p-3">${escapeAttr(l.appInterested || l.message || "-")}</td>
+                <td class="p-3 text-cyan-300">${escapeAttr(l.referredBy || "Direct")}</td>
+                <td class="p-3 space-x-1">
+                  ${safePhone ? `<a href="tel:${encodeURIComponent(safePhone)}" onclick="markMySiteLeadCalled('${escapeAttr(id)}')" class="bg-emerald-600 hover:bg-emerald-500 text-white px-2.5 py-1 rounded text-[11px] font-bold inline-block">Call</a>` : ""}
+                  <span class="text-[10px] text-gray-400">${escapeAttr(l.status || "New")}</span>
+                </td>
+              </tr>`;
+          }).join("");
+        }
+      }
+
+      const subCodes = Object.values(msPromotersMap || {})
+        .filter((p) => p && p.sponsorId === myCode && p.code)
+        .map((p) => p.code);
+
+      let directSum = 0;
+      let refSum = 0;
+      const commTbody = document.getElementById("mySiteCommTbody");
+      const ordersList = Array.isArray(msOrdersMap) ? msOrdersMap : Object.values(msOrdersMap || {});
+      let commRows = "";
+
+      ordersList.forEach((ord) => {
+        if (!ord || ord.status !== "Verified") return;
+        const saleAmt = Number(String(ord.numericAmount || ord.method || 0).replace(/[^0-9.]/g, "")) || 0;
+        if (saleAmt <= 0) return;
+
+        if (ord.referredBy === myCode) {
+          const earn = saleAmt * 0.25;
+          directSum += earn;
+          commRows += `
+            <tr class="border-b border-gray-800">
+              <td class="p-3 text-gray-400">${escapeAttr(ord.date || "")}</td>
+              <td class="p-3 text-white font-bold">${escapeAttr(ord.item || "")}</td>
+              <td class="p-3">₹${saleAmt.toLocaleString()}</td>
+              <td class="p-3 text-emerald-400 font-bold">₹${earn.toLocaleString()} (25% Direct)</td>
+              <td class="p-3 text-cyan-300">Verified</td>
+            </tr>`;
+        } else if (ord.referredBy && subCodes.includes(ord.referredBy)) {
+          const earn = saleAmt * 0.05;
+          refSum += earn;
+          commRows += `
+            <tr class="border-b border-gray-800">
+              <td class="p-3 text-gray-400">${escapeAttr(ord.date || "")}</td>
+              <td class="p-3 text-white font-bold">${escapeAttr(ord.item || "")} (via ${escapeAttr(ord.referredBy)})</td>
+              <td class="p-3">₹${saleAmt.toLocaleString()}</td>
+              <td class="p-3 text-cyan-300 font-bold">₹${earn.toLocaleString()} (5% Referral)</td>
+              <td class="p-3 text-cyan-300">Verified</td>
+            </tr>`;
+        }
+      });
+
+      if (commTbody) {
+        commTbody.innerHTML = commRows || `<tr><td colspan="5" class="p-4 text-center text-gray-500">No verified commission entries yet.</td></tr>`;
+      }
+      if (document.getElementById("mySiteDirectComm")) document.getElementById("mySiteDirectComm").innerText = `₹${directSum.toLocaleString()}`;
+      if (document.getElementById("mySiteRefComm")) document.getElementById("mySiteRefComm").innerText = `₹${refSum.toLocaleString()}`;
+      if (document.getElementById("mySiteGrandComm")) document.getElementById("mySiteGrandComm").innerText = `₹${(directSum + refSum).toLocaleString()}`;
+    }
   } catch (e) {
     console.warn("Firebase init skipped:", e);
   }
@@ -698,7 +1026,6 @@ function checkStealthPinBtn() {
   }
 }
 
-// Individual Save Function for Each Setting Field
 function saveSingleField(settingKey, inputId, labelName) {
   const inputEl = document.getElementById(inputId);
   if (!inputEl) return;
@@ -718,7 +1045,6 @@ function saveSingleField(settingKey, inputId, labelName) {
   alert(`✅ ${labelName} saved successfully!`);
 }
 
-// Individual QR URL Save Function
 function saveQrUrl(qrKey, inputId, labelName) {
   const inputEl = document.getElementById(inputId);
   if (!inputEl) return;
@@ -749,16 +1075,18 @@ function openPayModal(preselectedApp = "") {
 }
 
 function openMySite() {
-  const url = (window.globalSettings.mySiteUrl || "").trim();
-  if (url) {
-    window.open(url, "_blank");
-  } else {
-    alert("🚀 My Site (25% Partner & Promotion Portal) will be updated soon! Stay tuned.");
+  const extUrl = (window.globalSettings.mySiteUrl || "").trim();
+  if (extUrl) {
+    window.open(extUrl, "_blank");
+    return;
   }
+  document.getElementById('mySiteModal').style.display = 'flex';
 }
 
 function sharePortal(platform) {
-  const siteUrl = window.location.href;
+  const base = window.location.origin + window.location.pathname;
+  const ref = getActiveReferralCode();
+  const siteUrl = ref ? `${base}?ref=${encodeURIComponent(ref)}` : base;
   const shareText = 
     `🔥 100% GENUINE MGSML APP STUDIO 🔥\n\n` +
     `Looking for professional, ready-to-launch software, apps, and website solutions? Explore our massive catalog of 44+ high-end digital products & custom apps!\n\n` +
@@ -887,7 +1215,16 @@ function renderApps() {
 }
 
 function chatSpecificApp(appTitle) {
-  const msg = `Hello MGSML, I want to inquire about ${appTitle}. Please share more details.`;
+  if (typeof window.pushVisitorLeadToFirebase === "function") {
+    window.pushVisitorLeadToFirebase({
+      visitorName: "WhatsApp Chat Click",
+      phone: "",
+      appInterested: appTitle,
+      source: "whatsapp_button"
+    });
+  }
+  const ref = getActiveReferralCode();
+  const msg = `Hello MGSML, I want to inquire about ${appTitle}${ref ? ` (Ref: ${ref})` : ""}. Please share more details.`;
   window.open(`https://wa.me/${window.globalSettings.wa}?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
@@ -908,12 +1245,24 @@ function sendSupportForm() {
     return;
   }
 
+  if (typeof window.pushVisitorLeadToFirebase === "function") {
+    window.pushVisitorLeadToFirebase({
+      visitorName: `${name} (${city})`,
+      phone: phone,
+      appInterested: app,
+      message: msg,
+      source: "whatsapp_form"
+    });
+  }
+
+  const ref = getActiveReferralCode();
   const waText = 
     `🔔 *NEW MGSML SUPPORT INQUIRY* 🔔\n\n` +
     `👤 *Name:* ${name}\n` +
     `📞 *Phone:* ${phone}\n` +
     `🌍 *City:* ${city}\n` +
     `📱 *App/Service:* ${app}\n` +
+    (ref ? `🏷️ *Referral:* ${ref}\n` : ``) +
     `💬 *Message:* ${msg}`;
 
   window.open(`https://wa.me/${window.globalSettings.wa}?text=${encodeURIComponent(waText)}`, '_blank');
@@ -950,11 +1299,15 @@ function submitPaymentProof() {
     return;
   }
 
+  const numericAmount = Number(amount.replace(/[^0-9.]/g, "")) || 0;
+  const referredBy = getActiveReferralCode() || "Direct";
   const now = new Date().toLocaleString();
   const orderObj = {
     date: now,
     item: app,
     method: `${method} (${amount})`,
+    numericAmount,
+    referredBy,
     hash: txHash,
     status: 'Pending'
   };
@@ -969,7 +1322,7 @@ function submitPaymentProof() {
   closeModal('payModal');
   alert("✅ Order & 12-Digit UTR / Hash saved successfully!\n\nRedirecting to WhatsApp for instant confirmation...");
   
-  const waMsg = `Hello MGSML, I have placed an order!\n*App:* ${app}\n*Method:* ${method}\n*Amount:* ${amount}\n*UTR / Hash:* ${txHash}`;
+  const waMsg = `Hello MGSML, I have placed an order!\n*App:* ${app}\n*Method:* ${method}\n*Amount:* ${amount}\n*Ref:* ${referredBy}\n*UTR / Hash:* ${txHash}`;
   window.open(`https://wa.me/${window.globalSettings.wa}?text=${encodeURIComponent(waMsg)}`, '_blank');
 }
 
@@ -987,7 +1340,7 @@ function renderHistoryTable() {
     tbody.innerHTML += `
       <tr class="border-b border-gray-800 hover:bg-gray-900/50">
         <td class="p-3 text-gray-400 text-[11px]">${escapeAttr(ord.date)}</td>
-        <td class="p-3 font-bold text-white">${escapeAttr(ord.item)}</td>
+        <td class="p-3 font-bold text-white">${escapeAttr(ord.item)} <span class="text-[10px] text-cyan-300">[${escapeAttr(ord.referredBy || 'Direct')}]</span></td>
         <td class="p-3 text-sky-300">${escapeAttr(ord.method)}</td>
         <td class="p-3 font-mono text-emerald-300 text-[11px]">${escapeAttr(ord.hash || 'N/A')}</td>
         <td class="p-3">
