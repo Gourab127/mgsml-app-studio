@@ -399,9 +399,10 @@
     </div>
     <p class="text-xs text-sky-200/70 mb-6">Each item has its own separate Save button so every field saves independently and shows instant confirmation.</p>
     
-    <div class="flex gap-2 mb-5 border-b border-gray-800 pb-3">
-      <button onclick="switchTab('settings')" id="tabBtnSettings" class="bg-sky-500 text-gray-950 font-extrabold px-4 py-2 rounded-lg text-xs transition">Individual Settings, QR & Links</button>
-      <button onclick="switchTab('history')" id="tabBtnHistory" class="bg-gray-800 text-gray-300 font-extrabold px-4 py-2 rounded-lg text-xs transition">Order & Payment History (<span id="historyCount">0</span>)</button>
+    <div class="flex flex-wrap gap-2 mb-5 border-b border-gray-800 pb-3">
+      <button type="button" onclick="switchTab('settings')" id="tabBtnSettings" class="bg-sky-500 text-gray-950 font-extrabold px-4 py-2 rounded-lg text-xs transition">Individual Settings, QR & Links</button>
+      <button type="button" onclick="switchTab('history')" id="tabBtnHistory" class="bg-gray-800 text-gray-300 font-extrabold px-4 py-2 rounded-lg text-xs transition">Order & Payment History (<span id="historyCount">0</span>)</button>
+      <button type="button" onclick="switchTab('promoters')" id="tabBtnPromoters" class="bg-gray-800 text-indigo-300 border border-indigo-500/30 font-extrabold px-4 py-2 rounded-lg text-xs transition">Promoters</button>
     </div>
 
     <div id="tabSettings" class="space-y-6">
@@ -526,6 +527,19 @@
         </table>
       </div>
     </div>
+
+    <div id="tabPromoters" class="hidden space-y-4">
+      <div class="flex flex-wrap items-center justify-between gap-2 bg-gray-950/80 p-4 rounded-xl border border-indigo-500/30">
+        <div>
+          <h3 class="text-sm font-bold text-white"><i class="fas fa-users-cog text-indigo-400 mr-1.5"></i> Partner / Promoter Management</h3>
+          <p class="text-[11px] text-gray-400">প্রতিটি প্রমোটারের জন্য আলাদা PIN ও Approval সেট করে তার নিজস্ব Save Promoter বাটনে চাপুন।</p>
+        </div>
+        <span id="adminPromotersCount" class="text-xs font-bold px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">0 Promoters</span>
+      </div>
+      <div id="adminPromotersList" class="space-y-3">
+        <p class="text-xs text-gray-400">Loading promoters...</p>
+      </div>
+    </div>
     
     <div class="mt-6 flex justify-end">
       <button type="button" onclick="closeModal('adminModal');" class="bg-sky-500 text-gray-950 font-extrabold px-6 py-2.5 rounded-xl text-xs">Done</button>
@@ -633,16 +647,16 @@ function saveLocalCache() {
 loadLocalCache();
 </script>
 
-<!-- Firebase Realtime Database + Google Auth for Built-in My Site -->
+<!-- Firebase Realtime Database + Google Auth for Built-in My Site & Admin Promoters -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getDatabase, ref, onValue, set, push, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+  import { getDatabase, ref, onValue, set, push, update, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
   import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyA5s0SEZuGDapBtszVKcKkXPIaFQ-niXyk",
     authDomain: "mgsml-app-store.firebaseapp.com",
-    databaseURL: "https://mgsml-app-store-default-rtdb.firebaseio.com",
+    databaseURL: "https://mgsml-app-store-default-rtdb.asia-southeast1.firebasedatabase.app",
     projectId: "mgsml-app-store",
     storageBucket: "mgsml-app-store.firebasestorage.app",
     messagingSenderId: "25990515693",
@@ -731,6 +745,10 @@ loadLocalCache();
       msPromotersMap = snap.val() || {};
       syncMySiteAuthView();
       renderMySiteDashboard();
+      const promTab = document.getElementById("tabPromoters");
+      if (promTab && !promTab.classList.contains("hidden")) {
+        window.renderAdminPromoters();
+      }
     });
 
     onValue(leadsRef, (snap) => {
@@ -775,11 +793,39 @@ loadLocalCache();
       }).catch(() => {});
     };
 
+    // নতুন প্রমোটার Google Sign-In করলে অটোমেটিক mgsml_store/promoters/[UID]-এ রেজিস্টার হবে
+    async function ensurePromoterAutoRegistered(user) {
+      if (!user || !user.uid) return;
+      const userRef = ref(db, `mgsml_store/promoters/${user.uid}`);
+      try {
+        const snap = await get(userRef);
+        if (!snap.exists()) {
+          const autoCode = "PRM-" + String(user.uid).slice(-4).toUpperCase();
+          await set(userRef, {
+            uid: user.uid,
+            email: user.email || "",
+            name: user.displayName || "Partner",
+            code: autoCode,
+            pin: "",
+            approved: false,
+            canViewLeads: true,
+            createdAt: new Date().toLocaleString()
+          });
+        }
+      } catch (err) {
+        console.warn("Auto-register skipped:", err);
+      }
+    }
+
     // Built-in My Site Google Auth + PIN + Dashboard
     window.loginMySiteGoogle = function() {
-      signInWithPopup(auth, googleProvider).catch((err) => {
-        alert("Google Sign-In Error: " + err.message);
-      });
+      signInWithPopup(auth, googleProvider)
+        .then(async (result) => {
+          await ensurePromoterAutoRegistered(result.user);
+        })
+        .catch((err) => {
+          alert("Google Sign-In Error: " + err.message);
+        });
     };
 
     window.logoutMySiteGoogle = function() {
@@ -787,9 +833,14 @@ loadLocalCache();
       signOut(auth).catch(() => {});
     };
 
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       msAuthUser = user;
-      if (!user) msUnlocked = false;
+      if (!user) {
+        msUnlocked = false;
+        syncMySiteAuthView();
+        return;
+      }
+      await ensurePromoterAutoRegistered(user);
       syncMySiteAuthView();
     });
 
@@ -817,7 +868,12 @@ loadLocalCache();
       loginBox.classList.add("hidden");
 
       const entries = Object.entries(msPromotersMap || {});
-      const found = entries.find(([, p]) => p && p.email && String(p.email).toLowerCase() === String(msAuthUser.email || "").toLowerCase());
+      const found = entries.find(([key, p]) =>
+        p && (
+          key === msAuthUser.uid ||
+          (p.email && String(p.email).toLowerCase() === String(msAuthUser.email || "").toLowerCase())
+        )
+      );
 
       if (!found || !found[1].approved) {
         msCurrentPromoter = null;
@@ -825,7 +881,7 @@ loadLocalCache();
         dash.classList.add("hidden");
         pinBox.classList.remove("hidden");
         if (statusTxt) {
-          statusTxt.innerText = `UID: ${msAuthUser.uid} — Approve your email & set PIN in Firebase (mgsml_store/promoters).`;
+          statusTxt.innerText = `UID: ${msAuthUser.uid} — Account registered. Approve & set PIN in Admin Panel > Promoters.`;
         }
         return;
       }
@@ -847,7 +903,7 @@ loadLocalCache();
     window.verifyMySitePin = function() {
       const entered = (document.getElementById("mySitePinInput")?.value || "").trim();
       const errEl = document.getElementById("mySitePinError");
-      if (!msCurrentPromoter || String(msCurrentPromoter.pin) !== entered) {
+      if (!msCurrentPromoter || !msCurrentPromoter.pin || String(msCurrentPromoter.pin).trim() !== entered) {
         if (errEl) {
           errEl.innerText = "Invalid PIN or account not approved yet!";
           errEl.classList.remove("hidden");
@@ -873,6 +929,101 @@ loadLocalCache();
         lastContactedBy: `${msCurrentPromoter.code || msCurrentPromoter.id} (${msCurrentPromoter.name || ""})`,
         status: "Called"
       }).catch(() => {});
+    };
+
+    // Admin Panel Promoters Management
+    window.saveSinglePromoterAdmin = async function(uid) {
+      if (!uid) return;
+      const approvedEl = document.getElementById(`prom_approved_${uid}`);
+      const pinEl = document.getElementById(`prom_pin_${uid}`);
+      const codeEl = document.getElementById(`prom_code_${uid}`);
+      const statusEl = document.getElementById(`prom_save_msg_${uid}`);
+
+      const isApproved = Boolean(approvedEl?.checked);
+      const pinVal = String(pinEl?.value || "").trim();
+      const codeVal = String(codeEl?.value || "").trim() || ("PRM-" + uid.slice(-4).toUpperCase());
+
+      if (isApproved && !pinVal) {
+        alert("অ্যাপ্রুভ করার আগে অনুগ্রহ করে একটি PIN দিন।");
+        pinEl?.focus();
+        return;
+      }
+
+      try {
+        await update(ref(db, `mgsml_store/promoters/${uid}`), {
+          approved: isApproved,
+          pin: pinVal,
+          code: codeVal,
+          updatedAt: new Date().toLocaleString()
+        });
+
+        if (statusEl) {
+          statusEl.innerText = "Saved!";
+          statusEl.className = "text-[11px] font-bold text-emerald-400";
+          setTimeout(() => {
+            if (statusEl) statusEl.innerText = "";
+          }, 2500);
+        }
+        updateSyncBadge("Promoter Saved", true);
+      } catch (err) {
+        alert("Save Error: " + err.message);
+      }
+    };
+
+    window.renderAdminPromoters = function() {
+      const container = document.getElementById("adminPromotersList");
+      const countBadge = document.getElementById("adminPromotersCount");
+      if (!container) return;
+
+      const entries = Object.entries(msPromotersMap || {});
+      if (countBadge) countBadge.innerText = `${entries.length} Promoters`;
+
+      if (entries.length === 0) {
+        container.innerHTML = `<div class="p-4 rounded-xl bg-gray-900/60 border border-gray-800 text-xs text-gray-400">এখনো কোনো প্রমোটার সাইন-ইন করেনি।</div>`;
+        return;
+      }
+
+      container.innerHTML = entries.map(([uid, p]) => {
+        const safeUid = escapeAttr(uid);
+        const name = escapeAttr(p?.name || "Partner");
+        const email = escapeAttr(p?.email || "");
+        const code = escapeAttr(p?.code || ("PRM-" + uid.slice(-4).toUpperCase()));
+        const pin = escapeAttr(p?.pin || "");
+        const checkedAttr = p?.approved ? "checked" : "";
+
+        return `
+          <div class="p-3.5 rounded-xl bg-gray-900 border border-gray-800 space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <div class="text-sm font-bold text-white">${name} <span class="text-[11px] font-normal text-cyan-300">(${email})</span></div>
+                <div class="text-[10px] font-mono text-gray-400 break-all">UID: ${safeUid}</div>
+              </div>
+              <label class="inline-flex items-center gap-2 text-xs font-bold text-emerald-300 cursor-pointer">
+                <input id="prom_approved_${safeUid}" type="checkbox" ${checkedAttr} class="w-4 h-4 accent-emerald-500 rounded">
+                <span>Approved</span>
+              </label>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div>
+                <label class="block text-[11px] text-gray-400 mb-1">Referral Code</label>
+                <input id="prom_code_${safeUid}" type="text" value="${code}" class="w-full px-3 py-2 rounded-lg bg-gray-950 border border-gray-700 text-xs text-white">
+              </div>
+              <div>
+                <label class="block text-[11px] text-gray-400 mb-1">Secret PIN</label>
+                <input id="prom_pin_${safeUid}" type="text" value="${pin}" placeholder="যেমন: 1234 বা 5820" class="w-full px-3 py-2 rounded-lg bg-gray-950 border border-gray-700 text-xs text-white">
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-1">
+              <span id="prom_save_msg_${safeUid}" class="text-[11px] text-gray-400"></span>
+              <button type="button" onclick="saveSinglePromoterAdmin('${safeUid}')" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold">
+                Save Promoter
+              </button>
+            </div>
+          </div>
+        `;
+      }).join("");
     };
 
     function renderMySiteDashboard() {
@@ -1007,6 +1158,9 @@ function openAdminPanel() {
   renderAdminApps();
   renderCustomAppsAdmin();
   renderHistoryTable();
+  if (typeof window.renderAdminPromoters === "function") {
+    window.renderAdminPromoters();
+  }
   document.getElementById('adminModal').style.display = 'flex';
 }
 
@@ -1374,20 +1528,36 @@ function clearHistory() {
 function switchTab(tab) {
   const btnSet = document.getElementById('tabBtnSettings');
   const btnHis = document.getElementById('tabBtnHistory');
+  const btnPro = document.getElementById('tabBtnPromoters');
   const divSet = document.getElementById('tabSettings');
   const divHis = document.getElementById('tabHistory');
+  const divPro = document.getElementById('tabPromoters');
+
+  const inactiveBtn = "bg-gray-800 text-gray-300 font-extrabold px-4 py-2 rounded-lg text-xs transition";
+  const inactiveProBtn = "bg-gray-800 text-indigo-300 border border-indigo-500/30 font-extrabold px-4 py-2 rounded-lg text-xs transition";
+  const activeBtn = "bg-sky-500 text-gray-950 font-extrabold px-4 py-2 rounded-lg text-xs transition";
+
+  btnSet.className = inactiveBtn;
+  btnHis.className = inactiveBtn;
+  if (btnPro) btnPro.className = inactiveProBtn;
+
+  divSet.classList.add('hidden');
+  divHis.classList.add('hidden');
+  if (divPro) divPro.classList.add('hidden');
 
   if (tab === 'settings') {
-    btnSet.className = "bg-sky-500 text-gray-950 font-extrabold px-4 py-2 rounded-lg text-xs transition";
-    btnHis.className = "bg-gray-800 text-gray-300 font-extrabold px-4 py-2 rounded-lg text-xs transition";
+    btnSet.className = activeBtn;
     divSet.classList.remove('hidden');
-    divHis.classList.add('hidden');
-  } else {
-    btnHis.className = "bg-sky-500 text-gray-950 font-extrabold px-4 py-2 rounded-lg text-xs transition";
-    btnSet.className = "bg-gray-800 text-gray-300 font-extrabold px-4 py-2 rounded-lg text-xs transition";
+  } else if (tab === 'history') {
+    btnHis.className = activeBtn;
     divHis.classList.remove('hidden');
-    divSet.classList.add('hidden');
     renderHistoryTable();
+  } else if (tab === 'promoters') {
+    if (btnPro) btnPro.className = "bg-indigo-500 text-white font-extrabold px-4 py-2 rounded-lg text-xs transition";
+    if (divPro) divPro.classList.remove('hidden');
+    if (typeof window.renderAdminPromoters === "function") {
+      window.renderAdminPromoters();
+    }
   }
 }
 
