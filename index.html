@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MGSML App Studio | Demo & Solutions</title>
+<title>Max Grid App Studio | Home, Demos & Partner Hub</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <style>
@@ -44,13 +44,17 @@
   .red-sky-btn:hover {
     background: linear-gradient(135deg, #f87171 0%, #f43f5e 45%, #38bdf8 100%);
   }
+  .nav-tab-active {
+    background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+    color: #030712 !important;
+  }
 </style>
 </head>
 <body class="min-h-screen flex flex-col pb-24">
 
 <!-- Top Announcement -->
 <div class="bg-gradient-to-r from-sky-400 via-cyan-300 to-sky-500 text-gray-950 text-xs font-extrabold py-2 px-4 text-center tracking-wide">
-  <marquee scrollamount="5">🚀 Welcome to MGSML App Studio! 100% Genuine Software & App Solutions. Explore 44+ Ready Demos & Custom Buttons — Order Now!</marquee>
+  <marquee scrollamount="5">🚀 Welcome to Max Grid App Store! 100% Genuine Software & App Solutions. Explore 44+ Ready Demos & Custom Buttons — Order Now!</marquee>
 </div>
 
 <!-- Top Navbar -->
@@ -62,72 +66,145 @@
         <i class="fas fa-layer-group"></i>
       </div>
       <div>
-        <span class="text-lg sm:text-xl font-black text-white tracking-tight">MGSML <span class="text-sky-400">APP STUDIO</span></span>
+        <span class="text-lg sm:text-xl font-black text-white tracking-tight">MAX GRID <span class="text-sky-400">APP STORE</span></span>
         <span class="block text-[10px] text-cyan-300 uppercase tracking-widest font-semibold">Digital Portal & Live Demo Hub</span>
       </div>
     </div>
     <div class="flex items-center gap-2">
-      <button onclick="openShareModal()" class="inline-flex items-center gap-1.5 bg-sky-600 hover:bg-sky-500 text-white text-xs font-extrabold px-3.5 py-2.5 rounded-xl transition shadow-md"><i class="fas fa-share-alt"></i> Share</button>
-      <button onclick="openPayModal()" class="red-sky-btn text-white text-xs font-extrabold px-4 py-2.5 rounded-xl transition"><i class="fas fa-qrcode mr-1"></i> Pay</button>
+      <button type="button" onclick="openShareModal()" class="inline-flex items-center gap-1.5 bg-sky-600 hover:bg-sky-500 text-white text-xs font-extrabold px-3.5 py-2.5 rounded-xl transition shadow-md"><i class="fas fa-share-alt"></i> Share</button>
+      <button type="button" onclick="openPayModal()" class="red-sky-btn text-white text-xs font-extrabold px-4 py-2.5 rounded-xl transition"><i class="fas fa-qrcode mr-1"></i> Pay</button>
     </div>
   </div>
 </nav>
 
-<!-- Hero & Search -->
-<header class="max-w-7xl mx-auto px-4 pt-12 pb-8 text-center">
-  <span class="bg-sky-500/15 text-sky-300 text-xs font-extrabold px-4 py-1.5 rounded-full border border-sky-400/30 inline-block mb-4">⚡ 100% Genuine | 44+ Ready Demos & Custom Solutions</span>
-  <h1 class="text-3xl sm:text-5xl font-black text-white mb-4 leading-tight">Explore Our <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300">App & Website</span> Demos</h1>
-  <p class="text-sky-200/75 max-w-2xl mx-auto text-xs sm:text-sm mb-6 leading-relaxed">Professional software, Android/WebView, Telegram apps & custom solutions. Direct UPI & Crypto payments inside Pay, instant order verification, and live WhatsApp support.</p>
-  <div id="activeRefBanner" class="hidden max-w-md mx-auto mb-4 bg-cyan-500/15 border border-cyan-400/35 text-cyan-200 text-xs font-bold px-4 py-2 rounded-xl">
+<!-- Active Referral Banner -->
+<div class="max-w-7xl mx-auto px-4 w-full">
+  <div id="activeRefBanner" class="hidden max-w-md mx-auto mt-4 bg-cyan-500/15 border border-cyan-400/35 text-cyan-200 text-xs font-bold px-4 py-2 rounded-xl text-center">
     Referral Partner Active: <span id="activeRefCodeText" class="text-white font-mono"></span>
   </div>
-  
-  <div class="max-w-md mx-auto relative">
-    <i class="fas fa-search absolute left-4 top-3.5 text-sky-400"></i>
-    <input type="text" id="search" onkeyup="filterApps()" placeholder="Search 44+ apps or custom buttons..." class="w-full bg-gray-950/90 border border-sky-500/40 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-sky-400 shadow-lg">
-  </div>
-</header>
+</div>
 
-<!-- 44 + Custom Apps Grid -->
-<main class="max-w-7xl mx-auto px-4 mb-12 flex-grow w-full">
-  <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
-</main>
+<!-- ========================================================= -->
+<!-- SECTION 1: HOME PAGE VIEW (Separate GitHub Link Ready)   -->
+<!-- ========================================================= -->
+<section id="sectionHome" class="flex-grow w-full">
+  <!-- External Home Page Container (Loads when homePageUrl is saved in Admin) -->
+  <div id="externalHomeContainer" class="hidden max-w-7xl mx-auto px-4 pt-6 pb-8">
+    <div class="glass rounded-2xl p-3 sm:p-4 border border-sky-500/30 space-y-3">
+      <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+        <span class="font-extrabold text-cyan-300"><i class="fas fa-home mr-1.5"></i> Max Grid App Store — Custom Home Page</span>
+        <a id="externalHomeDirectLink" href="#" target="_blank" rel="noopener" class="text-sky-400 hover:underline font-bold">Open Full Screen <i class="fas fa-external-link-alt ml-1"></i></a>
+      </div>
+      <iframe id="externalHomeIframe" src="" class="w-full min-h-[75vh] rounded-xl border border-gray-800 bg-gray-950" loading="lazy"></iframe>
+    </div>
+  </div>
+
+  <!-- Default Home View (Shown before external homePageUrl is linked) -->
+  <div id="defaultHomeContent">
+    <header class="max-w-7xl mx-auto px-4 pt-12 pb-8 text-center">
+      <span class="bg-sky-500/15 text-sky-300 text-xs font-extrabold px-4 py-1.5 rounded-full border border-sky-400/30 inline-block mb-4">⚡ 100% Genuine | Max Grid App Store Portal</span>
+      <h1 class="text-3xl sm:text-5xl font-black text-white mb-4 leading-tight">Welcome to <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300">Max Grid App Store</span></h1>
+      <p class="text-sky-200/75 max-w-2xl mx-auto text-xs sm:text-sm mb-7 leading-relaxed">
+        Professional software, Android/WebView, Telegram apps & custom solutions under <strong>Max Grid App Store</strong>. Explore 44+ live demos inside <strong>Demos</strong>, manage your partner hub in <strong>My Site</strong>, and connect your separate GitHub Home Page anytime from Admin Panel.
+      </p>
+      <div class="flex flex-wrap items-center justify-center gap-3">
+        <button type="button" onclick="switchMainSection('demos')" class="bg-gradient-to-r from-sky-500 to-cyan-500 hover:from-sky-400 hover:to-cyan-400 text-gray-950 font-extrabold px-6 py-3 rounded-xl text-xs sm:text-sm transition shadow-lg">
+          <i class="fas fa-th-large mr-1.5"></i> Explore Demos (44+)
+        </button>
+        <button type="button" onclick="openMySite()" class="bg-gray-900 hover:bg-gray-800 text-white border border-sky-500/40 font-extrabold px-6 py-3 rounded-xl text-xs sm:text-sm transition">
+          <i class="fas fa-globe mr-1.5 text-sky-400"></i> Open My Site
+        </button>
+      </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 mb-12 w-full">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div class="glass app-card p-6 rounded-2xl">
+          <div class="w-11 h-11 rounded-xl bg-sky-500/15 text-sky-400 flex items-center justify-center text-lg mb-4"><i class="fas fa-laptop-code"></i></div>
+          <h3 class="text-base font-extrabold text-white mb-2">44+ Live App & Web Demos</h3>
+          <p class="text-xs text-sky-200/70 leading-relaxed mb-4">Browse ready-to-launch web, Android, and Telegram app demos with instant search, ordering, and WhatsApp support.</p>
+          <button type="button" onclick="switchMainSection('demos')" class="text-xs font-extrabold text-sky-400 hover:text-cyan-300">Open Demos →</button>
+        </div>
+
+        <div class="glass app-card p-6 rounded-2xl">
+          <div class="w-11 h-11 rounded-xl bg-emerald-500/15 text-emerald-400 flex items-center justify-center text-lg mb-4"><i class="fas fa-users"></i></div>
+          <h3 class="text-base font-extrabold text-white mb-2">My Site Partner Hub</h3>
+          <p class="text-xs text-sky-200/70 leading-relaxed mb-4">Sign in with Google & PIN, share your referral link, track visitor leads, and monitor 25% direct + 5% referral commissions.</p>
+          <button type="button" onclick="openMySite()" class="text-xs font-extrabold text-emerald-400 hover:text-emerald-300">Open My Site →</button>
+        </div>
+
+        <div class="glass app-card p-6 rounded-2xl">
+          <div class="w-11 h-11 rounded-xl bg-amber-500/15 text-amber-400 flex items-center justify-center text-lg mb-4"><i class="fas fa-link"></i></div>
+          <h3 class="text-base font-extrabold text-white mb-2">Separate GitHub Home Slot</h3>
+          <p class="text-xs text-sky-200/70 leading-relaxed mb-4">Host your custom Home Page separately on GitHub and paste its link in Admin Panel → Home Page Link.</p>
+          <span class="inline-block text-[11px] font-bold text-amber-300 bg-amber-500/15 px-2.5 py-1 rounded-md border border-amber-400/25">Ready for Link</span>
+        </div>
+      </div>
+    </main>
+  </div>
+</section>
+
+<!-- ========================================================= -->
+<!-- SECTION 2: DEMOS VIEW (All 44+ & Custom Apps Inside Here) -->
+<!-- ========================================================= -->
+<section id="sectionDemos" class="hidden flex-grow w-full">
+  <header class="max-w-7xl mx-auto px-4 pt-10 pb-6 text-center">
+    <span class="bg-sky-500/15 text-sky-300 text-xs font-extrabold px-4 py-1.5 rounded-full border border-sky-400/30 inline-block mb-3">⚡ 100% Genuine | 44+ Ready Demos & Custom Solutions</span>
+    <h2 class="text-2xl sm:text-4xl font-black text-white mb-3 leading-tight">Explore <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300">Max Grid App Store</span> Demos</h2>
+    <p class="text-sky-200/75 max-w-2xl mx-auto text-xs sm:text-sm mb-6 leading-relaxed">Professional software, Android/WebView, Telegram apps & custom solutions. Direct UPI & Crypto payments inside Pay, instant order verification, and live WhatsApp support.</p>
+
+    <div class="max-w-md mx-auto relative">
+      <i class="fas fa-search absolute left-4 top-3.5 text-sky-400"></i>
+      <input type="text" id="search" onkeyup="filterApps()" placeholder="Search 44+ apps or custom buttons..." class="w-full bg-gray-950/90 border border-sky-500/40 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-sky-400 shadow-lg">
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 mb-12 w-full">
+    <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+  </main>
+</section>
 
 <!-- Page End Note -->
 <footer class="text-center py-5 px-4 text-xs text-sky-200/50">
-  <p>&copy; 2026 MGSML App Studio. All Rights Reserved.</p>
+  <p>&copy; 2026 Max Grid App Store. All Rights Reserved.</p>
 </footer>
 
-<!-- Fixed Bottom Navigation Bar -->
-<div class="fixed bottom-0 inset-x-0 z-40 bottom-nav-glass px-3 py-2.5">
-  <div class="max-w-3xl mx-auto grid grid-cols-3 gap-2.5">
-    <button onclick="openShareModal()" class="red-sky-btn text-white font-extrabold py-2.5 px-2 rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-1.5 active:scale-95">
-      <i class="fas fa-share-nodes"></i> <span>Share</span>
+<!-- Fixed Bottom Navigation Bar (Home, Demos, My Site, Pay, Share) -->
+<div class="fixed bottom-0 inset-x-0 z-40 bottom-nav-glass px-2 sm:px-3 py-2">
+  <div class="max-w-4xl mx-auto grid grid-cols-5 gap-1.5 sm:gap-2">
+    <button type="button" id="bottomNavHome" onclick="switchMainSection('home')" class="nav-tab-active text-white font-extrabold py-2 px-1.5 rounded-xl text-[11px] sm:text-xs transition flex flex-col sm:flex-row items-center justify-center gap-1 active:scale-95">
+      <i class="fas fa-home"></i> <span>Home</span>
     </button>
-    <button onclick="openMySite()" class="red-sky-btn text-white font-extrabold py-2.5 px-2 rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-1.5 active:scale-95">
+    <button type="button" id="bottomNavDemos" onclick="switchMainSection('demos')" class="bg-gray-900/90 hover:bg-gray-800 text-sky-200 border border-sky-500/30 font-extrabold py-2 px-1.5 rounded-xl text-[11px] sm:text-xs transition flex flex-col sm:flex-row items-center justify-center gap-1 active:scale-95">
+      <i class="fas fa-th-large"></i> <span>Demos</span>
+    </button>
+    <button type="button" onclick="openMySite()" class="red-sky-btn text-white font-extrabold py-2 px-1.5 rounded-xl text-[11px] sm:text-xs transition flex flex-col sm:flex-row items-center justify-center gap-1 active:scale-95">
       <i class="fas fa-globe"></i> <span>My Site</span>
     </button>
-    <button onclick="openPayModal()" class="red-sky-btn text-white font-extrabold py-2.5 px-2 rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-1.5 active:scale-95">
+    <button type="button" onclick="openPayModal()" class="red-sky-btn text-white font-extrabold py-2 px-1.5 rounded-xl text-[11px] sm:text-xs transition flex flex-col sm:flex-row items-center justify-center gap-1 active:scale-95">
       <i class="fas fa-qrcode"></i> <span>Pay</span>
+    </button>
+    <button type="button" onclick="openShareModal()" class="red-sky-btn text-white font-extrabold py-2 px-1.5 rounded-xl text-[11px] sm:text-xs transition flex flex-col sm:flex-row items-center justify-center gap-1 active:scale-95">
+      <i class="fas fa-share-nodes"></i> <span>Share</span>
     </button>
   </div>
 </div>
 
 <!-- Floating Support Button -->
 <div class="fixed bottom-20 right-4 z-40">
-  <button onclick="toggleSupportModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white p-3.5 rounded-full floating-btn flex items-center justify-center text-xl transition transform hover:scale-110">
+  <button type="button" onclick="toggleSupportModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white p-3.5 rounded-full floating-btn flex items-center justify-center text-xl transition transform hover:scale-110">
     <i class="fab fa-whatsapp"></i>
   </button>
 </div>
 
-<!-- My Site Partner & Promotion Modal (Inside App Store) -->
+<!-- My Site Partner & Promotion Modal (Built-in Inside Max Grid App Store) -->
 <div id="mySiteModal" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-50 p-3 sm:p-4 overflow-y-auto">
   <div class="glass max-w-5xl w-full p-5 sm:p-7 rounded-2xl relative max-h-[94vh] overflow-y-auto border border-sky-500/40 sky-glow space-y-6">
-    <button onclick="closeModal('mySiteModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg"><i class="fas fa-times"></i></button>
+    <button type="button" onclick="closeModal('mySiteModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg"><i class="fas fa-times"></i></button>
 
     <div class="flex flex-wrap items-center justify-between gap-3 pr-8 border-b border-gray-800 pb-4">
       <div>
-        <h2 class="text-xl sm:text-2xl font-black text-white">MGSML <span class="text-sky-400">MY SITE</span> Partner Hub</h2>
+        <h2 class="text-xl sm:text-2xl font-black text-white">MAX GRID <span class="text-sky-400">MY SITE</span> Partner Hub</h2>
         <p class="text-xs text-sky-200/70">Google Sign-In + PIN • 25% Direct + 5% Referral Commission • Visitor Call & WhatsApp Lead History</p>
       </div>
       <div id="mySiteUserBadge" class="hidden items-center gap-2 text-xs text-cyan-300 font-bold">
@@ -226,17 +303,17 @@
 <!-- Share Choice Modal -->
 <div id="shareModal" class="fixed inset-0 bg-black/85 hidden items-center justify-center z-50 p-4">
   <div class="glass max-w-sm w-full p-6 rounded-2xl relative border border-sky-500/40 shadow-2xl text-center">
-    <button onclick="closeModal('shareModal')" class="absolute top-3.5 right-3.5 text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+    <button type="button" onclick="closeModal('shareModal')" class="absolute top-3.5 right-3.5 text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
     <div class="w-11 h-11 bg-sky-500/20 text-sky-400 rounded-full flex items-center justify-center mx-auto mb-3">
       <i class="fas fa-share-alt text-base"></i>
     </div>
-    <h3 class="text-base font-black text-white mb-1">Share MGSML App Studio</h3>
+    <h3 class="text-base font-black text-white mb-1">Share Max Grid App Store</h3>
     <p class="text-xs text-sky-200/70 mb-5">Choose your preferred platform to share this portal</p>
     <div class="grid grid-cols-2 gap-3">
-      <button onclick="sharePortal('whatsapp'); closeModal('shareModal');" class="bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3 px-3 rounded-xl text-xs flex items-center justify-center gap-2 transition shadow-lg">
+      <button type="button" onclick="sharePortal('whatsapp'); closeModal('shareModal');" class="bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3 px-3 rounded-xl text-xs flex items-center justify-center gap-2 transition shadow-lg">
         <i class="fab fa-whatsapp text-base"></i> WhatsApp
       </button>
-      <button onclick="sharePortal('telegram'); closeModal('shareModal');" class="bg-sky-600 hover:bg-sky-500 text-white font-extrabold py-3 px-3 rounded-xl text-xs flex items-center justify-center gap-2 transition shadow-lg">
+      <button type="button" onclick="sharePortal('telegram'); closeModal('shareModal');" class="bg-sky-600 hover:bg-sky-500 text-white font-extrabold py-3 px-3 rounded-xl text-xs flex items-center justify-center gap-2 transition shadow-lg">
         <i class="fab fa-telegram text-base"></i> Telegram
       </button>
     </div>
@@ -246,7 +323,7 @@
 <!-- Pay & 12-Digit UTR / Hash Verification Modal -->
 <div id="payModal" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-50 p-3 sm:p-4 overflow-y-auto">
   <div class="glass max-w-5xl w-full p-5 sm:p-7 rounded-2xl relative max-h-[94vh] overflow-y-auto border border-sky-500/40 sky-glow">
-    <button onclick="closeModal('payModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg"><i class="fas fa-times"></i></button>
+    <button type="button" onclick="closeModal('payModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg"><i class="fas fa-times"></i></button>
     
     <div class="text-center mb-6">
       <span class="bg-sky-500/15 text-sky-300 text-[11px] font-extrabold px-3 py-1 rounded-full border border-sky-400/25 inline-block mb-2">SECURE GATEWAY</span>
@@ -262,11 +339,11 @@
         </div>
         <div class="flex gap-1.5 w-full mb-3">
           <input type="text" readonly id="displayUpi" class="bg-gray-900 border border-purple-500/30 text-white font-mono text-[11px] px-2.5 py-2 rounded-lg w-full text-center">
-          <button onclick="copyText('displayUpi')" class="bg-purple-500 hover:bg-purple-400 text-white px-3 py-2 rounded-lg text-[11px] font-extrabold transition">Copy</button>
+          <button type="button" onclick="copyText('displayUpi')" class="bg-purple-500 hover:bg-purple-400 text-white px-3 py-2 rounded-lg text-[11px] font-extrabold transition">Copy</button>
         </div>
         <div class="w-full space-y-2 mt-auto">
           <input type="number" id="upiPayAmount" placeholder="Enter Amount (₹ INR)" class="w-full bg-gray-900 border border-purple-500/40 rounded-lg px-3 py-2 text-xs text-white text-center focus:outline-none focus:border-purple-400">
-          <button onclick="openUpiApp()" class="w-full bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:from-purple-500 hover:to-fuchsia-500 text-white font-extrabold py-2.5 rounded-lg text-xs transition flex items-center justify-center gap-1.5 shadow-md">
+          <button type="button" onclick="openUpiApp()" class="w-full bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:from-purple-500 hover:to-fuchsia-500 text-white font-extrabold py-2.5 rounded-lg text-xs transition flex items-center justify-center gap-1.5 shadow-md">
             <i class="fas fa-bolt"></i> Pay Now (Open PhonePe/UPI)
           </button>
         </div>
@@ -279,7 +356,7 @@
         </div>
         <div class="flex gap-1.5 w-full mb-3">
           <input type="text" readonly id="displayTrc" class="bg-gray-900 border border-emerald-500/30 text-emerald-400 font-mono text-[11px] px-2.5 py-2 rounded-lg w-full">
-          <button onclick="copyText('displayTrc')" class="bg-emerald-500 hover:bg-emerald-400 text-gray-950 px-3 py-2 rounded-lg text-[11px] font-extrabold transition">Copy</button>
+          <button type="button" onclick="copyText('displayTrc')" class="bg-emerald-500 hover:bg-emerald-400 text-gray-950 px-3 py-2 rounded-lg text-[11px] font-extrabold transition">Copy</button>
         </div>
         <p class="text-[11px] text-gray-400 mt-auto">Send USDT via Tron (TRC20) network and copy the TxHash after payment.</p>
       </div>
@@ -291,7 +368,7 @@
         </div>
         <div class="flex gap-1.5 w-full mb-3">
           <input type="text" readonly id="displayBnb" class="bg-gray-900 border border-yellow-500/30 text-yellow-400 font-mono text-[11px] px-2.5 py-2 rounded-lg w-full">
-          <button onclick="copyText('displayBnb')" class="bg-yellow-500 hover:bg-yellow-400 text-gray-950 px-3 py-2 rounded-lg text-[11px] font-extrabold transition">Copy</button>
+          <button type="button" onclick="copyText('displayBnb')" class="bg-yellow-500 hover:bg-yellow-400 text-gray-950 px-3 py-2 rounded-lg text-[11px] font-extrabold transition">Copy</button>
         </div>
         <p class="text-[11px] text-gray-400 mt-auto">Send USDT/BNB via BSC (BEP20) network and copy the TxHash after payment.</p>
       </div>
@@ -322,8 +399,8 @@
         </div>
       </div>
       <div class="mt-4 flex flex-wrap justify-between items-center gap-2">
-        <button onclick="closeModal('payModal')" class="bg-gray-800 hover:bg-gray-700 text-gray-300 font-bold px-4 py-2.5 rounded-xl text-xs">Close</button>
-        <button onclick="submitPaymentProof()" class="w-full sm:w-auto bg-gradient-to-r from-sky-400 to-cyan-400 hover:from-sky-300 hover:to-cyan-300 text-gray-950 font-extrabold px-6 py-3 rounded-xl text-xs transition flex items-center justify-center gap-2 shadow-lg">
+        <button type="button" onclick="closeModal('payModal')" class="bg-gray-800 hover:bg-gray-700 text-gray-300 font-bold px-4 py-2.5 rounded-xl text-xs">Close</button>
+        <button type="button" onclick="submitPaymentProof()" class="w-full sm:w-auto bg-gradient-to-r from-sky-400 to-cyan-400 hover:from-sky-300 hover:to-cyan-300 text-gray-950 font-extrabold px-6 py-3 rounded-xl text-xs transition flex items-center justify-center gap-2 shadow-lg">
           <i class="fas fa-paper-plane"></i> Confirm Order & Send Proof
         </button>
       </div>
@@ -334,13 +411,13 @@
 <!-- Support Lead Form Modal -->
 <div id="supportModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 p-4">
   <div class="glass max-w-md w-full p-6 rounded-2xl relative border border-emerald-500/40 shadow-2xl">
-    <button onclick="toggleSupportModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+    <button type="button" onclick="toggleSupportModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
     <div class="flex items-center gap-3 mb-4">
       <div class="w-10 h-10 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center">
         <i class="fab fa-whatsapp text-lg"></i>
       </div>
       <div>
-        <h3 class="text-sm font-bold text-white">MGSML Live WhatsApp Support</h3>
+        <h3 class="text-sm font-bold text-white">Max Grid App Store Live WhatsApp Support</h3>
         <p class="text-[11px] text-emerald-400">Fill details for instant response</p>
       </div>
     </div>
@@ -368,7 +445,7 @@
         <label class="text-[11px] text-gray-300 block mb-1">Your Message / Requirements</label>
         <textarea id="supMsg" rows="3" placeholder="Describe what you want to build..." class="w-full bg-gray-900 border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 resize-none"></textarea>
       </div>
-      <button onclick="sendSupportForm()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3 rounded-xl text-xs transition flex items-center justify-center gap-2">
+      <button type="button" onclick="sendSupportForm()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3 rounded-xl text-xs transition flex items-center justify-center gap-2">
         <i class="fab fa-whatsapp"></i> Send to WhatsApp Business
       </button>
     </div>
@@ -378,38 +455,47 @@
 <!-- Small Stealth PIN Modal -->
 <div id="stealthModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 p-4">
   <div class="glass max-w-xs w-full p-6 rounded-2xl relative text-center border border-sky-500/40 shadow-2xl">
-    <button onclick="closeStealth()" class="absolute top-3 right-3 text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+    <button type="button" onclick="closeStealth()" class="absolute top-3 right-3 text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
     <div class="w-10 h-10 bg-sky-500/20 text-sky-400 rounded-full flex items-center justify-center mx-auto mb-3">
       <i class="fas fa-lock text-sm"></i>
     </div>
     <h3 class="text-sm font-bold text-white mb-1">Secret Access</h3>
     <p class="text-[11px] text-gray-400 mb-4">Enter PIN to open Admin Panel</p>
     <input type="password" id="stealthPinInput" oninput="checkStealthPin()" placeholder="Enter PIN" autocomplete="off" class="w-full bg-gray-900 border border-sky-500/40 rounded-xl px-4 py-2.5 text-center text-sm text-white tracking-widest mb-3 focus:outline-none focus:border-sky-400">
-    <button onclick="checkStealthPinBtn()" class="w-full bg-sky-500 hover:bg-sky-600 text-gray-950 font-extrabold py-2 rounded-lg text-xs">Unlock</button>
+    <button type="button" onclick="checkStealthPinBtn()" class="w-full bg-sky-500 hover:bg-sky-600 text-gray-950 font-extrabold py-2 rounded-lg text-xs">Unlock</button>
   </div>
 </div>
 
 <!-- Admin Dashboard Modal -->
 <div id="adminModal" class="fixed inset-0 bg-black/95 hidden items-center justify-center z-50 p-4 overflow-y-auto">
   <div class="glass max-w-5xl w-full p-6 rounded-2xl relative max-h-[95vh] overflow-y-auto border border-sky-500/40">
-    <button onclick="closeModal('adminModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg"><i class="fas fa-times"></i></button>
+    <button type="button" onclick="closeModal('adminModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg"><i class="fas fa-times"></i></button>
     <div class="flex flex-wrap items-center justify-between gap-2 mb-1 pr-8">
-      <h2 class="text-xl font-black text-sky-400"><i class="fas fa-user-secret mr-2"></i> MGSML Stealth Admin Panel (Individual Save)</h2>
+      <h2 class="text-xl font-black text-sky-400"><i class="fas fa-user-secret mr-2"></i> Max Grid App Store Admin Panel (Individual Save)</h2>
       <span id="firebaseSyncStatus" class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Ready</span>
     </div>
     <p class="text-xs text-sky-200/70 mb-6">Each item has its own separate Save button so every field saves independently and shows instant confirmation.</p>
     
     <div class="flex flex-wrap gap-2 mb-5 border-b border-gray-800 pb-3">
-      <button type="button" onclick="switchTab('settings')" id="tabBtnSettings" class="bg-sky-500 text-gray-950 font-extrabold px-4 py-2 rounded-lg text-xs transition">Individual Settings, QR & Links</button>
+      <button type="button" onclick="switchTab('settings')" id="tabBtnSettings" class="bg-sky-500 text-gray-950 font-extrabold px-4 py-2 rounded-lg text-xs transition">Individual Settings, Home Link & QR</button>
       <button type="button" onclick="switchTab('history')" id="tabBtnHistory" class="bg-gray-800 text-gray-300 font-extrabold px-4 py-2 rounded-lg text-xs transition">Order & Payment History (<span id="historyCount">0</span>)</button>
       <button type="button" onclick="switchTab('promoters')" id="tabBtnPromoters" class="bg-indigo-600 text-white font-extrabold px-4 py-2 rounded-lg text-xs transition">Promoters</button>
     </div>
 
     <div id="tabSettings" class="space-y-6">
       <div class="bg-gray-950/80 p-5 rounded-xl border border-sky-900/50 space-y-4">
-        <h3 class="text-sm font-bold text-white border-b border-gray-800 pb-2">1. Individual Security, Phone, UPI & Crypto Save</h3>
+        <h3 class="text-sm font-bold text-white border-b border-gray-800 pb-2">1. Separate Home Page Link + Security, Phone, UPI & Crypto Save</h3>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Dedicated Home Page GitHub Link Slot -->
+          <div class="bg-gray-900/80 p-3 rounded-xl border border-cyan-500/40 md:col-span-2">
+            <label class="text-[11px] text-cyan-300 font-bold block mb-1.5"><i class="fas fa-home"></i> Home Page GitHub / Site Link (Separate Home Project)</label>
+            <div class="flex gap-2">
+              <input type="text" id="setHomePageUrl" placeholder="Paste separate Home Page GitHub URL here..." class="bg-gray-950 border border-cyan-500/40 rounded-lg px-3 py-2 text-xs text-white flex-1">
+              <button type="button" onclick="saveSingleField('homePageUrl', 'setHomePageUrl', 'Home Page Link')" class="bg-cyan-400 hover:bg-cyan-300 text-gray-950 font-extrabold px-4 py-2 rounded-lg text-xs shrink-0">Save Home</button>
+            </div>
+          </div>
+
           <div class="bg-gray-900/80 p-3 rounded-xl border border-red-500/30">
             <label class="text-[11px] text-red-400 font-bold block mb-1.5"><i class="fas fa-key"></i> Secret Admin PIN</label>
             <div class="flex gap-2">
@@ -437,7 +523,7 @@
           <div class="bg-gray-900/80 p-3 rounded-xl border border-rose-500/30">
             <label class="text-[11px] text-rose-300 font-bold block mb-1.5"><i class="fas fa-globe"></i> External My Site Link (Optional)</label>
             <div class="flex gap-2">
-              <input type="text" id="setMySiteUrl" placeholder="Leave empty for built-in My Site modal" class="bg-gray-950 border border-rose-500/40 rounded-lg px-3 py-2 text-xs text-white flex-1">
+              <input type="text" id="setMySiteUrl" placeholder="Leave empty for built-in My Site hub" class="bg-gray-950 border border-rose-500/40 rounded-lg px-3 py-2 text-xs text-white flex-1">
               <button type="button" onclick="saveSingleField('mySiteUrl', 'setMySiteUrl', 'External My Site Link')" class="bg-rose-500 hover:bg-rose-400 text-white font-extrabold px-3.5 py-2 rounded-lg text-xs shrink-0">Save Site</button>
             </div>
           </div>
@@ -491,7 +577,7 @@
       </div>
 
       <div class="bg-gray-950/80 p-5 rounded-xl border border-cyan-500/35 space-y-3">
-        <h3 class="text-sm font-extrabold text-cyan-300"><i class="fas fa-plus-circle mr-1.5"></i> Add New Custom App / Button</h3>
+        <h3 class="text-sm font-extrabold text-cyan-300"><i class="fas fa-plus-circle mr-1.5"></i> Add New Custom App / Button (Shown Inside Demos)</h3>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <input type="text" id="newCustomName" placeholder="App / Button Name (e.g. Hotel Online Order)" class="bg-gray-900 border border-cyan-500/30 rounded-lg px-3 py-2 text-xs text-white">
           <input type="text" id="newCustomDesc" placeholder="Short description (optional)" class="bg-gray-900 border border-cyan-500/30 rounded-lg px-3 py-2 text-xs text-white">
@@ -532,7 +618,7 @@
       <div class="flex flex-wrap items-center justify-between gap-2 bg-gray-950/80 p-4 rounded-xl border border-indigo-500/30">
         <div>
           <h3 class="text-sm font-bold text-white"><i class="fas fa-users-cog text-indigo-400 mr-1.5"></i> Partner / Promoter Management</h3>
-          <p class="text-[11px] text-gray-400">প্রতিটি প্রমোটারের জন্য আলাদা PIN ও Approval সেট করে তার নিজস্ব Save Promoter বাটনে চাপুন।</p>
+          <p class="text-[11px] text-gray-400">প্রতিটি প্রমোটারের জন্য আলাদা PIN, Approval ও Sponsor ID সেট করে তার নিজস্ব Save Promoter বাটনে চাপুন।</p>
         </div>
         <span id="adminPromotersCount" class="text-xs font-bold px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">0 Promoters</span>
       </div>
@@ -549,8 +635,8 @@
 
 <!-- Default Data & Referral Capture -->
 <script>
-const CACHE_KEY = "MGSML_FIREBASE_CACHE_V4";
-const REF_STORAGE_KEY = "MGSML_ACTIVE_REFERRAL_CODE";
+const CACHE_KEY = "MAXGRID_FIREBASE_CACHE_V1";
+const REF_STORAGE_KEY = "MAXGRID_ACTIVE_REFERRAL_CODE";
 
 const DEFAULT_APPS = [
   "Crypto Mining & HYIP Platform", "MLM & Referral Network", "Digital Wallet & Crypto Swap",
@@ -576,6 +662,7 @@ const DEFAULT_SETTINGS = {
   upi: "yourname@ybl",
   trc: "TQn9Y2khEsLJW1ChVWFMSMeRDow5KcbLSE",
   bnb: "0x71C3518B99...B249",
+  homePageUrl: "",
   mySiteUrl: "",
   phonepeQr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=PhonePeUPI",
   trcQr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=TRC20Wallet",
@@ -587,6 +674,7 @@ window.appLinks = Array(44).fill("");
 window.customApps = [];
 window.orderHistory = [];
 window.globalSettings = { ...DEFAULT_SETTINGS };
+window.activeMainSection = "home";
 
 (function captureReferralParam() {
   try {
@@ -647,7 +735,7 @@ function saveLocalCache() {
 loadLocalCache();
 </script>
 
-<!-- Firebase Realtime Database + Google Auth for Built-in My Site & Admin Promoters -->
+<!-- Firebase Realtime Database + Google Auth for My Site & Admin Promoters -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getDatabase, ref, onValue, set, push, update, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
@@ -697,6 +785,7 @@ loadLocalCache();
       if (snap.exists() && snap.val() && typeof snap.val() === "object") {
         window.globalSettings = { ...window.globalSettings, ...snap.val() };
         saveLocalCache();
+        if (typeof window.applyHomePageLink === "function") window.applyHomePageLink();
         if (typeof window.renderApps === "function") window.renderApps();
       }
       updateSyncBadge("Firebase Connected", true);
@@ -809,6 +898,7 @@ loadLocalCache();
           name: user.displayName || "Partner",
           code: autoCode,
           pin: "",
+          sponsorId: "",
           approved: false,
           canViewLeads: true,
           createdAt: new Date().toLocaleString()
@@ -966,11 +1056,13 @@ loadLocalCache();
       const approvedEl = document.getElementById(`prom_approved_${uid}`);
       const pinEl = document.getElementById(`prom_pin_${uid}`);
       const codeEl = document.getElementById(`prom_code_${uid}`);
+      const sponsorEl = document.getElementById(`prom_sponsor_${uid}`);
       const statusEl = document.getElementById(`prom_save_msg_${uid}`);
 
       const isApproved = Boolean(approvedEl?.checked);
       const pinVal = String(pinEl?.value || "").trim();
       const codeVal = String(codeEl?.value || "").trim() || ("PRM-" + uid.slice(-4).toUpperCase());
+      const sponsorVal = String(sponsorEl?.value || "").trim();
 
       if (isApproved && !pinVal) {
         alert("অ্যাপ্রুভ করার আগে অনুগ্রহ করে একটি PIN দিন।");
@@ -983,6 +1075,7 @@ loadLocalCache();
           approved: isApproved,
           pin: pinVal,
           code: codeVal,
+          sponsorId: sponsorVal,
           updatedAt: new Date().toLocaleString()
         });
 
@@ -990,6 +1083,7 @@ loadLocalCache();
           msPromotersMap[uid].approved = isApproved;
           msPromotersMap[uid].pin = pinVal;
           msPromotersMap[uid].code = codeVal;
+          msPromotersMap[uid].sponsorId = sponsorVal;
         }
         syncMySiteAuthView();
 
@@ -1025,6 +1119,7 @@ loadLocalCache();
         const email = escapeAttr(p?.email || "");
         const code = escapeAttr(p?.code || ("PRM-" + uid.slice(-4).toUpperCase()));
         const pin = escapeAttr(p?.pin !== undefined && p?.pin !== null ? String(p.pin) : "");
+        const sponsorId = escapeAttr(p?.sponsorId || "");
         const checkedAttr = p?.approved ? "checked" : "";
 
         return `
@@ -1040,7 +1135,7 @@ loadLocalCache();
               </label>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
               <div>
                 <label class="block text-[11px] text-gray-400 mb-1">Referral Code</label>
                 <input id="prom_code_${safeUid}" type="text" value="${code}" class="w-full px-3 py-2 rounded-lg bg-gray-950 border border-gray-700 text-xs text-white">
@@ -1048,6 +1143,10 @@ loadLocalCache();
               <div>
                 <label class="block text-[11px] text-gray-400 mb-1">Secret PIN</label>
                 <input id="prom_pin_${safeUid}" type="text" value="${pin}" placeholder="যেমন: 1234 বা 5820" class="w-full px-3 py-2 rounded-lg bg-gray-950 border border-gray-700 text-xs text-white">
+              </div>
+              <div>
+                <label class="block text-[11px] text-gray-400 mb-1">Sponsor ID (5% Upline Code)</label>
+                <input id="prom_sponsor_${safeUid}" type="text" value="${sponsorId}" placeholder="যেমন: PRM-100" class="w-full px-3 py-2 rounded-lg bg-gray-950 border border-gray-700 text-xs text-white">
               </div>
             </div>
 
@@ -1158,6 +1257,59 @@ function escapeAttr(str) {
   return String(str || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
+function switchMainSection(sectionName) {
+  window.activeMainSection = sectionName === "demos" ? "demos" : "home";
+  const homeSec = document.getElementById("sectionHome");
+  const demosSec = document.getElementById("sectionDemos");
+  const btnHome = document.getElementById("bottomNavHome");
+  const btnDemos = document.getElementById("bottomNavDemos");
+
+  if (window.activeMainSection === "demos") {
+    homeSec?.classList.add("hidden");
+    demosSec?.classList.remove("hidden");
+    btnDemos?.classList.add("nav-tab-active");
+    btnDemos?.classList.remove("bg-gray-900/90", "text-sky-200", "border", "border-sky-500/30");
+    btnHome?.classList.remove("nav-tab-active");
+    btnHome?.classList.add("bg-gray-900/90", "text-sky-200", "border", "border-sky-500/30");
+  } else {
+    demosSec?.classList.add("hidden");
+    homeSec?.classList.remove("hidden");
+    applyHomePageLink();
+    btnHome?.classList.add("nav-tab-active");
+    btnHome?.classList.remove("bg-gray-900/90", "text-sky-200", "border", "border-sky-500/30");
+    btnDemos?.classList.remove("nav-tab-active");
+    btnDemos?.classList.add("bg-gray-900/90", "text-sky-200", "border", "border-sky-500/30");
+  }
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function applyHomePageLink() {
+  const homeUrl = String(window.globalSettings.homePageUrl || "").trim();
+  const extBox = document.getElementById("externalHomeContainer");
+  const defBox = document.getElementById("defaultHomeContent");
+  const iframeEl = document.getElementById("externalHomeIframe");
+  const directLinkEl = document.getElementById("externalHomeDirectLink");
+
+  if (!extBox || !defBox) return;
+
+  if (homeUrl) {
+    extBox.classList.remove("hidden");
+    defBox.classList.add("hidden");
+    if (iframeEl && iframeEl.src !== homeUrl) {
+      iframeEl.src = homeUrl;
+    }
+    if (directLinkEl) {
+      directLinkEl.href = homeUrl;
+    }
+  } else {
+    extBox.classList.add("hidden");
+    defBox.classList.remove("hidden");
+    if (iframeEl) {
+      iframeEl.src = "";
+    }
+  }
+}
+
 function handleSecretTap() {
   tapCount++;
   clearTimeout(tapTimer);
@@ -1176,12 +1328,13 @@ function handleSecretTap() {
 function closeStealth() { document.getElementById('stealthModal').style.display = 'none'; }
 
 function syncAdminInputs() {
+  document.getElementById('setHomePageUrl').value = window.globalSettings.homePageUrl || "";
+  document.getElementById('setMySiteUrl').value = window.globalSettings.mySiteUrl || "";
   document.getElementById('setPin').value = window.globalSettings.pin || "";
   document.getElementById('setWa').value = window.globalSettings.wa || "";
   document.getElementById('setUpi').value = window.globalSettings.upi || "";
   document.getElementById('setTrc').value = window.globalSettings.trc || "";
   document.getElementById('setBnb').value = window.globalSettings.bnb || "";
-  document.getElementById('setMySiteUrl').value = window.globalSettings.mySiteUrl || "";
   document.getElementById('setPhonepeQrUrl').value = window.globalSettings.phonepeQr || "";
   document.getElementById('setTrcQrUrl').value = window.globalSettings.trcQr || "";
   document.getElementById('setBnbQrUrl').value = window.globalSettings.bnbQr || "";
@@ -1231,6 +1384,7 @@ function saveSingleField(settingKey, inputId, labelName) {
   if (typeof window.syncSingleSettingCloud === "function") {
     window.syncSingleSettingCloud(settingKey, val);
   }
+  applyHomePageLink();
   renderApps();
   alert(`✅ ${labelName} saved successfully!`);
 }
@@ -1278,19 +1432,19 @@ function sharePortal(platform) {
   const ref = getActiveReferralCode();
   const siteUrl = ref ? `${base}?ref=${encodeURIComponent(ref)}` : base;
   const shareText = 
-    `🔥 100% GENUINE MGSML APP STUDIO 🔥\n\n` +
-    `Looking for professional, ready-to-launch software, apps, and website solutions? Explore our massive catalog of 44+ high-end digital products & custom apps!\n\n` +
+    `🔥 100% GENUINE MAX GRID APP STORE 🔥\n\n` +
+    `Looking for professional, ready-to-launch software, apps, and website solutions? Explore Max Grid App Store with 44+ high-end digital products & custom apps!\n\n` +
     `🚀 What We Build:\n` +
     `• Crypto Mining, HYIP & MLM Platforms\n` +
     `• Telegram Mini Apps, Bots & DEX Token Swaps\n` +
     `• E-Commerce, Food Delivery & OTT Streaming Apps\n` +
     `• AI Powered Dashboards, Support Bots & Tools\n` +
     `• SaaS, LMS, POS & Enterprise Solutions\n\n` +
-    `💎 Why Choose MGSML App Studio?\n` +
+    `💎 Why Choose Max Grid App Store?\n` +
     `• 100% Genuine & Trusted Service (Zero Fraud)\n` +
     `• Secure Direct UPI & Crypto (TRC20/BNB20) Gateways\n` +
     `• Live Demos available for all products!\n\n` +
-    `👉 Visit our official portal now to check live demos and choose your next project: \n${siteUrl}`;
+    `👉 Visit Max Grid App Store now to check live demos and choose your next project: \n${siteUrl}`;
 
   const encodedText = encodeURIComponent(shareText);
 
@@ -1377,7 +1531,7 @@ function renderApps() {
     cardsHtml += buildAppCardHtml({
       badge: customBadge,
       title: item.name,
-      desc: item.desc || "Custom solution created via MGSML Admin Panel.",
+      desc: item.desc || "Custom solution created via Max Grid App Store Admin Panel.",
       link: item.link || "",
       orderLabel: fullLabel,
       waLabel: fullLabel,
@@ -1414,7 +1568,7 @@ function chatSpecificApp(appTitle) {
     });
   }
   const ref = getActiveReferralCode();
-  const msg = `Hello MGSML, I want to inquire about ${appTitle}${ref ? ` (Ref: ${ref})` : ""}. Please share more details.`;
+  const msg = `Hello Max Grid App Store, I want to inquire about ${appTitle}${ref ? ` (Ref: ${ref})` : ""}. Please share more details.`;
   window.open(`https://wa.me/${window.globalSettings.wa}?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
@@ -1447,7 +1601,7 @@ function sendSupportForm() {
 
   const ref = getActiveReferralCode();
   const waText = 
-    `🔔 *NEW MGSML SUPPORT INQUIRY* 🔔\n\n` +
+    `🔔 *NEW MAX GRID APP STORE INQUIRY* 🔔\n\n` +
     `👤 *Name:* ${name}\n` +
     `📞 *Phone:* ${phone}\n` +
     `🌍 *City:* ${city}\n` +
@@ -1470,7 +1624,7 @@ function openUpiApp() {
     return;
   }
   const upiId = window.globalSettings.upi;
-  const upiLink = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=MGSML%20App%20Studio&am=${encodeURIComponent(amt)}&cu=INR`;
+  const upiLink = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=Max%20Grid%20App%20Store&am=${encodeURIComponent(amt)}&cu=INR`;
   
   document.getElementById('verifyAmount').value = `₹${amt}`;
   document.getElementById('verifyMethod').value = "PhonePe / UPI";
@@ -1512,7 +1666,7 @@ function submitPaymentProof() {
   closeModal('payModal');
   alert("✅ Order & 12-Digit UTR / Hash saved successfully!\n\nRedirecting to WhatsApp for instant confirmation...");
   
-  const waMsg = `Hello MGSML, I have placed an order!\n*App:* ${app}\n*Method:* ${method}\n*Amount:* ${amount}\n*Ref:* ${referredBy}\n*UTR / Hash:* ${txHash}`;
+  const waMsg = `Hello Max Grid App Store, I have placed an order!\n*App:* ${app}\n*Method:* ${method}\n*Amount:* ${amount}\n*Ref:* ${referredBy}\n*UTR / Hash:* ${txHash}`;
   window.open(`https://wa.me/${window.globalSettings.wa}?text=${encodeURIComponent(waMsg)}`, '_blank');
 }
 
@@ -1773,7 +1927,9 @@ function copyText(id) {
   alert("Copied: " + el.value);
 }
 
+applyHomePageLink();
 renderApps();
+switchMainSection("home");
 </script>
 </body>
 </html>
