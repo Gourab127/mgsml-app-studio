@@ -2,275 +2,451 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Max Grid App Studio | Home, Demos & Partner Hub</title>
-<script src="https://cdn.tailwindcss.com"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     background: radial-gradient(circle at top, #0c1933 0%, #070b14 55%, #05080f 100%);
     color: #f3f4f6;
-    font-family: sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    min-height: 100vh;
+    padding-bottom: 86px;
   }
-  .glass {
-    background: rgba(13, 22, 40, 0.94);
-    backdrop-filter: blur(14px);
-    border: 1px solid rgba(56, 189, 248, 0.25);
+  .hidden { display: none !important; }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+
+  /* Home Blank Mode: hide chrome & footer when on blank Home */
+  body.home-blank-mode .chrome-bar,
+  body.home-blank-mode .site-footer,
+  body.home-blank-mode .floating-wa {
+    display: none !important;
   }
-  .bottom-nav-glass {
-    background: rgba(9, 16, 31, 0.96);
-    backdrop-filter: blur(16px);
-    border-top: 1px solid rgba(56, 189, 248, 0.35);
-    box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.55);
+  body.home-blank-mode {
+    background: #05080f;
+    padding-bottom: 72px;
   }
-  .sky-glow {
-    box-shadow: 0 0 35px rgba(56, 189, 248, 0.16);
+
+  /* Top Announcement */
+  .ann-bar {
+    background: linear-gradient(90deg, #38bdf8, #67e8f9, #0ea5e9);
+    color: #090d16;
+    font-size: 12px;
+    font-weight: 800;
+    padding: 7px 12px;
+    overflow: hidden;
+    white-space: nowrap;
   }
-  .app-card {
-    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+
+  /* Navbar */
+  .top-nav {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: rgba(13, 22, 40, 0.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(56, 189, 248, 0.25);
+    padding: 12px 16px;
   }
-  .app-card:hover {
-    transform: translateY(-3px);
-    border-color: rgba(56, 189, 248, 0.7);
-    box-shadow: 0 10px 28px rgba(14, 165, 233, 0.18);
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
   }
-  .floating-btn {
-    box-shadow: 0 6px 24px rgba(16, 185, 129, 0.45);
+  .brand-box { display: flex; align-items: center; gap: 10px; }
+  .logo-badge {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #38bdf8, #2563eb);
+    color: #05080f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+    flex-shrink: 0;
   }
+  .brand-title { font-size: 17px; font-weight: 900; color: #fff; letter-spacing: -0.3px; }
+  .brand-title span { color: #38bdf8; }
+  .brand-sub { display: block; font-size: 10px; color: #67e8f9; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+
+  .btn {
+    border: none;
+    border-radius: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+    text-decoration: none;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-sm { padding: 8px 13px; font-size: 12px; }
+  .btn-md { padding: 10px 16px; font-size: 12px; }
+  .btn-sky { background: #0284c7; color: #fff; }
+  .btn-sky:hover { background: #0ea5e9; }
+  .btn-cyan { background: linear-gradient(135deg, #0ea5e9, #06b6d4); color: #05080f; }
+  .btn-amber { background: linear-gradient(135deg, #fbbf24, #f97316); color: #05080f; }
+  .btn-emerald { background: linear-gradient(135deg, #059669, #0d9488); color: #fff; }
+  .btn-dark { background: #111827; color: #e5e7eb; border: 1px solid rgba(56, 189, 248, 0.3); }
   .red-sky-btn {
     background: linear-gradient(135deg, #ef4444 0%, #e11d48 45%, #0ea5e9 100%);
-    box-shadow: 0 4px 16px rgba(239, 68, 68, 0.25), 0 4px 14px rgba(14, 165, 233, 0.22);
+    color: #fff;
   }
-  .red-sky-btn:hover {
-    background: linear-gradient(135deg, #f87171 0%, #f43f5e 45%, #38bdf8 100%);
+
+  /* Sections */
+  .blank-home-area {
+    min-height: 78vh;
+    width: 100%;
+    background: #05080f;
   }
-  .nav-tab-active {
-    background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
-    color: #030712 !important;
+  .ext-home-wrap {
+    padding: 12px 16px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
   }
+  .ext-home-frame {
+    width: 100%;
+    min-height: 82vh;
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    border-radius: 14px;
+    background: #070b14;
+  }
+
+  .demos-hero { text-align: center; padding: 34px 16px 22px; }
+  .demos-hero h2 { font-size: 28px; font-weight: 900; color: #fff; margin: 10px 0; }
+  .demos-hero h2 span { color: #38bdf8; }
+  .demos-hero p { font-size: 13px; color: rgba(186, 230, 253, 0.78); max-width: 680px; margin: 0 auto 18px; line-height: 1.6; }
+  .search-wrap { max-width: 440px; margin: 0 auto; position: relative; }
+  .search-wrap i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #38bdf8; }
+  .search-input {
+    width: 100%;
+    background: rgba(9, 13, 22, 0.95);
+    border: 1px solid rgba(56, 189, 248, 0.45);
+    border-radius: 12px;
+    padding: 11px 14px 11px 38px;
+    color: #fff;
+    font-size: 13px;
+    outline: none;
+  }
+
+  .apps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .glass {
+    background: rgba(13, 22, 40, 0.95);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    border-radius: 16px;
+  }
+  .app-card { padding: 18px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; }
+  .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .badge-num {
+    font-size: 11px;
+    font-weight: 800;
+    color: #7dd3fc;
+    background: rgba(14, 165, 233, 0.16);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    padding: 3px 8px;
+    border-radius: 7px;
+  }
+  .app-title { font-size: 15px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+  .app-desc { font-size: 12px; color: rgba(186, 230, 253, 0.72); line-height: 1.5; }
+  .card-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+
+  /* Footer */
+  .site-footer { text-align: center; padding: 18px 16px; font-size: 12px; color: rgba(186, 230, 253, 0.5); }
+
+  /* Bottom Nav */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 45;
+    background: rgba(9, 16, 31, 0.97);
+    backdrop-filter: blur(14px);
+    border-top: 1px solid rgba(56, 189, 248, 0.35);
+    padding: 8px 10px;
+  }
+  .bottom-nav-grid {
+    max-width: 780px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+  }
+  .b-btn {
+    padding: 8px 6px;
+    border-radius: 11px;
+    font-size: 11px;
+    font-weight: 800;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+  }
+  .b-tab-active { background: linear-gradient(135deg, #0ea5e9, #06b6d4); color: #05080f; }
+  .b-tab-idle { background: #111827; color: #bae6fd; border: 1px solid rgba(56, 189, 248, 0.25); }
+
+  /* Floating WhatsApp */
+  .floating-wa {
+    position: fixed;
+    bottom: 76px;
+    right: 16px;
+    z-index: 44;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #059669;
+    color: #fff;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.45);
+  }
+
+  /* Modals */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.88);
+    z-index: 60;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+    overflow-y: auto;
+  }
+  .modal-backdrop.open { display: flex; }
+  .modal-box {
+    width: 100%;
+    max-width: 960px;
+    max-height: 92vh;
+    overflow-y: auto;
+    padding: 22px;
+    position: relative;
+  }
+  .modal-sm { max-width: 380px; text-align: center; }
+  .modal-md { max-width: 460px; }
+  .close-x {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    background: transparent;
+    border: none;
+    color: #9ca3af;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  .close-x:hover { color: #fff; }
+
+  .field-input, .field-select, .field-area {
+    width: 100%;
+    background: #090d16;
+    border: 1px solid rgba(56, 189, 248, 0.32);
+    border-radius: 10px;
+    padding: 9px 12px;
+    color: #fff;
+    font-size: 12px;
+    outline: none;
+  }
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+  .panel-card { background: rgba(9, 13, 22, 0.85); border: 1px solid rgba(56, 189, 248, 0.22); border-radius: 12px; padding: 14px; }
+  .row-flex { display: flex; gap: 8px; align-items: center; }
+  .flex-1 { flex: 1; }
+  .mt-2 { margin-top: 8px; }
+  .mt-3 { margin-top: 12px; }
+  .mt-4 { margin-top: 16px; }
+  .mb-2 { margin-bottom: 8px; }
+  .mb-3 { margin-bottom: 12px; }
+  .text-xs { font-size: 11px; }
+  .text-sm { font-size: 12px; }
+  .font-bold { font-weight: 700; }
+  .text-muted { color: #9ca3af; }
+  .text-sky { color: #38bdf8; }
+  .text-cyan { color: #67e8f9; }
+  .text-emerald { color: #34d399; }
+  .text-amber { color: #fbbf24; }
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; text-align: left; }
+  th, td { padding: 10px; border-bottom: 1px solid #1f2937; }
+  th { background: #111827; color: #38bdf8; }
 </style>
 </head>
-<body class="min-h-screen flex flex-col pb-24">
+<body class="home-blank-mode">
 
 <!-- Top Announcement -->
-<div class="bg-gradient-to-r from-sky-400 via-cyan-300 to-sky-500 text-gray-950 text-xs font-extrabold py-2 px-4 text-center tracking-wide">
-  <marquee scrollamount="5">🚀 Welcome to Max Grid App Store! 100% Genuine Software & App Solutions. Explore 44+ Ready Demos & Custom Buttons — Order Now!</marquee>
+<div class="ann-bar chrome-bar">
+  <marquee scrollamount="5">🚀 Welcome to Max Grid App Studio! 100% Genuine Software & App Solutions. Explore 44+ Ready Demos & Custom Buttons — Order Now!</marquee>
 </div>
 
 <!-- Top Navbar -->
-<nav class="glass sticky top-0 z-40 px-4 sm:px-6 py-4 border-b border-sky-500/25">
-  <div class="max-w-7xl mx-auto flex justify-between items-center gap-2">
-    <div class="flex items-center gap-3 select-none">
-      <!-- Secret Trigger: Tap this logo 5 times -->
-      <div onclick="handleSecretTap()" title="Tap 5 times for Admin" class="w-11 h-11 bg-gradient-to-br from-sky-400 to-blue-600 rounded-xl flex items-center justify-center text-gray-950 font-extrabold text-xl shadow-lg shadow-sky-500/30 cursor-pointer active:scale-95 transition">
+<nav class="top-nav chrome-bar">
+  <div class="nav-inner">
+    <div class="brand-box">
+      <div onclick="handleSecretTap()" title="Tap 5 times for Admin" class="logo-badge">
         <i class="fas fa-layer-group"></i>
       </div>
       <div>
-        <span class="text-lg sm:text-xl font-black text-white tracking-tight">MAX GRID <span class="text-sky-400">APP STORE</span></span>
-        <span class="block text-[10px] text-cyan-300 uppercase tracking-widest font-semibold">Digital Portal & Live Demo Hub</span>
+        <span class="brand-title">MAX GRID <span>APP STUDIO</span></span>
+        <span class="brand-sub">Digital Portal & Live Demo Hub</span>
       </div>
     </div>
-    <div class="flex items-center gap-2">
-      <button type="button" onclick="openShareModal()" class="inline-flex items-center gap-1.5 bg-sky-600 hover:bg-sky-500 text-white text-xs font-extrabold px-3.5 py-2.5 rounded-xl transition shadow-md"><i class="fas fa-share-alt"></i> Share</button>
-      <button type="button" onclick="openPayModal()" class="red-sky-btn text-white text-xs font-extrabold px-4 py-2.5 rounded-xl transition"><i class="fas fa-qrcode mr-1"></i> Pay</button>
+    <div class="row-flex">
+      <button type="button" onclick="openShareModal()" class="btn btn-sky btn-sm"><i class="fas fa-share-alt"></i> Share</button>
+      <button type="button" onclick="openPayModal()" class="btn red-sky-btn btn-sm"><i class="fas fa-qrcode"></i> Pay</button>
     </div>
   </div>
 </nav>
 
 <!-- Active Referral Banner -->
-<div class="max-w-7xl mx-auto px-4 w-full">
-  <div id="activeRefBanner" class="hidden max-w-md mx-auto mt-4 bg-cyan-500/15 border border-cyan-400/35 text-cyan-200 text-xs font-bold px-4 py-2 rounded-xl text-center">
-    Referral Partner Active: <span id="activeRefCodeText" class="text-white font-mono"></span>
+<div class="wrap chrome-bar">
+  <div id="activeRefBanner" class="hidden panel-card mt-3 text-center text-xs font-bold text-cyan">
+    Referral Partner Active: <span id="activeRefCodeText" class="text-white"></span>
   </div>
 </div>
 
 <!-- ========================================================= -->
-<!-- SECTION 1: HOME PAGE VIEW (Separate GitHub Link Ready)   -->
+<!-- SECTION 1: HOME PAGE VIEW (Blank Until GitHub Link Added) -->
 <!-- ========================================================= -->
-<section id="sectionHome" class="flex-grow w-full">
-  <!-- External Home Page Container (Loads when homePageUrl is saved in Admin) -->
-  <div id="externalHomeContainer" class="hidden max-w-7xl mx-auto px-4 pt-6 pb-8">
-    <div class="glass rounded-2xl p-3 sm:p-4 border border-sky-500/30 space-y-3">
-      <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
-        <span class="font-extrabold text-cyan-300"><i class="fas fa-home mr-1.5"></i> Max Grid App Store — Custom Home Page</span>
-        <a id="externalHomeDirectLink" href="#" target="_blank" rel="noopener" class="text-sky-400 hover:underline font-bold">Open Full Screen <i class="fas fa-external-link-alt ml-1"></i></a>
-      </div>
-      <iframe id="externalHomeIframe" src="" class="w-full min-h-[75vh] rounded-xl border border-gray-800 bg-gray-950" loading="lazy"></iframe>
-    </div>
+<section id="sectionHome">
+  <div id="externalHomeContainer" class="hidden ext-home-wrap">
+    <iframe id="externalHomeIframe" src="" class="ext-home-frame" loading="lazy"></iframe>
   </div>
-
-  <!-- Default Home View (Shown before external homePageUrl is linked) -->
-  <div id="defaultHomeContent">
-    <header class="max-w-7xl mx-auto px-4 pt-12 pb-8 text-center">
-      <span class="bg-sky-500/15 text-sky-300 text-xs font-extrabold px-4 py-1.5 rounded-full border border-sky-400/30 inline-block mb-4">⚡ 100% Genuine | Max Grid App Store Portal</span>
-      <h1 class="text-3xl sm:text-5xl font-black text-white mb-4 leading-tight">Welcome to <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300">Max Grid App Store</span></h1>
-      <p class="text-sky-200/75 max-w-2xl mx-auto text-xs sm:text-sm mb-7 leading-relaxed">
-        Professional software, Android/WebView, Telegram apps & custom solutions under <strong>Max Grid App Store</strong>. Explore 44+ live demos inside <strong>Demos</strong>, manage your partner hub in <strong>My Site</strong>, and connect your separate GitHub Home Page anytime from Admin Panel.
-      </p>
-      <div class="flex flex-wrap items-center justify-center gap-3">
-        <button type="button" onclick="switchMainSection('demos')" class="bg-gradient-to-r from-sky-500 to-cyan-500 hover:from-sky-400 hover:to-cyan-400 text-gray-950 font-extrabold px-6 py-3 rounded-xl text-xs sm:text-sm transition shadow-lg">
-          <i class="fas fa-th-large mr-1.5"></i> Explore Demos (44+)
-        </button>
-        <button type="button" onclick="openMySite()" class="bg-gray-900 hover:bg-gray-800 text-white border border-sky-500/40 font-extrabold px-6 py-3 rounded-xl text-xs sm:text-sm transition">
-          <i class="fas fa-globe mr-1.5 text-sky-400"></i> Open My Site
-        </button>
-      </div>
-    </header>
-
-    <main class="max-w-7xl mx-auto px-4 mb-12 w-full">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <div class="glass app-card p-6 rounded-2xl">
-          <div class="w-11 h-11 rounded-xl bg-sky-500/15 text-sky-400 flex items-center justify-center text-lg mb-4"><i class="fas fa-laptop-code"></i></div>
-          <h3 class="text-base font-extrabold text-white mb-2">44+ Live App & Web Demos</h3>
-          <p class="text-xs text-sky-200/70 leading-relaxed mb-4">Browse ready-to-launch web, Android, and Telegram app demos with instant search, ordering, and WhatsApp support.</p>
-          <button type="button" onclick="switchMainSection('demos')" class="text-xs font-extrabold text-sky-400 hover:text-cyan-300">Open Demos →</button>
-        </div>
-
-        <div class="glass app-card p-6 rounded-2xl">
-          <div class="w-11 h-11 rounded-xl bg-emerald-500/15 text-emerald-400 flex items-center justify-center text-lg mb-4"><i class="fas fa-users"></i></div>
-          <h3 class="text-base font-extrabold text-white mb-2">My Site Partner Hub</h3>
-          <p class="text-xs text-sky-200/70 leading-relaxed mb-4">Sign in with Google & PIN, share your referral link, track visitor leads, and monitor 25% direct + 5% referral commissions.</p>
-          <button type="button" onclick="openMySite()" class="text-xs font-extrabold text-emerald-400 hover:text-emerald-300">Open My Site →</button>
-        </div>
-
-        <div class="glass app-card p-6 rounded-2xl">
-          <div class="w-11 h-11 rounded-xl bg-amber-500/15 text-amber-400 flex items-center justify-center text-lg mb-4"><i class="fas fa-link"></i></div>
-          <h3 class="text-base font-extrabold text-white mb-2">Separate GitHub Home Slot</h3>
-          <p class="text-xs text-sky-200/70 leading-relaxed mb-4">Host your custom Home Page separately on GitHub and paste its link in Admin Panel → Home Page Link.</p>
-          <span class="inline-block text-[11px] font-bold text-amber-300 bg-amber-500/15 px-2.5 py-1 rounded-md border border-amber-400/25">Ready for Link</span>
-        </div>
-      </div>
-    </main>
-  </div>
+  <div id="defaultHomeContent" class="blank-home-area"></div>
 </section>
 
 <!-- ========================================================= -->
 <!-- SECTION 2: DEMOS VIEW (All 44+ & Custom Apps Inside Here) -->
 <!-- ========================================================= -->
-<section id="sectionDemos" class="hidden flex-grow w-full">
-  <header class="max-w-7xl mx-auto px-4 pt-10 pb-6 text-center">
-    <span class="bg-sky-500/15 text-sky-300 text-xs font-extrabold px-4 py-1.5 rounded-full border border-sky-400/30 inline-block mb-3">⚡ 100% Genuine | 44+ Ready Demos & Custom Solutions</span>
-    <h2 class="text-2xl sm:text-4xl font-black text-white mb-3 leading-tight">Explore <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300">Max Grid App Store</span> Demos</h2>
-    <p class="text-sky-200/75 max-w-2xl mx-auto text-xs sm:text-sm mb-6 leading-relaxed">Professional software, Android/WebView, Telegram apps & custom solutions. Direct UPI & Crypto payments inside Pay, instant order verification, and live WhatsApp support.</p>
-
-    <div class="max-w-md mx-auto relative">
-      <i class="fas fa-search absolute left-4 top-3.5 text-sky-400"></i>
-      <input type="text" id="search" onkeyup="filterApps()" placeholder="Search 44+ apps or custom buttons..." class="w-full bg-gray-950/90 border border-sky-500/40 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-sky-400 shadow-lg">
+<section id="sectionDemos" class="hidden">
+  <header class="demos-hero">
+    <span class="badge-num">⚡ 100% Genuine | 44+ Ready Demos & Custom Solutions</span>
+    <h2>Explore <span>Max Grid App Studio</span> Demos</h2>
+    <p>Professional software, Android/WebView, Telegram apps & custom solutions. Direct UPI & Crypto payments inside Pay, instant order verification, and live WhatsApp support.</p>
+    <div class="search-wrap">
+      <i class="fas fa-search"></i>
+      <input type="text" id="search" onkeyup="filterApps()" placeholder="Search 44+ apps or custom buttons..." class="search-input">
     </div>
   </header>
 
-  <main class="max-w-7xl mx-auto px-4 mb-12 w-full">
-    <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+  <main class="wrap">
+    <div id="grid" class="apps-grid"></div>
   </main>
 </section>
 
-<!-- Page End Note -->
-<footer class="text-center py-5 px-4 text-xs text-sky-200/50">
-  <p>&copy; 2026 Max Grid App Store. All Rights Reserved.</p>
+<!-- Footer -->
+<footer class="site-footer">
+  <p>&copy; 2026 Max Grid App Studio. All Rights Reserved.</p>
 </footer>
 
 <!-- Fixed Bottom Navigation Bar (Home, Demos, My Site, Pay, Share) -->
-<div class="fixed bottom-0 inset-x-0 z-40 bottom-nav-glass px-2 sm:px-3 py-2">
-  <div class="max-w-4xl mx-auto grid grid-cols-5 gap-1.5 sm:gap-2">
-    <button type="button" id="bottomNavHome" onclick="switchMainSection('home')" class="nav-tab-active text-white font-extrabold py-2 px-1.5 rounded-xl text-[11px] sm:text-xs transition flex flex-col sm:flex-row items-center justify-center gap-1 active:scale-95">
+<div class="bottom-nav">
+  <div class="bottom-nav-grid">
+    <button type="button" id="bottomNavHome" onclick="switchMainSection('home')" class="b-btn b-tab-active">
       <i class="fas fa-home"></i> <span>Home</span>
     </button>
-    <button type="button" id="bottomNavDemos" onclick="switchMainSection('demos')" class="bg-gray-900/90 hover:bg-gray-800 text-sky-200 border border-sky-500/30 font-extrabold py-2 px-1.5 rounded-xl text-[11px] sm:text-xs transition flex flex-col sm:flex-row items-center justify-center gap-1 active:scale-95">
+    <button type="button" id="bottomNavDemos" onclick="switchMainSection('demos')" class="b-btn b-tab-idle">
       <i class="fas fa-th-large"></i> <span>Demos</span>
     </button>
-    <button type="button" onclick="openMySite()" class="red-sky-btn text-white font-extrabold py-2 px-1.5 rounded-xl text-[11px] sm:text-xs transition flex flex-col sm:flex-row items-center justify-center gap-1 active:scale-95">
+    <button type="button" onclick="openMySite()" class="b-btn red-sky-btn">
       <i class="fas fa-globe"></i> <span>My Site</span>
     </button>
-    <button type="button" onclick="openPayModal()" class="red-sky-btn text-white font-extrabold py-2 px-1.5 rounded-xl text-[11px] sm:text-xs transition flex flex-col sm:flex-row items-center justify-center gap-1 active:scale-95">
+    <button type="button" onclick="openPayModal()" class="b-btn red-sky-btn">
       <i class="fas fa-qrcode"></i> <span>Pay</span>
     </button>
-    <button type="button" onclick="openShareModal()" class="red-sky-btn text-white font-extrabold py-2 px-1.5 rounded-xl text-[11px] sm:text-xs transition flex flex-col sm:flex-row items-center justify-center gap-1 active:scale-95">
+    <button type="button" onclick="openShareModal()" class="b-btn red-sky-btn">
       <i class="fas fa-share-nodes"></i> <span>Share</span>
     </button>
   </div>
 </div>
 
 <!-- Floating Support Button -->
-<div class="fixed bottom-20 right-4 z-40">
-  <button type="button" onclick="toggleSupportModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white p-3.5 rounded-full floating-btn flex items-center justify-center text-xl transition transform hover:scale-110">
-    <i class="fab fa-whatsapp"></i>
-  </button>
-</div>
+<button type="button" onclick="toggleSupportModal()" class="floating-wa" title="WhatsApp Support">
+  <i class="fab fa-whatsapp"></i>
+</button>
 
-<!-- My Site Partner & Promotion Modal (Built-in Inside Max Grid App Store) -->
-<div id="mySiteModal" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-50 p-3 sm:p-4 overflow-y-auto">
-  <div class="glass max-w-5xl w-full p-5 sm:p-7 rounded-2xl relative max-h-[94vh] overflow-y-auto border border-sky-500/40 sky-glow space-y-6">
-    <button type="button" onclick="closeModal('mySiteModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg"><i class="fas fa-times"></i></button>
+<!-- My Site Partner Hub Modal -->
+<div id="mySiteModal" class="modal-backdrop">
+  <div class="glass modal-box">
+    <button type="button" onclick="closeModal('mySiteModal')" class="close-x"><i class="fas fa-times"></i></button>
 
-    <div class="flex flex-wrap items-center justify-between gap-3 pr-8 border-b border-gray-800 pb-4">
+    <div class="row-flex mb-3" style="justify-content:space-between; flex-wrap:wrap; padding-right:28px; border-bottom:1px solid #1f2937; padding-bottom:12px;">
       <div>
-        <h2 class="text-xl sm:text-2xl font-black text-white">MAX GRID <span class="text-sky-400">MY SITE</span> Partner Hub</h2>
-        <p class="text-xs text-sky-200/70">Google Sign-In + PIN • 25% Direct + 5% Referral Commission • Visitor Call & WhatsApp Lead History</p>
+        <h2 class="text-sky" style="font-size:20px; font-weight:900;">MAX GRID <span style="color:#fff;">MY SITE</span> Partner Hub</h2>
+        <p class="text-xs text-muted">Google Sign-In + PIN • 25% Direct + 5% Referral Commission • Visitor Call & WhatsApp Lead History</p>
       </div>
-      <div id="mySiteUserBadge" class="hidden items-center gap-2 text-xs text-cyan-300 font-bold">
+      <div id="mySiteUserBadge" class="hidden row-flex text-xs font-bold text-cyan">
         <span id="mySiteUserEmail"></span>
-        <button type="button" onclick="logoutMySiteGoogle()" class="bg-red-500/20 hover:bg-red-500 text-red-300 hover:text-white border border-red-500/40 px-2.5 py-1 rounded-lg text-[11px] font-bold">Logout</button>
+        <button type="button" onclick="logoutMySiteGoogle()" class="btn btn-dark btn-sm">Logout</button>
       </div>
     </div>
 
-    <!-- Step 1: Google Sign-In -->
-    <div id="mySiteLoginBox" class="bg-gray-950/85 p-6 sm:p-8 rounded-2xl text-center max-w-md mx-auto space-y-4 border border-sky-500/30">
-      <div class="w-12 h-12 rounded-2xl bg-sky-500/20 text-sky-400 flex items-center justify-center mx-auto text-xl">
-        <i class="fas fa-user-shield"></i>
-      </div>
-      <h3 class="text-base font-extrabold text-white">Promoter Google Sign-In</h3>
-      <p class="text-xs text-sky-200/70 leading-relaxed">Sign in with your Google account first, then enter your approved PIN to view referral stats, commission, and visitor call/WhatsApp history.</p>
-      <button type="button" onclick="loginMySiteGoogle()" class="w-full bg-gradient-to-r from-sky-500 to-cyan-400 hover:from-sky-400 hover:to-cyan-300 text-gray-950 font-extrabold py-3 px-4 rounded-xl text-sm flex items-center justify-center gap-2 transition">
+    <div id="mySiteLoginBox" class="panel-card" style="max-width:420px; margin:16px auto; text-align:center;">
+      <h3 class="font-bold mb-2">Promoter Google Sign-In</h3>
+      <p class="text-xs text-muted mb-3">Sign in with your Google account first, then enter your approved PIN to view referral stats, commission, and visitor history.</p>
+      <button type="button" onclick="loginMySiteGoogle()" class="btn btn-cyan btn-md" style="width:100%;">
         <i class="fab fa-google"></i> Sign in with Google
       </button>
     </div>
 
-    <!-- Step 2: PIN Box -->
-    <div id="mySitePinBox" class="hidden bg-gray-950/85 p-6 rounded-2xl text-center max-w-sm mx-auto space-y-3 border border-cyan-500/30">
-      <h3 class="text-base font-extrabold text-white">Enter Secret PIN</h3>
-      <p id="mySitePromoterStatus" class="text-xs text-cyan-300"></p>
-      <input type="password" id="mySitePinInput" placeholder="Enter your PIN" class="w-full bg-gray-900 border border-sky-500/40 rounded-xl px-4 py-2.5 text-center text-white tracking-widest text-sm focus:outline-none">
-      <button type="button" onclick="verifyMySitePin()" class="w-full bg-sky-500 hover:bg-sky-400 text-gray-950 font-extrabold py-2.5 rounded-xl text-xs">Unlock Partner Dashboard</button>
-      <p id="mySitePinError" class="text-xs text-red-400 hidden"></p>
+    <div id="mySitePinBox" class="hidden panel-card" style="max-width:360px; margin:16px auto; text-align:center;">
+      <h3 class="font-bold mb-2">Enter Secret PIN</h3>
+      <p id="mySitePromoterStatus" class="text-xs text-cyan mb-2"></p>
+      <input type="password" id="mySitePinInput" placeholder="Enter your PIN" class="field-input mb-2" style="text-align:center; letter-spacing:3px;">
+      <button type="button" onclick="verifyMySitePin()" class="btn btn-cyan btn-md" style="width:100%;">Unlock Partner Dashboard</button>
+      <p id="mySitePinError" class="text-xs mt-2 hidden" style="color:#f87171;"></p>
     </div>
 
-    <!-- Step 3: Partner Dashboard -->
-    <div id="mySiteDashboard" class="hidden space-y-6">
-      <div class="bg-gray-950/85 p-4 rounded-2xl flex flex-wrap items-center justify-between gap-3 border border-cyan-400/30">
+    <div id="mySiteDashboard" class="hidden">
+      <div class="panel-card row-flex mb-3" style="justify-content:space-between; flex-wrap:wrap;">
         <div>
-          <span class="text-[11px] uppercase tracking-wider text-cyan-300 font-bold">Your Referral Link (25% Direct + 5% Referral)</span>
-          <div id="mySiteRefLink" class="text-xs sm:text-sm font-mono text-white mt-1 break-all"></div>
+          <span class="text-xs text-cyan font-bold">Your Referral Link (25% Direct + 5% Referral)</span>
+          <div id="mySiteRefLink" class="text-sm font-bold mt-2" style="word-break:break-all;"></div>
         </div>
-        <button type="button" onclick="copyMySiteRefLink()" class="bg-sky-500 hover:bg-sky-400 text-gray-950 font-extrabold px-4 py-2 rounded-xl text-xs">Copy Link</button>
+        <button type="button" onclick="copyMySiteRefLink()" class="btn btn-cyan btn-sm">Copy Link</button>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div class="bg-gray-950/85 p-4 rounded-2xl border border-emerald-500/25">
-          <span class="text-xs text-sky-200/70">Direct Commission (25%)</span>
-          <div id="mySiteDirectComm" class="text-2xl font-black text-emerald-400 mt-1">₹0</div>
+      <div class="grid-3 mb-3">
+        <div class="panel-card">
+          <span class="text-xs text-muted">Direct Commission (25%)</span>
+          <div id="mySiteDirectComm" class="text-emerald mt-2" style="font-size:20px; font-weight:900;">₹0</div>
         </div>
-        <div class="bg-gray-950/85 p-4 rounded-2xl border border-cyan-500/25">
-          <span class="text-xs text-sky-200/70">Referral Commission (5%)</span>
-          <div id="mySiteRefComm" class="text-2xl font-black text-cyan-300 mt-1">₹0</div>
+        <div class="panel-card">
+          <span class="text-xs text-muted">Referral Commission (5%)</span>
+          <div id="mySiteRefComm" class="text-cyan mt-2" style="font-size:20px; font-weight:900;">₹0</div>
         </div>
-        <div class="bg-gray-950/85 p-4 rounded-2xl border border-amber-500/25">
-          <span class="text-xs text-sky-200/70">Total Earned Commission</span>
-          <div id="mySiteGrandComm" class="text-2xl font-black text-amber-300 mt-1">₹0</div>
+        <div class="panel-card">
+          <span class="text-xs text-muted">Total Earned Commission</span>
+          <div id="mySiteGrandComm" class="text-amber mt-2" style="font-size:20px; font-weight:900;">₹0</div>
         </div>
       </div>
 
-      <!-- Visitor Call & WhatsApp History Box -->
-      <div class="bg-gray-950/85 p-4 sm:p-5 rounded-2xl border border-sky-500/30 space-y-3">
-        <h3 class="text-sm font-extrabold text-white"><i class="fas fa-phone-volume text-emerald-400 mr-1.5"></i> Visitor Call & WhatsApp Inquiry History (Tap Call to Follow Up)</h3>
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs text-gray-300">
-            <thead class="bg-gray-900 text-sky-300 border-b border-gray-800">
+      <div class="panel-card mb-3">
+        <h3 class="text-sm font-bold mb-2">Visitor Call & WhatsApp Inquiry History</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
               <tr>
-                <th class="p-3">Visitor / Source</th>
-                <th class="p-3">Phone / WhatsApp</th>
-                <th class="p-3">App / Message</th>
-                <th class="p-3">Ref ID</th>
-                <th class="p-3">Action</th>
+                <th>Visitor / Source</th>
+                <th>Phone / WhatsApp</th>
+                <th>App / Message</th>
+                <th>Ref ID</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody id="mySiteLeadsTbody"></tbody>
@@ -278,18 +454,17 @@
         </div>
       </div>
 
-      <!-- Commission Attribution Table -->
-      <div class="bg-gray-950/85 p-4 sm:p-5 rounded-2xl border border-sky-500/30 space-y-3">
-        <h3 class="text-sm font-extrabold text-white"><i class="fas fa-coins text-amber-400 mr-1.5"></i> Verified Sales & Commission Attribution</h3>
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs text-gray-300">
-            <thead class="bg-gray-900 text-sky-300 border-b border-gray-800">
+      <div class="panel-card">
+        <h3 class="text-sm font-bold mb-2">Verified Sales & Commission Attribution</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
               <tr>
-                <th class="p-3">Date</th>
-                <th class="p-3">Order / App</th>
-                <th class="p-3">Sale Value</th>
-                <th class="p-3">Your Share</th>
-                <th class="p-3">Status</th>
+                <th>Date</th>
+                <th>Order / App</th>
+                <th>Sale Value</th>
+                <th>Your Share</th>
+                <th>Status</th>
               </tr>
             </thead>
             <tbody id="mySiteCommTbody"></tbody>
@@ -301,106 +476,99 @@
 </div>
 
 <!-- Share Choice Modal -->
-<div id="shareModal" class="fixed inset-0 bg-black/85 hidden items-center justify-center z-50 p-4">
-  <div class="glass max-w-sm w-full p-6 rounded-2xl relative border border-sky-500/40 shadow-2xl text-center">
-    <button type="button" onclick="closeModal('shareModal')" class="absolute top-3.5 right-3.5 text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
-    <div class="w-11 h-11 bg-sky-500/20 text-sky-400 rounded-full flex items-center justify-center mx-auto mb-3">
-      <i class="fas fa-share-alt text-base"></i>
-    </div>
-    <h3 class="text-base font-black text-white mb-1">Share Max Grid App Store</h3>
-    <p class="text-xs text-sky-200/70 mb-5">Choose your preferred platform to share this portal</p>
-    <div class="grid grid-cols-2 gap-3">
-      <button type="button" onclick="sharePortal('whatsapp'); closeModal('shareModal');" class="bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3 px-3 rounded-xl text-xs flex items-center justify-center gap-2 transition shadow-lg">
-        <i class="fab fa-whatsapp text-base"></i> WhatsApp
+<div id="shareModal" class="modal-backdrop">
+  <div class="glass modal-box modal-sm">
+    <button type="button" onclick="closeModal('shareModal')" class="close-x"><i class="fas fa-times"></i></button>
+    <h3 class="font-bold mb-2">Share Max Grid App Studio</h3>
+    <p class="text-xs text-muted mb-3">Choose your preferred platform to share this portal</p>
+    <div class="card-row-2">
+      <button type="button" onclick="sharePortal('whatsapp'); closeModal('shareModal');" class="btn btn-emerald btn-md">
+        <i class="fab fa-whatsapp"></i> WhatsApp
       </button>
-      <button type="button" onclick="sharePortal('telegram'); closeModal('shareModal');" class="bg-sky-600 hover:bg-sky-500 text-white font-extrabold py-3 px-3 rounded-xl text-xs flex items-center justify-center gap-2 transition shadow-lg">
-        <i class="fab fa-telegram text-base"></i> Telegram
+      <button type="button" onclick="sharePortal('telegram'); closeModal('shareModal');" class="btn btn-sky btn-md">
+        <i class="fab fa-telegram"></i> Telegram
       </button>
     </div>
   </div>
 </div>
 
-<!-- Pay & 12-Digit UTR / Hash Verification Modal -->
-<div id="payModal" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-50 p-3 sm:p-4 overflow-y-auto">
-  <div class="glass max-w-5xl w-full p-5 sm:p-7 rounded-2xl relative max-h-[94vh] overflow-y-auto border border-sky-500/40 sky-glow">
-    <button type="button" onclick="closeModal('payModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg"><i class="fas fa-times"></i></button>
-    
-    <div class="text-center mb-6">
-      <span class="bg-sky-500/15 text-sky-300 text-[11px] font-extrabold px-3 py-1 rounded-full border border-sky-400/25 inline-block mb-2">SECURE GATEWAY</span>
-      <h2 class="text-xl sm:text-2xl font-black text-white mb-1">Direct Payment & Order Verification</h2>
-      <p class="text-xs text-sky-200/75">Step 1: Pay via PhonePe/UPI or Crypto &nbsp;|&nbsp; Step 2: Submit 12-Digit UTR / TxHash below.</p>
+<!-- Pay Modal -->
+<div id="payModal" class="modal-backdrop">
+  <div class="glass modal-box">
+    <button type="button" onclick="closeModal('payModal')" class="close-x"><i class="fas fa-times"></i></button>
+    <div class="mb-3" style="text-align:center;">
+      <span class="badge-num">SECURE GATEWAY</span>
+      <h2 class="mt-2" style="font-size:20px; font-weight:900;">Direct Payment & Order Verification</h2>
+      <p class="text-xs text-muted mt-2">Step 1: Pay via PhonePe/UPI or Crypto | Step 2: Submit 12-Digit UTR / TxHash below.</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
-      <div class="bg-gray-950/85 p-5 rounded-2xl border border-purple-500/35 flex flex-col items-center text-center">
-        <span class="bg-purple-500/20 text-purple-300 text-[11px] font-extrabold px-3 py-1 rounded-full mb-3 border border-purple-400/20">PhonePe / UPI Direct</span>
-        <div class="w-32 h-32 bg-white rounded-xl p-2 shadow-md flex items-center justify-center overflow-hidden mb-3">
-          <img id="displayPhonePeQr" src="" alt="PhonePe QR" class="w-full h-full object-contain">
+    <div class="grid-3 mb-3">
+      <div class="panel-card" style="text-align:center;">
+        <div class="badge-num mb-2">PhonePe / UPI Direct</div>
+        <div style="width:120px; height:120px; background:#fff; border-radius:10px; padding:6px; margin:0 auto 10px;">
+          <img id="displayPhonePeQr" src="" alt="PhonePe QR" style="width:100%; height:100%; object-fit:contain;">
         </div>
-        <div class="flex gap-1.5 w-full mb-3">
-          <input type="text" readonly id="displayUpi" class="bg-gray-900 border border-purple-500/30 text-white font-mono text-[11px] px-2.5 py-2 rounded-lg w-full text-center">
-          <button type="button" onclick="copyText('displayUpi')" class="bg-purple-500 hover:bg-purple-400 text-white px-3 py-2 rounded-lg text-[11px] font-extrabold transition">Copy</button>
+        <div class="row-flex mb-2">
+          <input type="text" readonly id="displayUpi" class="field-input flex-1" style="text-align:center;">
+          <button type="button" onclick="copyText('displayUpi')" class="btn btn-sky btn-sm">Copy</button>
         </div>
-        <div class="w-full space-y-2 mt-auto">
-          <input type="number" id="upiPayAmount" placeholder="Enter Amount (₹ INR)" class="w-full bg-gray-900 border border-purple-500/40 rounded-lg px-3 py-2 text-xs text-white text-center focus:outline-none focus:border-purple-400">
-          <button type="button" onclick="openUpiApp()" class="w-full bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:from-purple-500 hover:to-fuchsia-500 text-white font-extrabold py-2.5 rounded-lg text-xs transition flex items-center justify-center gap-1.5 shadow-md">
-            <i class="fas fa-bolt"></i> Pay Now (Open PhonePe/UPI)
-          </button>
-        </div>
+        <input type="number" id="upiPayAmount" placeholder="Enter Amount (₹ INR)" class="field-input mb-2" style="text-align:center;">
+        <button type="button" onclick="openUpiApp()" class="btn btn-cyan btn-md" style="width:100%;">
+          <i class="fas fa-bolt"></i> Pay Now (Open UPI)
+        </button>
       </div>
 
-      <div class="bg-gray-950/85 p-5 rounded-2xl border border-emerald-500/30 flex flex-col items-center text-center">
-        <span class="bg-emerald-500/20 text-emerald-300 text-[11px] font-extrabold px-3 py-1 rounded-full mb-3 border border-emerald-400/20">USDT (TRC-20)</span>
-        <div class="w-32 h-32 bg-white rounded-xl p-2 shadow-md flex items-center justify-center overflow-hidden mb-3">
-          <img id="displayTrcQr" src="" alt="TRC20 QR" class="w-full h-full object-contain">
+      <div class="panel-card" style="text-align:center;">
+        <div class="badge-num mb-2">USDT (TRC-20)</div>
+        <div style="width:120px; height:120px; background:#fff; border-radius:10px; padding:6px; margin:0 auto 10px;">
+          <img id="displayTrcQr" src="" alt="TRC20 QR" style="width:100%; height:100%; object-fit:contain;">
         </div>
-        <div class="flex gap-1.5 w-full mb-3">
-          <input type="text" readonly id="displayTrc" class="bg-gray-900 border border-emerald-500/30 text-emerald-400 font-mono text-[11px] px-2.5 py-2 rounded-lg w-full">
-          <button type="button" onclick="copyText('displayTrc')" class="bg-emerald-500 hover:bg-emerald-400 text-gray-950 px-3 py-2 rounded-lg text-[11px] font-extrabold transition">Copy</button>
+        <div class="row-flex mb-2">
+          <input type="text" readonly id="displayTrc" class="field-input flex-1">
+          <button type="button" onclick="copyText('displayTrc')" class="btn btn-emerald btn-sm">Copy</button>
         </div>
-        <p class="text-[11px] text-gray-400 mt-auto">Send USDT via Tron (TRC20) network and copy the TxHash after payment.</p>
+        <p class="text-xs text-muted">Send USDT via Tron (TRC20) and enter TxHash below.</p>
       </div>
 
-      <div class="bg-gray-950/85 p-5 rounded-2xl border border-yellow-500/30 flex flex-col items-center text-center">
-        <span class="bg-yellow-500/20 text-yellow-300 text-[11px] font-extrabold px-3 py-1 rounded-full mb-3 border border-yellow-400/20">USDT / BNB (BNB-20)</span>
-        <div class="w-32 h-32 bg-white rounded-xl p-2 shadow-md flex items-center justify-center overflow-hidden mb-3">
-          <img id="displayBnbQr" src="" alt="BNB20 QR" class="w-full h-full object-contain">
+      <div class="panel-card" style="text-align:center;">
+        <div class="badge-num mb-2">USDT / BNB (BNB-20)</div>
+        <div style="width:120px; height:120px; background:#fff; border-radius:10px; padding:6px; margin:0 auto 10px;">
+          <img id="displayBnbQr" src="" alt="BNB20 QR" style="width:100%; height:100%; object-fit:contain;">
         </div>
-        <div class="flex gap-1.5 w-full mb-3">
-          <input type="text" readonly id="displayBnb" class="bg-gray-900 border border-yellow-500/30 text-yellow-400 font-mono text-[11px] px-2.5 py-2 rounded-lg w-full">
-          <button type="button" onclick="copyText('displayBnb')" class="bg-yellow-500 hover:bg-yellow-400 text-gray-950 px-3 py-2 rounded-lg text-[11px] font-extrabold transition">Copy</button>
+        <div class="row-flex mb-2">
+          <input type="text" readonly id="displayBnb" class="field-input flex-1">
+          <button type="button" onclick="copyText('displayBnb')" class="btn btn-amber btn-sm">Copy</button>
         </div>
-        <p class="text-[11px] text-gray-400 mt-auto">Send USDT/BNB via BSC (BEP20) network and copy the TxHash after payment.</p>
+        <p class="text-xs text-muted">Send USDT/BNB via BSC (BEP20) and enter TxHash below.</p>
       </div>
     </div>
 
-    <div class="bg-gray-900/95 p-5 rounded-2xl border border-sky-500/40">
-      <h3 class="text-sm font-extrabold text-sky-400 mb-3"><i class="fas fa-check-circle mr-1.5"></i> Submit Payment Proof (12-Digit UTR / TRX ID / Crypto Hash)</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+    <div class="panel-card">
+      <h3 class="text-sm font-bold text-sky mb-2">Submit Payment Proof (12-Digit UTR / TRX ID / Crypto Hash)</h3>
+      <div class="grid-2">
         <div>
-          <label class="text-[11px] text-gray-400 block mb-1">Select App / Service</label>
-          <select id="verifyAppSelect" class="w-full bg-gray-950 border border-sky-500/30 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none"></select>
+          <label class="text-xs text-muted mb-2" style="display:block;">Select App / Service</label>
+          <select id="verifyAppSelect" class="field-select"></select>
         </div>
         <div>
-          <label class="text-[11px] text-gray-400 block mb-1">Payment Method</label>
-          <select id="verifyMethod" class="w-full bg-gray-950 border border-sky-500/30 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none">
+          <label class="text-xs text-muted mb-2" style="display:block;">Payment Method</label>
+          <select id="verifyMethod" class="field-select">
             <option value="PhonePe / UPI">PhonePe / UPI</option>
             <option value="USDT (TRC-20)">USDT (TRC-20)</option>
             <option value="USDT / BNB (BNB-20)">USDT / BNB (BNB-20)</option>
           </select>
         </div>
         <div>
-          <label class="text-[11px] text-gray-400 block mb-1">Paid Amount (₹ or $)</label>
-          <input type="text" id="verifyAmount" placeholder="e.g. ₹2500 or $30" class="w-full bg-gray-950 border border-sky-500/30 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none">
+          <label class="text-xs text-muted mb-2" style="display:block;">Paid Amount (₹ or $)</label>
+          <input type="text" id="verifyAmount" placeholder="e.g. ₹2500 or $30" class="field-input">
         </div>
         <div>
-          <label class="text-[11px] text-emerald-400 font-bold block mb-1">12-Digit UTR / Hash Code *</label>
-          <input type="text" id="verifyTxHash" placeholder="Enter 12-digit UTR or Hash" class="w-full bg-gray-950 border border-emerald-500/50 rounded-xl px-3 py-2.5 text-xs text-emerald-300 font-mono focus:outline-none">
+          <label class="text-xs text-emerald font-bold mb-2" style="display:block;">12-Digit UTR / Hash Code *</label>
+          <input type="text" id="verifyTxHash" placeholder="Enter 12-digit UTR or Hash" class="field-input">
         </div>
       </div>
-      <div class="mt-4 flex flex-wrap justify-between items-center gap-2">
-        <button type="button" onclick="closeModal('payModal')" class="bg-gray-800 hover:bg-gray-700 text-gray-300 font-bold px-4 py-2.5 rounded-xl text-xs">Close</button>
-        <button type="button" onclick="submitPaymentProof()" class="w-full sm:w-auto bg-gradient-to-r from-sky-400 to-cyan-400 hover:from-sky-300 hover:to-cyan-300 text-gray-950 font-extrabold px-6 py-3 rounded-xl text-xs transition flex items-center justify-center gap-2 shadow-lg">
+      <div class="row-flex mt-3" style="justify-content:flex-end;">
+        <button type="button" onclick="submitPaymentProof()" class="btn btn-cyan btn-md">
           <i class="fas fa-paper-plane"></i> Confirm Order & Send Proof
         </button>
       </div>
@@ -408,205 +576,171 @@
   </div>
 </div>
 
-<!-- Support Lead Form Modal -->
-<div id="supportModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 p-4">
-  <div class="glass max-w-md w-full p-6 rounded-2xl relative border border-emerald-500/40 shadow-2xl">
-    <button type="button" onclick="toggleSupportModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
-    <div class="flex items-center gap-3 mb-4">
-      <div class="w-10 h-10 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center">
-        <i class="fab fa-whatsapp text-lg"></i>
+<!-- Support Modal -->
+<div id="supportModal" class="modal-backdrop">
+  <div class="glass modal-box modal-md">
+    <button type="button" onclick="toggleSupportModal()" class="close-x"><i class="fas fa-times"></i></button>
+    <h3 class="text-sm font-bold mb-2">Max Grid App Studio WhatsApp Support</h3>
+    <div class="mb-2">
+      <label class="text-xs text-muted">Your Name *</label>
+      <input type="text" id="supName" placeholder="Enter your name" class="field-input mt-2">
+    </div>
+    <div class="grid-2 mb-2">
+      <div>
+        <label class="text-xs text-muted">Mobile Number *</label>
+        <input type="text" id="supPhone" placeholder="Your WhatsApp No" class="field-input mt-2">
       </div>
       <div>
-        <h3 class="text-sm font-bold text-white">Max Grid App Store Live WhatsApp Support</h3>
-        <p class="text-[11px] text-emerald-400">Fill details for instant response</p>
+        <label class="text-xs text-muted">Location / City</label>
+        <input type="text" id="supCity" placeholder="Your City" class="field-input mt-2">
       </div>
     </div>
-    
-    <div class="space-y-3">
-      <div>
-        <label class="text-[11px] text-gray-300 block mb-1">Your Name *</label>
-        <input type="text" id="supName" placeholder="Enter your name" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
-      </div>
-      <div class="grid grid-cols-2 gap-2">
-        <div>
-          <label class="text-[11px] text-gray-300 block mb-1">Mobile Number *</label>
-          <input type="text" id="supPhone" placeholder="Your WhatsApp No" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
-        </div>
-        <div>
-          <label class="text-[11px] text-gray-300 block mb-1">Location / City</label>
-          <input type="text" id="supCity" placeholder="Your City" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
-        </div>
-      </div>
-      <div>
-        <label class="text-[11px] text-gray-300 block mb-1">Interested App / Inquiry</label>
-        <input type="text" id="supApp" placeholder="e.g. #01 Crypto Mining App" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
-      </div>
-      <div>
-        <label class="text-[11px] text-gray-300 block mb-1">Your Message / Requirements</label>
-        <textarea id="supMsg" rows="3" placeholder="Describe what you want to build..." class="w-full bg-gray-900 border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 resize-none"></textarea>
-      </div>
-      <button type="button" onclick="sendSupportForm()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3 rounded-xl text-xs transition flex items-center justify-center gap-2">
-        <i class="fab fa-whatsapp"></i> Send to WhatsApp Business
-      </button>
+    <div class="mb-2">
+      <label class="text-xs text-muted">Interested App / Inquiry</label>
+      <input type="text" id="supApp" placeholder="e.g. #01 Crypto Mining App" class="field-input mt-2">
     </div>
+    <div class="mb-3">
+      <label class="text-xs text-muted">Your Message / Requirements</label>
+      <textarea id="supMsg" rows="3" placeholder="Describe what you want to build..." class="field-area mt-2"></textarea>
+    </div>
+    <button type="button" onclick="sendSupportForm()" class="btn btn-emerald btn-md" style="width:100%;">
+      <i class="fab fa-whatsapp"></i> Send to WhatsApp Business
+    </button>
   </div>
 </div>
 
-<!-- Small Stealth PIN Modal -->
-<div id="stealthModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 p-4">
-  <div class="glass max-w-xs w-full p-6 rounded-2xl relative text-center border border-sky-500/40 shadow-2xl">
-    <button type="button" onclick="closeStealth()" class="absolute top-3 right-3 text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
-    <div class="w-10 h-10 bg-sky-500/20 text-sky-400 rounded-full flex items-center justify-center mx-auto mb-3">
-      <i class="fas fa-lock text-sm"></i>
-    </div>
-    <h3 class="text-sm font-bold text-white mb-1">Secret Access</h3>
-    <p class="text-[11px] text-gray-400 mb-4">Enter PIN to open Admin Panel</p>
-    <input type="password" id="stealthPinInput" oninput="checkStealthPin()" placeholder="Enter PIN" autocomplete="off" class="w-full bg-gray-900 border border-sky-500/40 rounded-xl px-4 py-2.5 text-center text-sm text-white tracking-widest mb-3 focus:outline-none focus:border-sky-400">
-    <button type="button" onclick="checkStealthPinBtn()" class="w-full bg-sky-500 hover:bg-sky-600 text-gray-950 font-extrabold py-2 rounded-lg text-xs">Unlock</button>
+<!-- Stealth PIN Modal -->
+<div id="stealthModal" class="modal-backdrop">
+  <div class="glass modal-box modal-sm">
+    <button type="button" onclick="closeStealth()" class="close-x"><i class="fas fa-times"></i></button>
+    <h3 class="text-sm font-bold mb-2">Secret Access</h3>
+    <p class="text-xs text-muted mb-3">Enter PIN to open Admin Panel</p>
+    <input type="password" id="stealthPinInput" oninput="checkStealthPin()" placeholder="Enter PIN" autocomplete="off" class="field-input mb-2" style="text-align:center; letter-spacing:3px;">
+    <button type="button" onclick="checkStealthPinBtn()" class="btn btn-cyan btn-sm" style="width:100%;">Unlock</button>
   </div>
 </div>
 
 <!-- Admin Dashboard Modal -->
-<div id="adminModal" class="fixed inset-0 bg-black/95 hidden items-center justify-center z-50 p-4 overflow-y-auto">
-  <div class="glass max-w-5xl w-full p-6 rounded-2xl relative max-h-[95vh] overflow-y-auto border border-sky-500/40">
-    <button type="button" onclick="closeModal('adminModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg"><i class="fas fa-times"></i></button>
-    <div class="flex flex-wrap items-center justify-between gap-2 mb-1 pr-8">
-      <h2 class="text-xl font-black text-sky-400"><i class="fas fa-user-secret mr-2"></i> Max Grid App Store Admin Panel (Individual Save)</h2>
-      <span id="firebaseSyncStatus" class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Ready</span>
-    </div>
-    <p class="text-xs text-sky-200/70 mb-6">Each item has its own separate Save button so every field saves independently and shows instant confirmation.</p>
-    
-    <div class="flex flex-wrap gap-2 mb-5 border-b border-gray-800 pb-3">
-      <button type="button" onclick="switchTab('settings')" id="tabBtnSettings" class="bg-sky-500 text-gray-950 font-extrabold px-4 py-2 rounded-lg text-xs transition">Individual Settings, Home Link & QR</button>
-      <button type="button" onclick="switchTab('history')" id="tabBtnHistory" class="bg-gray-800 text-gray-300 font-extrabold px-4 py-2 rounded-lg text-xs transition">Order & Payment History (<span id="historyCount">0</span>)</button>
-      <button type="button" onclick="switchTab('promoters')" id="tabBtnPromoters" class="bg-indigo-600 text-white font-extrabold px-4 py-2 rounded-lg text-xs transition">Promoters</button>
+<div id="adminModal" class="modal-backdrop">
+  <div class="glass modal-box">
+    <button type="button" onclick="closeModal('adminModal')" class="close-x"><i class="fas fa-times"></i></button>
+    <div class="row-flex mb-2" style="justify-content:space-between; flex-wrap:wrap; padding-right:28px;">
+      <h2 class="text-sky" style="font-size:18px; font-weight:900;">Max Grid App Studio Admin Panel</h2>
+      <span id="firebaseSyncStatus" class="badge-num">Ready</span>
     </div>
 
-    <div id="tabSettings" class="space-y-6">
-      <div class="bg-gray-950/80 p-5 rounded-xl border border-sky-900/50 space-y-4">
-        <h3 class="text-sm font-bold text-white border-b border-gray-800 pb-2">1. Separate Home Page Link + Security, Phone, UPI & Crypto Save</h3>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- Dedicated Home Page GitHub Link Slot -->
-          <div class="bg-gray-900/80 p-3 rounded-xl border border-cyan-500/40 md:col-span-2">
-            <label class="text-[11px] text-cyan-300 font-bold block mb-1.5"><i class="fas fa-home"></i> Home Page GitHub / Site Link (Separate Home Project)</label>
-            <div class="flex gap-2">
-              <input type="text" id="setHomePageUrl" placeholder="Paste separate Home Page GitHub URL here..." class="bg-gray-950 border border-cyan-500/40 rounded-lg px-3 py-2 text-xs text-white flex-1">
-              <button type="button" onclick="saveSingleField('homePageUrl', 'setHomePageUrl', 'Home Page Link')" class="bg-cyan-400 hover:bg-cyan-300 text-gray-950 font-extrabold px-4 py-2 rounded-lg text-xs shrink-0">Save Home</button>
+    <div class="row-flex mb-3" style="flex-wrap:wrap; border-bottom:1px solid #1f2937; padding-bottom:10px;">
+      <button type="button" onclick="switchTab('settings')" id="tabBtnSettings" class="btn btn-cyan btn-sm">Settings, Home Link & QR</button>
+      <button type="button" onclick="switchTab('history')" id="tabBtnHistory" class="btn btn-dark btn-sm">Order History (<span id="historyCount">0</span>)</button>
+      <button type="button" onclick="switchTab('promoters')" id="tabBtnPromoters" class="btn btn-sky btn-sm">Promoters</button>
+    </div>
+
+    <div id="tabSettings">
+      <div class="panel-card mb-3">
+        <h3 class="text-sm font-bold mb-2">1. Home Page GitHub / Site Link & Settings</h3>
+        <div class="grid-2">
+          <div class="panel-card">
+            <label class="text-xs text-cyan font-bold">Home Page GitHub / Site Link</label>
+            <div class="row-flex mt-2">
+              <input type="text" id="setHomePageUrl" placeholder="Paste Home Page GitHub URL..." class="field-input flex-1">
+              <button type="button" onclick="saveSingleField('homePageUrl', 'setHomePageUrl', 'Home Page Link')" class="btn btn-cyan btn-sm">Save Home</button>
             </div>
           </div>
-
-          <div class="bg-gray-900/80 p-3 rounded-xl border border-red-500/30">
-            <label class="text-[11px] text-red-400 font-bold block mb-1.5"><i class="fas fa-key"></i> Secret Admin PIN</label>
-            <div class="flex gap-2">
-              <input type="text" id="setPin" class="bg-gray-950 border border-red-500/40 rounded-lg px-3 py-2 text-xs text-white font-mono flex-1">
-              <button type="button" onclick="saveSingleField('pin', 'setPin', 'Admin PIN')" class="bg-red-500 hover:bg-red-400 text-white font-extrabold px-3.5 py-2 rounded-lg text-xs shrink-0">Save PIN</button>
+          <div class="panel-card">
+            <label class="text-xs text-sky font-bold">Secret Admin PIN</label>
+            <div class="row-flex mt-2">
+              <input type="text" id="setPin" class="field-input flex-1">
+              <button type="button" onclick="saveSingleField('pin', 'setPin', 'Admin PIN')" class="btn btn-cyan btn-sm">Save PIN</button>
             </div>
           </div>
-
-          <div class="bg-gray-900/80 p-3 rounded-xl border border-sky-500/30">
-            <label class="text-[11px] text-sky-300 font-bold block mb-1.5"><i class="fas fa-phone"></i> Mobile / WhatsApp Number</label>
-            <div class="flex gap-2">
-              <input type="text" id="setWa" placeholder="e.g. 919876543210" class="bg-gray-950 border border-sky-500/30 rounded-lg px-3 py-2 text-xs text-white flex-1">
-              <button type="button" onclick="saveSingleField('wa', 'setWa', 'Mobile / WhatsApp Number')" class="bg-sky-500 hover:bg-sky-400 text-gray-950 font-extrabold px-3.5 py-2 rounded-lg text-xs shrink-0">Save Phone</button>
+          <div class="panel-card">
+            <label class="text-xs text-sky font-bold">Mobile / WhatsApp Number</label>
+            <div class="row-flex mt-2">
+              <input type="text" id="setWa" class="field-input flex-1">
+              <button type="button" onclick="saveSingleField('wa', 'setWa', 'WhatsApp Number')" class="btn btn-cyan btn-sm">Save Phone</button>
             </div>
           </div>
-
-          <div class="bg-gray-900/80 p-3 rounded-xl border border-purple-500/30">
-            <label class="text-[11px] text-purple-300 font-bold block mb-1.5"><i class="fas fa-indian-rupee-sign"></i> PhonePe / UPI ID</label>
-            <div class="flex gap-2">
-              <input type="text" id="setUpi" placeholder="e.g. 9876543210@ybl" class="bg-gray-950 border border-purple-500/40 rounded-lg px-3 py-2 text-xs text-white flex-1">
-              <button type="button" onclick="saveSingleField('upi', 'setUpi', 'PhonePe / UPI ID')" class="bg-purple-500 hover:bg-purple-400 text-white font-extrabold px-3.5 py-2 rounded-lg text-xs shrink-0">Save UPI</button>
+          <div class="panel-card">
+            <label class="text-xs text-sky font-bold">PhonePe / UPI ID</label>
+            <div class="row-flex mt-2">
+              <input type="text" id="setUpi" class="field-input flex-1">
+              <button type="button" onclick="saveSingleField('upi', 'setUpi', 'UPI ID')" class="btn btn-cyan btn-sm">Save UPI</button>
             </div>
           </div>
-
-          <div class="bg-gray-900/80 p-3 rounded-xl border border-rose-500/30">
-            <label class="text-[11px] text-rose-300 font-bold block mb-1.5"><i class="fas fa-globe"></i> External My Site Link (Optional)</label>
-            <div class="flex gap-2">
-              <input type="text" id="setMySiteUrl" placeholder="Leave empty for built-in My Site hub" class="bg-gray-950 border border-rose-500/40 rounded-lg px-3 py-2 text-xs text-white flex-1">
-              <button type="button" onclick="saveSingleField('mySiteUrl', 'setMySiteUrl', 'External My Site Link')" class="bg-rose-500 hover:bg-rose-400 text-white font-extrabold px-3.5 py-2 rounded-lg text-xs shrink-0">Save Site</button>
+          <div class="panel-card">
+            <label class="text-xs text-emerald font-bold">USDT (TRC-20) Address</label>
+            <div class="row-flex mt-2">
+              <input type="text" id="setTrc" class="field-input flex-1">
+              <button type="button" onclick="saveSingleField('trc', 'setTrc', 'TRC-20 Address')" class="btn btn-emerald btn-sm">Save TRC</button>
             </div>
           </div>
-
-          <div class="bg-gray-900/80 p-3 rounded-xl border border-emerald-500/30">
-            <label class="text-[11px] text-emerald-400 font-bold block mb-1.5">USDT (TRC-20) Address</label>
-            <div class="flex gap-2">
-              <input type="text" id="setTrc" class="bg-gray-950 border border-emerald-500/30 rounded-lg px-3 py-2 text-xs text-white flex-1">
-              <button type="button" onclick="saveSingleField('trc', 'setTrc', 'USDT TRC-20 Address')" class="bg-emerald-500 hover:bg-emerald-400 text-gray-950 font-extrabold px-3.5 py-2 rounded-lg text-xs shrink-0">Save TRC</button>
-            </div>
-          </div>
-
-          <div class="bg-gray-900/80 p-3 rounded-xl border border-yellow-500/30">
-            <label class="text-[11px] text-yellow-400 font-bold block mb-1.5">USDT / BNB (BNB-20) Address</label>
-            <div class="flex gap-2">
-              <input type="text" id="setBnb" class="bg-gray-950 border border-yellow-500/30 rounded-lg px-3 py-2 text-xs text-white flex-1">
-              <button type="button" onclick="saveSingleField('bnb', 'setBnb', 'USDT/BNB BNB-20 Address')" class="bg-yellow-500 hover:bg-yellow-400 text-gray-950 font-extrabold px-3.5 py-2 rounded-lg text-xs shrink-0">Save BNB</button>
+          <div class="panel-card">
+            <label class="text-xs text-amber font-bold">USDT / BNB (BNB-20) Address</label>
+            <div class="row-flex mt-2">
+              <input type="text" id="setBnb" class="field-input flex-1">
+              <button type="button" onclick="saveSingleField('bnb', 'setBnb', 'BNB-20 Address')" class="btn btn-amber btn-sm">Save BNB</button>
             </div>
           </div>
         </div>
 
-        <h3 class="text-sm font-bold text-white border-b border-gray-800 pb-2 pt-2">2. Individual QR Code Upload or URL Save</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div class="bg-gray-900 p-3.5 rounded-xl border border-purple-500/30 space-y-2">
-            <label class="text-[11px] text-purple-300 font-bold block">PhonePe QR Code</label>
-            <input type="file" accept="image/*" onchange="handleQrUpload(this, 'phonepeQr', 'PhonePe QR')" class="text-[11px] text-gray-300 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-purple-500 file:text-white w-full">
-            <div class="flex gap-1.5">
-              <input type="text" id="setPhonepeQrUrl" placeholder="Or paste QR image URL..." class="bg-gray-950 border border-purple-500/20 rounded-lg px-2.5 py-1.5 text-[11px] text-white flex-1">
-              <button type="button" onclick="saveQrUrl('phonepeQr', 'setPhonepeQrUrl', 'PhonePe QR')" class="bg-purple-500 hover:bg-purple-400 text-white font-extrabold px-3 py-1.5 rounded-lg text-[11px] shrink-0">Save QR</button>
+        <h3 class="text-sm font-bold mt-4 mb-2">2. QR Code Upload or URL</h3>
+        <div class="grid-3">
+          <div class="panel-card">
+            <label class="text-xs font-bold">PhonePe QR</label>
+            <input type="file" accept="image/*" onchange="handleQrUpload(this, 'phonepeQr', 'PhonePe QR')" class="text-xs mt-2 mb-2" style="width:100%;">
+            <div class="row-flex">
+              <input type="text" id="setPhonepeQrUrl" placeholder="QR image URL..." class="field-input flex-1">
+              <button type="button" onclick="saveQrUrl('phonepeQr', 'setPhonepeQrUrl', 'PhonePe QR')" class="btn btn-cyan btn-sm">Save</button>
             </div>
           </div>
-
-          <div class="bg-gray-900 p-3.5 rounded-xl border border-emerald-500/30 space-y-2">
-            <label class="text-[11px] text-emerald-300 font-bold block">USDT (TRC-20) QR Code</label>
-            <input type="file" accept="image/*" onchange="handleQrUpload(this, 'trcQr', 'USDT TRC-20 QR')" class="text-[11px] text-gray-300 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-emerald-500 file:text-gray-950 w-full">
-            <div class="flex gap-1.5">
-              <input type="text" id="setTrcQrUrl" placeholder="Or paste QR image URL..." class="bg-gray-950 border border-emerald-500/20 rounded-lg px-2.5 py-1.5 text-[11px] text-white flex-1">
-              <button type="button" onclick="saveQrUrl('trcQr', 'setTrcQrUrl', 'USDT TRC-20 QR')" class="bg-emerald-500 hover:bg-emerald-400 text-gray-950 font-extrabold px-3 py-1.5 rounded-lg text-[11px] shrink-0">Save QR</button>
+          <div class="panel-card">
+            <label class="text-xs font-bold">USDT (TRC-20) QR</label>
+            <input type="file" accept="image/*" onchange="handleQrUpload(this, 'trcQr', 'TRC-20 QR')" class="text-xs mt-2 mb-2" style="width:100%;">
+            <div class="row-flex">
+              <input type="text" id="setTrcQrUrl" placeholder="QR image URL..." class="field-input flex-1">
+              <button type="button" onclick="saveQrUrl('trcQr', 'setTrcQrUrl', 'TRC-20 QR')" class="btn btn-emerald btn-sm">Save</button>
             </div>
           </div>
-
-          <div class="bg-gray-900 p-3.5 rounded-xl border border-yellow-500/30 space-y-2">
-            <label class="text-[11px] text-yellow-300 font-bold block">BNB-20 QR Code</label>
-            <input type="file" accept="image/*" onchange="handleQrUpload(this, 'bnbQr', 'BNB-20 QR')" class="text-[11px] text-gray-300 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-yellow-500 file:text-gray-950 w-full">
-            <div class="flex gap-1.5">
-              <input type="text" id="setBnbQrUrl" placeholder="Or paste QR image URL..." class="bg-gray-950 border border-yellow-500/20 rounded-lg px-2.5 py-1.5 text-[11px] text-white flex-1">
-              <button type="button" onclick="saveQrUrl('bnbQr', 'setBnbQrUrl', 'BNB-20 QR')" class="bg-yellow-500 hover:bg-yellow-400 text-gray-950 font-extrabold px-3 py-1.5 rounded-lg text-[11px] shrink-0">Save QR</button>
+          <div class="panel-card">
+            <label class="text-xs font-bold">BNB-20 QR</label>
+            <input type="file" accept="image/*" onchange="handleQrUpload(this, 'bnbQr', 'BNB-20 QR')" class="text-xs mt-2 mb-2" style="width:100%;">
+            <div class="row-flex">
+              <input type="text" id="setBnbQrUrl" placeholder="QR image URL..." class="field-input flex-1">
+              <button type="button" onclick="saveQrUrl('bnbQr', 'setBnbQrUrl', 'BNB-20 QR')" class="btn btn-amber btn-sm">Save</button>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="bg-gray-950/80 p-5 rounded-xl border border-cyan-500/35 space-y-3">
-        <h3 class="text-sm font-extrabold text-cyan-300"><i class="fas fa-plus-circle mr-1.5"></i> Add New Custom App / Button (Shown Inside Demos)</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <input type="text" id="newCustomName" placeholder="App / Button Name (e.g. Hotel Online Order)" class="bg-gray-900 border border-cyan-500/30 rounded-lg px-3 py-2 text-xs text-white">
-          <input type="text" id="newCustomDesc" placeholder="Short description (optional)" class="bg-gray-900 border border-cyan-500/30 rounded-lg px-3 py-2 text-xs text-white">
-          <input type="text" id="newCustomLink" placeholder="Paste GitHub / Demo URL..." class="bg-gray-900 border border-cyan-500/30 rounded-lg px-3 py-2 text-xs text-white">
+      <div class="panel-card mb-3">
+        <h3 class="text-sm font-bold text-cyan mb-2">3. Add Custom App / Button (Inside Demos)</h3>
+        <div class="grid-3 mb-2">
+          <input type="text" id="newCustomName" placeholder="App / Button Name" class="field-input">
+          <input type="text" id="newCustomDesc" placeholder="Short description" class="field-input">
+          <input type="text" id="newCustomLink" placeholder="Demo URL" class="field-input">
         </div>
-        <button type="button" onclick="addCustomApp()" class="bg-gradient-to-r from-cyan-400 to-sky-500 hover:from-cyan-300 hover:to-sky-400 text-gray-950 font-extrabold px-5 py-2.5 rounded-lg text-xs transition">
-          <i class="fas fa-plus mr-1"></i> Create & Save Custom Button
-        </button>
-        <div id="customAppsAdminList" class="space-y-2 pt-2"></div>
+        <button type="button" onclick="addCustomApp()" class="btn btn-cyan btn-sm">Create & Save Custom Button</button>
+        <div id="customAppsAdminList" class="mt-3"></div>
       </div>
 
-      <h3 class="text-sm font-bold text-white mb-3">3. Manage 44 Default App Demo Links (Individual Save)</h3>
-      <div id="adminAppList" class="space-y-3"></div>
+      <h3 class="text-sm font-bold mb-2">4. Manage 44 Default App Demo Links</h3>
+      <div id="adminAppList"></div>
     </div>
 
-    <div id="tabHistory" class="hidden space-y-4">
-      <div class="flex justify-between items-center mb-2">
-        <h3 class="text-sm font-bold text-white"><i class="fas fa-history mr-1 text-sky-400"></i> Customer Orders & 12-Digit UTR / TxHash Logs</h3>
-        <button type="button" onclick="clearHistory()" class="bg-red-500/20 text-red-400 border border-red-500/40 hover:bg-red-500 hover:text-white px-3 py-1.5 rounded-lg text-xs font-bold transition">Clear History</button>
+    <div id="tabHistory" class="hidden">
+      <div class="row-flex mb-3" style="justify-content:space-between;">
+        <h3 class="text-sm font-bold">Order & UTR / TxHash Logs</h3>
+        <button type="button" onclick="clearHistory()" class="btn btn-dark btn-sm">Clear History</button>
       </div>
-      <div class="overflow-x-auto">
-        <table class="w-full text-left text-xs text-gray-300">
-          <thead class="bg-gray-900 text-sky-400 border-b border-gray-800">
+      <div class="table-wrap">
+        <table>
+          <thead>
             <tr>
-              <th class="p-3">Date / Time</th>
-              <th class="p-3">App / Service</th>
-              <th class="p-3">Method & Amount</th>
-              <th class="p-3">12-Digit UTR / Hash Code</th>
-              <th class="p-3">Action</th>
+              <th>Date / Time</th>
+              <th>App / Service</th>
+              <th>Method & Amount</th>
+              <th>UTR / Hash</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody id="historyTableBody"></tbody>
@@ -614,28 +748,18 @@
       </div>
     </div>
 
-    <div id="tabPromoters" class="hidden space-y-4">
-      <div class="flex flex-wrap items-center justify-between gap-2 bg-gray-950/80 p-4 rounded-xl border border-indigo-500/30">
-        <div>
-          <h3 class="text-sm font-bold text-white"><i class="fas fa-users-cog text-indigo-400 mr-1.5"></i> Partner / Promoter Management</h3>
-          <p class="text-[11px] text-gray-400">প্রতিটি প্রমোটারের জন্য আলাদা PIN, Approval ও Sponsor ID সেট করে তার নিজস্ব Save Promoter বাটনে চাপুন।</p>
-        </div>
-        <span id="adminPromotersCount" class="text-xs font-bold px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">0 Promoters</span>
+    <div id="tabPromoters" class="hidden">
+      <div class="panel-card mb-3 row-flex" style="justify-content:space-between;">
+        <h3 class="text-sm font-bold">Partner / Promoter Management</h3>
+        <span id="adminPromotersCount" class="badge-num">0 Promoters</span>
       </div>
-      <div id="adminPromotersList" class="space-y-3">
-        <p class="text-xs text-gray-400">Loading promoters...</p>
-      </div>
-    </div>
-    
-    <div class="mt-6 flex justify-end">
-      <button type="button" onclick="closeModal('adminModal');" class="bg-sky-500 text-gray-950 font-extrabold px-6 py-2.5 rounded-xl text-xs">Done</button>
+      <div id="adminPromotersList"></div>
     </div>
   </div>
 </div>
 
-<!-- Default Data & Referral Capture -->
 <script>
-const CACHE_KEY = "MAXGRID_FIREBASE_CACHE_V1";
+const CACHE_KEY = "MAXGRID_STUDIO_CACHE_V1";
 const REF_STORAGE_KEY = "MAXGRID_ACTIVE_REFERRAL_CODE";
 
 const DEFAULT_APPS = [
@@ -676,27 +800,21 @@ window.orderHistory = [];
 window.globalSettings = { ...DEFAULT_SETTINGS };
 window.activeMainSection = "home";
 
-(function captureReferralParam() {
+(function captureRef() {
   try {
-    const params = new URLSearchParams(window.location.search);
-    const refParam = (params.get("ref") || "").trim();
-    if (refParam) {
-      sessionStorage.setItem(REF_STORAGE_KEY, refParam);
-    }
-    const activeRef = sessionStorage.getItem(REF_STORAGE_KEY) || "";
-    if (activeRef && document.getElementById("activeRefBanner")) {
-      document.getElementById("activeRefCodeText").innerText = activeRef;
+    const p = new URLSearchParams(window.location.search);
+    const ref = (p.get("ref") || "").trim();
+    if (ref) sessionStorage.setItem(REF_STORAGE_KEY, ref);
+    const active = sessionStorage.getItem(REF_STORAGE_KEY) || "";
+    if (active) {
+      document.getElementById("activeRefCodeText").innerText = active;
       document.getElementById("activeRefBanner").classList.remove("hidden");
     }
   } catch (e) {}
 })();
 
 function getActiveReferralCode() {
-  try {
-    return sessionStorage.getItem(REF_STORAGE_KEY) || "";
-  } catch (e) {
-    return "";
-  }
+  try { return sessionStorage.getItem(REF_STORAGE_KEY) || ""; } catch (e) { return ""; }
 }
 
 function loadLocalCache() {
@@ -705,18 +823,10 @@ function loadLocalCache() {
     if (!raw) return;
     const parsed = JSON.parse(raw);
     if (parsed && typeof parsed === "object") {
-      if (parsed.settings && typeof parsed.settings === "object") {
-        window.globalSettings = { ...DEFAULT_SETTINGS, ...parsed.settings };
-      }
-      if (Array.isArray(parsed.appLinks)) {
-        window.appLinks = Array.from({ length: 44 }, (_, i) => parsed.appLinks[i] || "");
-      }
-      if (Array.isArray(parsed.customApps)) {
-        window.customApps = parsed.customApps.filter(Boolean);
-      }
-      if (Array.isArray(parsed.orderHistory)) {
-        window.orderHistory = parsed.orderHistory.filter(Boolean);
-      }
+      if (parsed.settings) window.globalSettings = { ...DEFAULT_SETTINGS, ...parsed.settings };
+      if (Array.isArray(parsed.appLinks)) window.appLinks = Array.from({ length: 44 }, (_, i) => parsed.appLinks[i] || "");
+      if (Array.isArray(parsed.customApps)) window.customApps = parsed.customApps.filter(Boolean);
+      if (Array.isArray(parsed.orderHistory)) window.orderHistory = parsed.orderHistory.filter(Boolean);
     }
   } catch (e) {}
 }
@@ -735,7 +845,6 @@ function saveLocalCache() {
 loadLocalCache();
 </script>
 
-<!-- Firebase Realtime Database + Google Auth for My Site & Admin Promoters -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getDatabase, ref, onValue, set, push, update, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
@@ -752,12 +861,8 @@ loadLocalCache();
     measurementId: "G-L2DYJRHCQB"
   };
 
-  let msAuthUser = null;
-  let msCurrentPromoter = null;
-  let msUnlocked = false;
-  let msPromotersMap = {};
-  let msLeadsMap = {};
-  let msOrdersMap = {};
+  let msAuthUser = null, msCurrentPromoter = null, msUnlocked = false;
+  let msPromotersMap = {}, msLeadsMap = {}, msOrdersMap = {};
 
   try {
     const app = initializeApp(firebaseConfig);
@@ -772,25 +877,19 @@ loadLocalCache();
     const leadsRef = ref(db, "mgsml_store/leads_calls");
     const promotersRef = ref(db, "mgsml_store/promoters");
 
-    function updateSyncBadge(text, ok = true) {
-      const badge = document.getElementById("firebaseSyncStatus");
-      if (!badge) return;
-      badge.innerText = text;
-      badge.className = ok
-        ? "text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
-        : "text-[11px] font-bold px-2.5 py-1 rounded-full bg-red-500/20 text-red-300 border border-red-500/30";
+    function setStatusBadge(txt) {
+      const el = document.getElementById("firebaseSyncStatus");
+      if (el) el.innerText = txt;
     }
 
     onValue(settingsRef, (snap) => {
-      if (snap.exists() && snap.val() && typeof snap.val() === "object") {
+      if (snap.exists() && snap.val()) {
         window.globalSettings = { ...window.globalSettings, ...snap.val() };
         saveLocalCache();
         if (typeof window.applyHomePageLink === "function") window.applyHomePageLink();
         if (typeof window.renderApps === "function") window.renderApps();
       }
-      updateSyncBadge("Firebase Connected", true);
-    }, () => {
-      updateSyncBadge("Local + Cloud Ready", true);
+      setStatusBadge("Firebase Connected");
     });
 
     onValue(linksRef, (snap) => {
@@ -808,9 +907,7 @@ loadLocalCache();
         window.customApps = Array.isArray(val) ? val.filter(Boolean) : Object.values(val).filter(Boolean);
         saveLocalCache();
         if (typeof window.renderApps === "function") window.renderApps();
-        if (document.getElementById("adminModal")?.style.display === "flex" && typeof window.renderCustomAppsAdmin === "function") {
-          window.renderCustomAppsAdmin();
-        }
+        if (typeof window.renderCustomAppsAdmin === "function") window.renderCustomAppsAdmin();
       }
     });
 
@@ -820,12 +917,8 @@ loadLocalCache();
         const val = snap.val();
         window.orderHistory = Array.isArray(val) ? val.filter(Boolean) : Object.values(val).filter(Boolean);
         saveLocalCache();
-        if (document.getElementById("historyCount")) {
-          document.getElementById("historyCount").innerText = window.orderHistory.length;
-        }
-        if (document.getElementById("adminModal")?.style.display === "flex" && typeof window.renderHistoryTable === "function") {
-          window.renderHistoryTable();
-        }
+        if (document.getElementById("historyCount")) document.getElementById("historyCount").innerText = window.orderHistory.length;
+        if (typeof window.renderHistoryTable === "function") window.renderHistoryTable();
       }
       renderMySiteDashboard();
     });
@@ -834,10 +927,7 @@ loadLocalCache();
       msPromotersMap = snap.val() || {};
       syncMySiteAuthView();
       renderMySiteDashboard();
-      const promTab = document.getElementById("tabPromoters");
-      if (promTab && !promTab.classList.contains("hidden")) {
-        window.renderAdminPromoters();
-      }
+      if (typeof window.renderAdminPromoters === "function") window.renderAdminPromoters();
     });
 
     onValue(leadsRef, (snap) => {
@@ -845,118 +935,45 @@ loadLocalCache();
       renderMySiteDashboard();
     });
 
-    window.syncSingleSettingCloud = function(key, value) {
-      saveLocalCache();
-      set(ref(db, "mgsml_store/settings/" + key), value)
-        .then(() => updateSyncBadge("Synced to Firebase", true))
-        .catch(() => updateSyncBadge("Saved Locally", true));
-    };
-
-    window.saveLinksToFirebase = function() {
-      saveLocalCache();
-      set(linksRef, window.appLinks)
-        .then(() => updateSyncBadge("Links Synced to Firebase", true))
-        .catch(() => updateSyncBadge("Links Saved Locally", true));
-    };
-
-    window.saveCustomAppsToFirebase = function() {
-      saveLocalCache();
-      set(customAppsRef, window.customApps)
-        .then(() => updateSyncBadge("Custom Buttons Synced", true))
-        .catch(() => updateSyncBadge("Custom Buttons Saved", true));
-    };
-
-    window.saveOrdersToFirebase = function() {
-      saveLocalCache();
-      set(ordersRef, window.orderHistory)
-        .then(() => updateSyncBadge("Orders Synced", true))
-        .catch(() => updateSyncBadge("Orders Saved", true));
-    };
-
-    window.pushVisitorLeadToFirebase = function(leadPayload) {
-      push(leadsRef, {
-        ...leadPayload,
-        referredBy: getActiveReferralCode() || "Direct",
-        createdAt: new Date().toLocaleString(),
-        status: "New"
-      }).catch(() => {});
+    window.syncSingleSettingCloud = (k, v) => { saveLocalCache(); set(ref(db, "mgsml_store/settings/" + k), v).catch(() => {}); };
+    window.saveLinksToFirebase = () => { saveLocalCache(); set(linksRef, window.appLinks).catch(() => {}); };
+    window.saveCustomAppsToFirebase = () => { saveLocalCache(); set(customAppsRef, window.customApps).catch(() => {}); };
+    window.saveOrdersToFirebase = () => { saveLocalCache(); set(ordersRef, window.orderHistory).catch(() => {}); };
+    window.pushVisitorLeadToFirebase = (payload) => {
+      push(leadsRef, { ...payload, referredBy: getActiveReferralCode() || "Direct", createdAt: new Date().toLocaleString(), status: "New" }).catch(() => {});
     };
 
     async function ensurePromoterAutoRegistered(user) {
       if (!user || !user.uid) return null;
       const userRef = ref(db, `mgsml_store/promoters/${user.uid}`);
-      try {
-        const snap = await get(userRef);
-        if (snap.exists() && snap.val()) {
-          msPromotersMap[user.uid] = snap.val();
-          return { id: user.uid, ...snap.val() };
-        }
-        const autoCode = "PRM-" + String(user.uid).slice(-4).toUpperCase();
-        const newRecord = {
-          uid: user.uid,
-          email: user.email || "",
-          name: user.displayName || "Partner",
-          code: autoCode,
-          pin: "",
-          sponsorId: "",
-          approved: false,
-          canViewLeads: true,
-          createdAt: new Date().toLocaleString()
-        };
-        await set(userRef, newRecord);
-        msPromotersMap[user.uid] = newRecord;
-        return { id: user.uid, ...newRecord };
-      } catch (err) {
-        console.warn("Auto-register skipped:", err);
-        return null;
-      }
+      const snap = await get(userRef);
+      if (snap.exists() && snap.val()) return { id: user.uid, ...snap.val() };
+      const rec = {
+        uid: user.uid, email: user.email || "", name: user.displayName || "Partner",
+        code: "PRM-" + String(user.uid).slice(-4).toUpperCase(), pin: "", sponsorId: "",
+        approved: false, canViewLeads: true, createdAt: new Date().toLocaleString()
+      };
+      await set(userRef, rec);
+      return { id: user.uid, ...rec };
     }
 
-    window.loginMySiteGoogle = function() {
-      signInWithPopup(auth, googleProvider)
-        .then(async (result) => {
-          await ensurePromoterAutoRegistered(result.user);
-          syncMySiteAuthView();
-        })
-        .catch((err) => {
-          alert("Google Sign-In Error: " + err.message);
-        });
-    };
-
-    window.logoutMySiteGoogle = function() {
-      msUnlocked = false;
-      msCurrentPromoter = null;
-      signOut(auth).catch(() => {});
-    };
+    window.loginMySiteGoogle = () => signInWithPopup(auth, googleProvider).then(r => ensurePromoterAutoRegistered(r.user)).catch(e => alert(e.message));
+    window.logoutMySiteGoogle = () => { msUnlocked = false; msCurrentPromoter = null; signOut(auth).catch(() => {}); };
 
     onAuthStateChanged(auth, async (user) => {
       msAuthUser = user;
-      if (!user) {
-        msUnlocked = false;
-        msCurrentPromoter = null;
-        syncMySiteAuthView();
-        return;
-      }
-      await ensurePromoterAutoRegistered(user);
+      if (user) await ensurePromoterAutoRegistered(user);
       syncMySiteAuthView();
     });
 
     function resolveCurrentPromoterRecord() {
       if (!msAuthUser) return null;
-      const entries = Object.entries(msPromotersMap || {});
-      const found = entries.find(([key, p]) =>
-        p && (
-          key === msAuthUser.uid ||
-          (p.email && String(p.email).toLowerCase() === String(msAuthUser.email || "").toLowerCase())
-        )
-      );
-      if (!found || !found[1]) return null;
-      return { id: found[0], ...found[1] };
+      const found = Object.entries(msPromotersMap || {}).find(([k, p]) => p && (k === msAuthUser.uid || (p.email && p.email.toLowerCase() === (msAuthUser.email || "").toLowerCase())));
+      return found ? { id: found[0], ...found[1] } : null;
     }
 
     function syncMySiteAuthView() {
       const badge = document.getElementById("mySiteUserBadge");
-      const emailTxt = document.getElementById("mySiteUserEmail");
       const loginBox = document.getElementById("mySiteLoginBox");
       const pinBox = document.getElementById("mySitePinBox");
       const dash = document.getElementById("mySiteDashboard");
@@ -965,296 +982,137 @@ loadLocalCache();
 
       if (!msAuthUser) {
         badge?.classList.add("hidden");
-        badge?.classList.remove("flex");
         loginBox.classList.remove("hidden");
         pinBox.classList.add("hidden");
         dash.classList.add("hidden");
         return;
       }
-
       badge?.classList.remove("hidden");
-      badge?.classList.add("flex");
-      if (emailTxt) emailTxt.innerText = msAuthUser.email || "";
+      document.getElementById("mySiteUserEmail").innerText = msAuthUser.email || "";
       loginBox.classList.add("hidden");
 
       const rec = resolveCurrentPromoterRecord();
       if (!rec || !rec.approved) {
-        msCurrentPromoter = null;
-        msUnlocked = false;
-        dash.classList.add("hidden");
-        pinBox.classList.remove("hidden");
-        if (statusTxt) {
-          statusTxt.innerText = `UID: ${msAuthUser.uid} — Account registered. Approve & set PIN in Admin Panel > Promoters.`;
-        }
+        msCurrentPromoter = null; msUnlocked = false;
+        dash.classList.add("hidden"); pinBox.classList.remove("hidden");
+        if (statusTxt) statusTxt.innerText = "Account registered. Approve & set PIN in Admin Panel > Promoters.";
         return;
       }
-
       msCurrentPromoter = rec;
       if (msUnlocked) {
-        pinBox.classList.add("hidden");
-        dash.classList.remove("hidden");
+        pinBox.classList.add("hidden"); dash.classList.remove("hidden");
         renderMySiteDashboard();
       } else {
-        dash.classList.add("hidden");
-        pinBox.classList.remove("hidden");
-        if (statusTxt) {
-          statusTxt.innerText = `Welcome ${msCurrentPromoter.name || ""} (${msCurrentPromoter.code || msCurrentPromoter.id}) — Enter your PIN`;
-        }
+        dash.classList.add("hidden"); pinBox.classList.remove("hidden");
+        if (statusTxt) statusTxt.innerText = `Welcome ${rec.name || ""} (${rec.code || rec.id}) — Enter PIN`;
       }
     }
 
-    window.verifyMySitePin = async function() {
+    window.verifyMySitePin = () => {
       const entered = (document.getElementById("mySitePinInput")?.value || "").trim();
       const errEl = document.getElementById("mySitePinError");
-
-      let rec = resolveCurrentPromoterRecord();
-      if (!rec && msAuthUser && msAuthUser.uid) {
-        try {
-          const snap = await get(ref(db, `mgsml_store/promoters/${msAuthUser.uid}`));
-          if (snap.exists() && snap.val()) {
-            msPromotersMap[msAuthUser.uid] = snap.val();
-            rec = { id: msAuthUser.uid, ...snap.val() };
-          }
-        } catch (_) {}
-      }
-
-      const savedPin = rec && rec.pin !== undefined && rec.pin !== null ? String(rec.pin).trim() : "";
-      if (!rec || !rec.approved || !savedPin || savedPin !== entered) {
-        if (errEl) {
-          errEl.innerText = !rec || !rec.approved
-            ? "Account not approved yet! Approve in Admin Panel > Promoters."
-            : "Invalid PIN! Please check PIN in Admin Panel > Promoters.";
-          errEl.classList.remove("hidden");
-        }
+      const rec = resolveCurrentPromoterRecord();
+      if (!rec || !rec.approved || String(rec.pin || "").trim() !== entered) {
+        if (errEl) { errEl.innerText = "Invalid PIN or not approved!"; errEl.classList.remove("hidden"); }
         return;
       }
-
-      msCurrentPromoter = rec;
-      if (errEl) errEl.classList.add("hidden");
-      msUnlocked = true;
+      msCurrentPromoter = rec; msUnlocked = true;
       document.getElementById("mySitePinInput").value = "";
+      errEl?.classList.add("hidden");
       syncMySiteAuthView();
     };
 
-    window.copyMySiteRefLink = function() {
+    window.copyMySiteRefLink = () => {
       const txt = document.getElementById("mySiteRefLink")?.innerText || "";
-      if (!txt) return;
-      navigator.clipboard.writeText(txt);
-      alert("Referral link copied!");
+      if (txt) { navigator.clipboard.writeText(txt); alert("Referral link copied!"); }
     };
 
-    window.markMySiteLeadCalled = function(leadId) {
-      if (!msCurrentPromoter) return;
-      update(ref(db, `mgsml_store/leads_calls/${leadId}`), {
-        lastContactedBy: `${msCurrentPromoter.code || msCurrentPromoter.id} (${msCurrentPromoter.name || ""})`,
-        status: "Called"
-      }).catch(() => {});
+    window.saveSinglePromoterAdmin = async (uid) => {
+      const approved = Boolean(document.getElementById(`prom_approved_${uid}`)?.checked);
+      const pin = String(document.getElementById(`prom_pin_${uid}`)?.value || "").trim();
+      const code = String(document.getElementById(`prom_code_${uid}`)?.value || "").trim() || ("PRM-" + uid.slice(-4).toUpperCase());
+      const sponsorId = String(document.getElementById(`prom_sponsor_${uid}`)?.value || "").trim();
+      if (approved && !pin) { alert("Enter a PIN before approving."); return; }
+      await update(ref(db, `mgsml_store/promoters/${uid}`), { approved, pin, code, sponsorId });
+      alert("Promoter saved!");
     };
 
-    window.saveSinglePromoterAdmin = async function(uid) {
-      if (!uid) return;
-      const approvedEl = document.getElementById(`prom_approved_${uid}`);
-      const pinEl = document.getElementById(`prom_pin_${uid}`);
-      const codeEl = document.getElementById(`prom_code_${uid}`);
-      const sponsorEl = document.getElementById(`prom_sponsor_${uid}`);
-      const statusEl = document.getElementById(`prom_save_msg_${uid}`);
-
-      const isApproved = Boolean(approvedEl?.checked);
-      const pinVal = String(pinEl?.value || "").trim();
-      const codeVal = String(codeEl?.value || "").trim() || ("PRM-" + uid.slice(-4).toUpperCase());
-      const sponsorVal = String(sponsorEl?.value || "").trim();
-
-      if (isApproved && !pinVal) {
-        alert("অ্যাপ্রুভ করার আগে অনুগ্রহ করে একটি PIN দিন।");
-        pinEl?.focus();
-        return;
-      }
-
-      try {
-        await update(ref(db, `mgsml_store/promoters/${uid}`), {
-          approved: isApproved,
-          pin: pinVal,
-          code: codeVal,
-          sponsorId: sponsorVal,
-          updatedAt: new Date().toLocaleString()
-        });
-
-        if (msPromotersMap[uid]) {
-          msPromotersMap[uid].approved = isApproved;
-          msPromotersMap[uid].pin = pinVal;
-          msPromotersMap[uid].code = codeVal;
-          msPromotersMap[uid].sponsorId = sponsorVal;
-        }
-        syncMySiteAuthView();
-
-        if (statusEl) {
-          statusEl.innerText = "Saved!";
-          statusEl.className = "text-[11px] font-bold text-emerald-400";
-          setTimeout(() => {
-            if (statusEl) statusEl.innerText = "";
-          }, 2500);
-        }
-        updateSyncBadge("Promoter Saved", true);
-      } catch (err) {
-        alert("Save Error: " + err.message);
-      }
-    };
-
-    window.renderAdminPromoters = function() {
+    window.renderAdminPromoters = () => {
       const container = document.getElementById("adminPromotersList");
-      const countBadge = document.getElementById("adminPromotersCount");
+      const countEl = document.getElementById("adminPromotersCount");
       if (!container) return;
-
       const entries = Object.entries(msPromotersMap || {});
-      if (countBadge) countBadge.innerText = `${entries.length} Promoters`;
-
-      if (entries.length === 0) {
-        container.innerHTML = `<div class="p-4 rounded-xl bg-gray-900/60 border border-gray-800 text-xs text-gray-400">এখনো কোনো প্রমোটার সাইন-ইন করেনি।</div>`;
-        return;
-      }
-
-      container.innerHTML = entries.map(([uid, p]) => {
-        const safeUid = escapeAttr(uid);
-        const name = escapeAttr(p?.name || "Partner");
-        const email = escapeAttr(p?.email || "");
-        const code = escapeAttr(p?.code || ("PRM-" + uid.slice(-4).toUpperCase()));
-        const pin = escapeAttr(p?.pin !== undefined && p?.pin !== null ? String(p.pin) : "");
-        const sponsorId = escapeAttr(p?.sponsorId || "");
-        const checkedAttr = p?.approved ? "checked" : "";
-
-        return `
-          <div class="p-3.5 rounded-xl bg-gray-900 border border-gray-800 space-y-3">
-            <div class="flex flex-wrap items-center justify-between gap-2">
-              <div>
-                <div class="text-sm font-bold text-white">${name} <span class="text-[11px] font-normal text-cyan-300">(${email})</span></div>
-                <div class="text-[10px] font-mono text-gray-400 break-all">UID: ${safeUid}</div>
-              </div>
-              <label class="inline-flex items-center gap-2 text-xs font-bold text-emerald-300 cursor-pointer">
-                <input id="prom_approved_${safeUid}" type="checkbox" ${checkedAttr} class="w-4 h-4 accent-emerald-500 rounded">
-                <span>Approved</span>
-              </label>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-              <div>
-                <label class="block text-[11px] text-gray-400 mb-1">Referral Code</label>
-                <input id="prom_code_${safeUid}" type="text" value="${code}" class="w-full px-3 py-2 rounded-lg bg-gray-950 border border-gray-700 text-xs text-white">
-              </div>
-              <div>
-                <label class="block text-[11px] text-gray-400 mb-1">Secret PIN</label>
-                <input id="prom_pin_${safeUid}" type="text" value="${pin}" placeholder="যেমন: 1234 বা 5820" class="w-full px-3 py-2 rounded-lg bg-gray-950 border border-gray-700 text-xs text-white">
-              </div>
-              <div>
-                <label class="block text-[11px] text-gray-400 mb-1">Sponsor ID (5% Upline Code)</label>
-                <input id="prom_sponsor_${safeUid}" type="text" value="${sponsorId}" placeholder="যেমন: PRM-100" class="w-full px-3 py-2 rounded-lg bg-gray-950 border border-gray-700 text-xs text-white">
-              </div>
-            </div>
-
-            <div class="flex items-center justify-between pt-1">
-              <span id="prom_save_msg_${safeUid}" class="text-[11px] text-gray-400"></span>
-              <button type="button" onclick="saveSinglePromoterAdmin('${safeUid}')" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold">
-                Save Promoter
-              </button>
-            </div>
+      if (countEl) countEl.innerText = `${entries.length} Promoters`;
+      container.innerHTML = entries.length ? entries.map(([uid, p]) => `
+        <div class="panel-card mb-2">
+          <div class="row-flex mb-2" style="justify-content:space-between;">
+            <div><strong>${escapeAttr(p?.name || "Partner")}</strong> <span class="text-xs text-cyan">(${escapeAttr(p?.email || "")})</span></div>
+            <label class="text-xs font-bold text-emerald"><input id="prom_approved_${escapeAttr(uid)}" type="checkbox" ${p?.approved ? "checked" : ""}> Approved</label>
           </div>
-        `;
-      }).join("");
+          <div class="grid-3 mb-2">
+            <input id="prom_code_${escapeAttr(uid)}" type="text" value="${escapeAttr(p?.code || "")}" placeholder="Code" class="field-input">
+            <input id="prom_pin_${escapeAttr(uid)}" type="text" value="${escapeAttr(p?.pin || "")}" placeholder="PIN" class="field-input">
+            <input id="prom_sponsor_${escapeAttr(uid)}" type="text" value="${escapeAttr(p?.sponsorId || "")}" placeholder="Sponsor ID" class="field-input">
+          </div>
+          <button type="button" onclick="saveSinglePromoterAdmin('${escapeAttr(uid)}')" class="btn btn-emerald btn-sm">Save Promoter</button>
+        </div>
+      `).join("") : `<p class="text-xs text-muted">No promoters yet.</p>`;
     };
 
     function renderMySiteDashboard() {
       if (!msUnlocked || !msCurrentPromoter) return;
       const myCode = msCurrentPromoter.code || msCurrentPromoter.id;
-      const cleanBaseUrl = window.location.origin + window.location.pathname;
-      const refLinkEl = document.getElementById("mySiteRefLink");
-      if (refLinkEl) {
-        refLinkEl.innerText = `${cleanBaseUrl}?ref=${encodeURIComponent(myCode)}`;
-      }
+      document.getElementById("mySiteRefLink").innerText = `${window.location.origin + window.location.pathname}?ref=${encodeURIComponent(myCode)}`;
 
       const leadsTbody = document.getElementById("mySiteLeadsTbody");
-      if (leadsTbody) {
-        const entries = Object.entries(msLeadsMap || {});
-        if (msCurrentPromoter.canViewLeads === false) {
-          leadsTbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-amber-300">Lead viewing permission is disabled for this promoter.</td></tr>`;
-        } else if (entries.length === 0) {
-          leadsTbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-500">No visitor calls or WhatsApp leads yet.</td></tr>`;
-        } else {
-          leadsTbody.innerHTML = entries.slice().reverse().map(([id, l]) => {
-            if (!l) return "";
-            const safePhone = String(l.phone || "").replace(/'/g, "");
-            return `
-              <tr class="border-b border-gray-800 hover:bg-gray-900/50">
-                <td class="p-3 font-bold text-white">${escapeAttr(l.visitorName || "Visitor")} <span class="text-[10px] text-sky-300">(${escapeAttr(l.source || "web")})</span></td>
-                <td class="p-3 font-mono text-emerald-300">${escapeAttr(l.phone || "N/A")}</td>
-                <td class="p-3">${escapeAttr(l.appInterested || l.message || "-")}</td>
-                <td class="p-3 text-cyan-300">${escapeAttr(l.referredBy || "Direct")}</td>
-                <td class="p-3 space-x-1">
-                  ${safePhone ? `<a href="tel:${encodeURIComponent(safePhone)}" onclick="markMySiteLeadCalled('${escapeAttr(id)}')" class="bg-emerald-600 hover:bg-emerald-500 text-white px-2.5 py-1 rounded text-[11px] font-bold inline-block">Call</a>` : ""}
-                  <span class="text-[10px] text-gray-400">${escapeAttr(l.status || "New")}</span>
-                </td>
-              </tr>`;
-          }).join("");
-        }
-      }
+      const leadEntries = Object.entries(msLeadsMap || {});
+      leadsTbody.innerHTML = leadEntries.length ? leadEntries.slice().reverse().map(([id, l]) => `
+        <tr>
+          <td>${escapeAttr(l.visitorName || "Visitor")}</td>
+          <td>${escapeAttr(l.phone || "N/A")}</td>
+          <td>${escapeAttr(l.appInterested || l.message || "-")}</td>
+          <td>${escapeAttr(l.referredBy || "Direct")}</td>
+          <td>${l.phone ? `<a href="tel:${encodeURIComponent(l.phone)}" class="btn btn-emerald btn-sm">Call</a>` : escapeAttr(l.status || "New")}</td>
+        </tr>
+      `).join("") : `<tr><td colspan="5" class="text-muted">No leads yet.</td></tr>`;
 
-      const subCodes = Object.values(msPromotersMap || {})
-        .filter((p) => p && p.sponsorId === myCode && p.code)
-        .map((p) => p.code);
-
-      let directSum = 0;
-      let refSum = 0;
-      const commTbody = document.getElementById("mySiteCommTbody");
-      const ordersList = Array.isArray(msOrdersMap) ? msOrdersMap : Object.values(msOrdersMap || {});
-      let commRows = "";
-
-      ordersList.forEach((ord) => {
+      const subCodes = Object.values(msPromotersMap || {}).filter(p => p && p.sponsorId === myCode && p.code).map(p => p.code);
+      let dSum = 0, rSum = 0, rows = "";
+      (Array.isArray(msOrdersMap) ? msOrdersMap : Object.values(msOrdersMap || {})).forEach(ord => {
         if (!ord || ord.status !== "Verified") return;
-        const saleAmt = Number(String(ord.numericAmount || ord.method || 0).replace(/[^0-9.]/g, "")) || 0;
-        if (saleAmt <= 0) return;
-
+        const amt = Number(String(ord.numericAmount || 0).replace(/[^0-9.]/g, "")) || 0;
+        if (amt <= 0) return;
         if (ord.referredBy === myCode) {
-          const earn = saleAmt * 0.25;
-          directSum += earn;
-          commRows += `
-            <tr class="border-b border-gray-800">
-              <td class="p-3 text-gray-400">${escapeAttr(ord.date || "")}</td>
-              <td class="p-3 text-white font-bold">${escapeAttr(ord.item || "")}</td>
-              <td class="p-3">₹${saleAmt.toLocaleString()}</td>
-              <td class="p-3 text-emerald-400 font-bold">₹${earn.toLocaleString()} (25% Direct)</td>
-              <td class="p-3 text-cyan-300">Verified</td>
-            </tr>`;
+          const e = amt * 0.25; dSum += e;
+          rows += `<tr><td>${escapeAttr(ord.date || "")}</td><td>${escapeAttr(ord.item || "")}</td><td>₹${amt}</td><td class="text-emerald font-bold">₹${e} (25%)</td><td>Verified</td></tr>`;
         } else if (ord.referredBy && subCodes.includes(ord.referredBy)) {
-          const earn = saleAmt * 0.05;
-          refSum += earn;
-          commRows += `
-            <tr class="border-b border-gray-800">
-              <td class="p-3 text-gray-400">${escapeAttr(ord.date || "")}</td>
-              <td class="p-3 text-white font-bold">${escapeAttr(ord.item || "")} (via ${escapeAttr(ord.referredBy)})</td>
-              <td class="p-3">₹${saleAmt.toLocaleString()}</td>
-              <td class="p-3 text-cyan-300 font-bold">₹${earn.toLocaleString()} (5% Referral)</td>
-              <td class="p-3 text-cyan-300">Verified</td>
-            </tr>`;
+          const e = amt * 0.05; rSum += e;
+          rows += `<tr><td>${escapeAttr(ord.date || "")}</td><td>${escapeAttr(ord.item || "")}</td><td>₹${amt}</td><td class="text-cyan font-bold">₹${e} (5%)</td><td>Verified</td></tr>`;
         }
       });
-
-      if (commTbody) {
-        commTbody.innerHTML = commRows || `<tr><td colspan="5" class="p-4 text-center text-gray-500">No verified commission entries yet.</td></tr>`;
-      }
-      if (document.getElementById("mySiteDirectComm")) document.getElementById("mySiteDirectComm").innerText = `₹${directSum.toLocaleString()}`;
-      if (document.getElementById("mySiteRefComm")) document.getElementById("mySiteRefComm").innerText = `₹${refSum.toLocaleString()}`;
-      if (document.getElementById("mySiteGrandComm")) document.getElementById("mySiteGrandComm").innerText = `₹${(directSum + refSum).toLocaleString()}`;
+      document.getElementById("mySiteCommTbody").innerHTML = rows || `<tr><td colspan="5" class="text-muted">No verified commissions yet.</td></tr>`;
+      document.getElementById("mySiteDirectComm").innerText = `₹${dSum}`;
+      document.getElementById("mySiteRefComm").innerText = `₹${rSum}`;
+      document.getElementById("mySiteGrandComm").innerText = `₹${dSum + rSum}`;
     }
-  } catch (e) {
-    console.warn("Firebase init skipped:", e);
-  }
+  } catch (e) {}
 </script>
 
-<!-- UI & Interaction Logic -->
 <script>
-let tapCount = 0;
-let tapTimer;
+let tapCount = 0, tapTimer;
 
 function escapeAttr(str) {
   return String(str || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function updateHomeBlankMode() {
+  const homeUrl = String(window.globalSettings.homePageUrl || "").trim();
+  const isHomeActive = window.activeMainSection === "home";
+  if (isHomeActive && !homeUrl) {
+    document.body.classList.add("home-blank-mode");
+  } else {
+    document.body.classList.remove("home-blank-mode");
+  }
 }
 
 function switchMainSection(sectionName) {
@@ -1265,21 +1123,18 @@ function switchMainSection(sectionName) {
   const btnDemos = document.getElementById("bottomNavDemos");
 
   if (window.activeMainSection === "demos") {
-    homeSec?.classList.add("hidden");
-    demosSec?.classList.remove("hidden");
-    btnDemos?.classList.add("nav-tab-active");
-    btnDemos?.classList.remove("bg-gray-900/90", "text-sky-200", "border", "border-sky-500/30");
-    btnHome?.classList.remove("nav-tab-active");
-    btnHome?.classList.add("bg-gray-900/90", "text-sky-200", "border", "border-sky-500/30");
+    homeSec.classList.add("hidden");
+    demosSec.classList.remove("hidden");
+    btnDemos.className = "b-btn b-tab-active";
+    btnHome.className = "b-btn b-tab-idle";
   } else {
-    demosSec?.classList.add("hidden");
-    homeSec?.classList.remove("hidden");
+    demosSec.classList.add("hidden");
+    homeSec.classList.remove("hidden");
     applyHomePageLink();
-    btnHome?.classList.add("nav-tab-active");
-    btnHome?.classList.remove("bg-gray-900/90", "text-sky-200", "border", "border-sky-500/30");
-    btnDemos?.classList.remove("nav-tab-active");
-    btnDemos?.classList.add("bg-gray-900/90", "text-sky-200", "border", "border-sky-500/30");
+    btnHome.className = "b-btn b-tab-active";
+    btnDemos.className = "b-btn b-tab-idle";
   }
+  updateHomeBlankMode();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -1288,635 +1143,337 @@ function applyHomePageLink() {
   const extBox = document.getElementById("externalHomeContainer");
   const defBox = document.getElementById("defaultHomeContent");
   const iframeEl = document.getElementById("externalHomeIframe");
-  const directLinkEl = document.getElementById("externalHomeDirectLink");
-
-  if (!extBox || !defBox) return;
 
   if (homeUrl) {
     extBox.classList.remove("hidden");
     defBox.classList.add("hidden");
-    if (iframeEl && iframeEl.src !== homeUrl) {
-      iframeEl.src = homeUrl;
-    }
-    if (directLinkEl) {
-      directLinkEl.href = homeUrl;
-    }
+    if (iframeEl && iframeEl.src !== homeUrl) iframeEl.src = homeUrl;
   } else {
     extBox.classList.add("hidden");
     defBox.classList.remove("hidden");
-    if (iframeEl) {
-      iframeEl.src = "";
-    }
+    if (iframeEl) iframeEl.src = "";
   }
+  updateHomeBlankMode();
 }
 
 function handleSecretTap() {
   tapCount++;
   clearTimeout(tapTimer);
   tapTimer = setTimeout(() => { tapCount = 0; }, 2000);
-  
   if (tapCount >= 5) {
     tapCount = 0;
-    const modal = document.getElementById('stealthModal');
-    const pinInput = document.getElementById('stealthPinInput');
-    modal.style.display = 'flex';
-    pinInput.value = "";
-    pinInput.focus();
+    const modal = document.getElementById("stealthModal");
+    const inp = document.getElementById("stealthPinInput");
+    modal.classList.add("open");
+    inp.value = "";
+    inp.focus();
   }
 }
 
-function closeStealth() { document.getElementById('stealthModal').style.display = 'none'; }
+function closeStealth() { document.getElementById("stealthModal").classList.remove("open"); }
 
 function syncAdminInputs() {
-  document.getElementById('setHomePageUrl').value = window.globalSettings.homePageUrl || "";
-  document.getElementById('setMySiteUrl').value = window.globalSettings.mySiteUrl || "";
-  document.getElementById('setPin').value = window.globalSettings.pin || "";
-  document.getElementById('setWa').value = window.globalSettings.wa || "";
-  document.getElementById('setUpi').value = window.globalSettings.upi || "";
-  document.getElementById('setTrc').value = window.globalSettings.trc || "";
-  document.getElementById('setBnb').value = window.globalSettings.bnb || "";
-  document.getElementById('setPhonepeQrUrl').value = window.globalSettings.phonepeQr || "";
-  document.getElementById('setTrcQrUrl').value = window.globalSettings.trcQr || "";
-  document.getElementById('setBnbQrUrl').value = window.globalSettings.bnbQr || "";
+  document.getElementById("setHomePageUrl").value = window.globalSettings.homePageUrl || "";
+  document.getElementById("setPin").value = window.globalSettings.pin || "";
+  document.getElementById("setWa").value = window.globalSettings.wa || "";
+  document.getElementById("setUpi").value = window.globalSettings.upi || "";
+  document.getElementById("setTrc").value = window.globalSettings.trc || "";
+  document.getElementById("setBnb").value = window.globalSettings.bnb || "";
+  document.getElementById("setPhonepeQrUrl").value = window.globalSettings.phonepeQr || "";
+  document.getElementById("setTrcQrUrl").value = window.globalSettings.trcQr || "";
+  document.getElementById("setBnbQrUrl").value = window.globalSettings.bnbQr || "";
 }
 
 function openAdminPanel() {
   closeStealth();
-  document.getElementById('stealthPinInput').value = "";
   syncAdminInputs();
   renderAdminApps();
   renderCustomAppsAdmin();
   renderHistoryTable();
-  if (typeof window.renderAdminPromoters === "function") {
-    window.renderAdminPromoters();
-  }
-  document.getElementById('adminModal').style.display = 'flex';
+  if (typeof window.renderAdminPromoters === "function") window.renderAdminPromoters();
+  document.getElementById("adminModal").classList.add("open");
 }
 
 function checkStealthPin() {
-  const entered = document.getElementById('stealthPinInput').value.trim();
-  if (entered === String(window.globalSettings.pin)) {
-    openAdminPanel();
-  }
+  if (document.getElementById("stealthPinInput").value.trim() === String(window.globalSettings.pin)) openAdminPanel();
 }
 
 function checkStealthPinBtn() {
-  const entered = document.getElementById('stealthPinInput').value.trim();
-  if (entered === String(window.globalSettings.pin)) {
-    openAdminPanel();
-  } else {
-    alert("Incorrect PIN!");
-  }
+  if (document.getElementById("stealthPinInput").value.trim() === String(window.globalSettings.pin)) openAdminPanel();
+  else alert("Incorrect PIN!");
 }
 
-function saveSingleField(settingKey, inputId, labelName) {
-  const inputEl = document.getElementById(inputId);
-  if (!inputEl) return;
-  const val = inputEl.value.trim();
-
-  if (settingKey === 'pin' && val.length === 0) {
-    alert("⚠️ PIN cannot be empty!");
-    return;
-  }
-
-  window.globalSettings[settingKey] = val;
+function saveSingleField(key, inputId, label) {
+  const val = document.getElementById(inputId).value.trim();
+  if (key === "pin" && !val) { alert("PIN cannot be empty!"); return; }
+  window.globalSettings[key] = val;
   saveLocalCache();
-  if (typeof window.syncSingleSettingCloud === "function") {
-    window.syncSingleSettingCloud(settingKey, val);
-  }
+  if (typeof window.syncSingleSettingCloud === "function") window.syncSingleSettingCloud(key, val);
   applyHomePageLink();
   renderApps();
-  alert(`✅ ${labelName} saved successfully!`);
+  alert(`${label} saved!`);
 }
 
-function saveQrUrl(qrKey, inputId, labelName) {
-  const inputEl = document.getElementById(inputId);
-  if (!inputEl) return;
-  const urlVal = inputEl.value.trim();
-  if (!urlVal) {
-    alert(`⚠️ Please enter a QR image URL for ${labelName}!`);
-    return;
-  }
-  window.globalSettings[qrKey] = urlVal;
+function saveQrUrl(qrKey, inputId, label) {
+  const val = document.getElementById(inputId).value.trim();
+  if (!val) { alert("Enter QR URL!"); return; }
+  window.globalSettings[qrKey] = val;
   saveLocalCache();
-  if (typeof window.syncSingleSettingCloud === "function") {
-    window.syncSingleSettingCloud(qrKey, urlVal);
-  }
+  if (typeof window.syncSingleSettingCloud === "function") window.syncSingleSettingCloud(qrKey, val);
   renderApps();
-  alert(`✅ ${labelName} saved successfully!`);
+  alert(`${label} saved!`);
 }
 
-function openShareModal() {
-  document.getElementById('shareModal').style.display = 'flex';
+function openShareModal() { document.getElementById("shareModal").classList.add("open"); }
+function openPayModal(preselected = "") {
+  if (preselected) document.getElementById("verifyAppSelect").value = preselected;
+  document.getElementById("payModal").classList.add("open");
 }
-
-function openPayModal(preselectedApp = "") {
-  if (preselectedApp) {
-    const sel = document.getElementById('verifyAppSelect');
-    if (sel) sel.value = preselectedApp;
-  }
-  document.getElementById('payModal').style.display = 'flex';
-}
-
 function openMySite() {
-  const extUrl = (window.globalSettings.mySiteUrl || "").trim();
-  if (extUrl) {
-    window.open(extUrl, "_blank");
-    return;
-  }
-  document.getElementById('mySiteModal').style.display = 'flex';
+  const ext = (window.globalSettings.mySiteUrl || "").trim();
+  if (ext) { window.open(ext, "_blank"); return; }
+  document.getElementById("mySiteModal").classList.add("open");
 }
+function closeModal(id) { document.getElementById(id).classList.remove("open"); }
 
 function sharePortal(platform) {
   const base = window.location.origin + window.location.pathname;
   const ref = getActiveReferralCode();
   const siteUrl = ref ? `${base}?ref=${encodeURIComponent(ref)}` : base;
-  const shareText = 
-    `🔥 100% GENUINE MAX GRID APP STORE 🔥\n\n` +
-    `Looking for professional, ready-to-launch software, apps, and website solutions? Explore Max Grid App Store with 44+ high-end digital products & custom apps!\n\n` +
-    `🚀 What We Build:\n` +
-    `• Crypto Mining, HYIP & MLM Platforms\n` +
-    `• Telegram Mini Apps, Bots & DEX Token Swaps\n` +
-    `• E-Commerce, Food Delivery & OTT Streaming Apps\n` +
-    `• AI Powered Dashboards, Support Bots & Tools\n` +
-    `• SaaS, LMS, POS & Enterprise Solutions\n\n` +
-    `💎 Why Choose Max Grid App Store?\n` +
-    `• 100% Genuine & Trusted Service (Zero Fraud)\n` +
-    `• Secure Direct UPI & Crypto (TRC20/BNB20) Gateways\n` +
-    `• Live Demos available for all products!\n\n` +
-    `👉 Visit Max Grid App Store now to check live demos and choose your next project: \n${siteUrl}`;
-
-  const encodedText = encodeURIComponent(shareText);
-
-  if (platform === 'whatsapp') {
-    window.open(`https://api.whatsapp.com/send?text=${encodedText}`, '_blank');
-  } else if (platform === 'telegram') {
-    window.open(`https://t.me/share/url?url=${encodeURIComponent(siteUrl)}&text=${encodedText}`, '_blank');
-  }
+  const text = `Max Grid App Studio — 44+ Ready Demos & Custom App Solutions: ${siteUrl}`;
+  if (platform === "whatsapp") window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, "_blank");
+  else window.open(`https://t.me/share/url?url=${encodeURIComponent(siteUrl)}&text=${encodeURIComponent(text)}`, "_blank");
 }
 
-function handleVisitDemo(link, appLabel) {
-  if (link && String(link).trim() !== "") {
-    window.open(String(link).trim(), "_blank");
-  } else {
-    alert(`Demo link for ${appLabel} will be updated soon. You can also ask for a live preview on WhatsApp!`);
-  }
+function handleVisitDemo(link, label) {
+  if (link && String(link).trim()) window.open(String(link).trim(), "_blank");
+  else alert(`Demo link for ${label} is not set yet.`);
 }
 
 function buildAppCardHtml({ badge, title, desc, link, orderLabel, waLabel, isCustom }) {
-  const safeTitle = escapeAttr(title);
-  const safeDesc = escapeAttr(desc || "Complete ready-to-launch web & app solution with admin control panel.");
-  const safeLink = escapeAttr(link || "");
-  const safeOrderLabel = escapeAttr(orderLabel);
-  const safeWaLabel = escapeAttr(waLabel);
-
   return `
-    <div class="glass app-card p-5 rounded-2xl flex flex-col justify-between border ${isCustom ? 'border-cyan-400/40' : 'border-sky-500/25'}" data-name="${escapeAttr(title.toLowerCase())}">
+    <div class="glass app-card" data-name="${escapeAttr(title.toLowerCase())}">
       <div>
-        <div class="flex justify-between items-center mb-3">
-          <span class="text-[11px] font-extrabold ${isCustom ? 'text-cyan-300 bg-cyan-500/15 border-cyan-400/30' : 'text-sky-300 bg-sky-500/15 border-sky-400/25'} px-2.5 py-0.5 rounded-md border">${escapeAttr(badge)}</span>
-          <i class="fas ${isCustom ? 'fa-wand-magic-sparkles text-cyan-400' : 'fa-code text-sky-400/70'} text-sm"></i>
+        <div class="card-top">
+          <span class="badge-num">${escapeAttr(badge)}</span>
+          <i class="fas ${isCustom ? "fa-wand-magic-sparkles" : "fa-code"} text-sky"></i>
         </div>
-        <h3 class="text-base font-extrabold text-white mb-2">${safeTitle}</h3>
-        <p class="text-xs text-sky-200/70 mb-5 leading-relaxed">${safeDesc}</p>
+        <div class="app-title">${escapeAttr(title)}</div>
+        <div class="app-desc">${escapeAttr(desc || "Ready-to-launch solution with admin control.")}</div>
       </div>
-      <div class="space-y-2.5">
-        <div class="grid grid-cols-2 gap-2">
-          <button type="button" onclick="handleVisitDemo('${safeLink}', '${safeOrderLabel}')" class="bg-gradient-to-r from-sky-500 to-cyan-500 hover:from-sky-400 hover:to-cyan-400 text-gray-950 text-center font-extrabold py-2.5 px-2 rounded-xl text-xs transition flex items-center justify-center gap-1 shadow-md">
-            <i class="fas fa-eye"></i> Visit Demo Now
-          </button>
-          <button type="button" onclick="selectAppToOrder('${safeOrderLabel}')" class="bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-300 hover:to-orange-400 text-gray-950 text-center font-extrabold py-2.5 px-2 rounded-xl text-xs transition flex items-center justify-center gap-1 shadow-md">
-            <i class="fas fa-shopping-cart"></i> Order Now
-          </button>
+      <div>
+        <div class="card-row-2">
+          <button type="button" onclick="handleVisitDemo('${escapeAttr(link)}', '${escapeAttr(orderLabel)}')" class="btn btn-cyan btn-sm"><i class="fas fa-eye"></i> Visit Demo</button>
+          <button type="button" onclick="selectAppToOrder('${escapeAttr(orderLabel)}')" class="btn btn-amber btn-sm"><i class="fas fa-shopping-cart"></i> Order Now</button>
         </div>
-        <button type="button" onclick="chatSpecificApp('${safeWaLabel}')" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-center font-extrabold py-2.5 px-3 rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow-md">
-          <i class="fab fa-whatsapp text-sm"></i> Chat on WhatsApp — ${escapeAttr(badge)}
-        </button>
+        <button type="button" onclick="chatSpecificApp('${escapeAttr(waLabel)}')" class="btn btn-emerald btn-sm" style="width:100%;"><i class="fab fa-whatsapp"></i> WhatsApp — ${escapeAttr(badge)}</button>
       </div>
     </div>`;
 }
 
 function renderApps() {
-  const grid = document.getElementById('grid');
-  const selectBox = document.getElementById('verifyAppSelect');
+  const grid = document.getElementById("grid");
+  const sel = document.getElementById("verifyAppSelect");
   if (!grid) return;
-
-  const prevSelected = selectBox ? selectBox.value : "";
-  let cardsHtml = "";
-  let selectOptionsHtml = `<option value="Custom Project">Custom Project / Service</option>`;
-
+  let html = "", opts = `<option value="Custom Project">Custom Project / Service</option>`;
   window.defaultApps.forEach((name, i) => {
-    const num = String(i + 1).padStart(2, '0');
-    const link = (window.appLinks && window.appLinks[i]) ? window.appLinks[i] : "";
-    const fullLabel = `#${num} ${name}`;
-
-    selectOptionsHtml += `<option value="${escapeAttr(fullLabel)}">${escapeAttr(fullLabel)}</option>`;
-    cardsHtml += buildAppCardHtml({
-      badge: `#${num}`,
-      title: name,
-      desc: "Complete ready-to-launch web & app solution with admin control panel.",
-      link: link,
-      orderLabel: fullLabel,
-      waLabel: fullLabel,
-      isCustom: false
-    });
+    const num = String(i + 1).padStart(2, "0");
+    const link = window.appLinks[i] || "";
+    const full = `#${num} ${name}`;
+    opts += `<option value="${escapeAttr(full)}">${escapeAttr(full)}</option>`;
+    html += buildAppCardHtml({ badge: `#${num}`, title: name, desc: "Ready-to-launch web & app solution.", link, orderLabel: full, waLabel: full, isCustom: false });
   });
-
   (window.customApps || []).forEach((item, idx) => {
     if (!item || !item.name) return;
-    const customBadge = `CUSTOM #${idx + 1}`;
-    const fullLabel = `${customBadge} ${item.name}`;
-
-    selectOptionsHtml += `<option value="${escapeAttr(fullLabel)}">${escapeAttr(fullLabel)}</option>`;
-    cardsHtml += buildAppCardHtml({
-      badge: customBadge,
-      title: item.name,
-      desc: item.desc || "Custom solution created via Max Grid App Store Admin Panel.",
-      link: item.link || "",
-      orderLabel: fullLabel,
-      waLabel: fullLabel,
-      isCustom: true
-    });
+    const badge = `CUSTOM #${idx + 1}`;
+    const full = `${badge} ${item.name}`;
+    opts += `<option value="${escapeAttr(full)}">${escapeAttr(full)}</option>`;
+    html += buildAppCardHtml({ badge, title: item.name, desc: item.desc || "Custom button.", link: item.link || "", orderLabel: full, waLabel: full, isCustom: true });
   });
-
-  grid.innerHTML = cardsHtml;
-
-  if (selectBox) {
-    selectBox.innerHTML = selectOptionsHtml;
-    if (prevSelected) {
-      selectBox.value = prevSelected;
-    }
-  }
-
-  if (document.getElementById('displayUpi')) document.getElementById('displayUpi').value = window.globalSettings.upi || "";
-  if (document.getElementById('displayTrc')) document.getElementById('displayTrc').value = window.globalSettings.trc || "";
-  if (document.getElementById('displayBnb')) document.getElementById('displayBnb').value = window.globalSettings.bnb || "";
-  if (document.getElementById('displayPhonePeQr')) document.getElementById('displayPhonePeQr').src = window.globalSettings.phonepeQr || "";
-  if (document.getElementById('displayTrcQr')) document.getElementById('displayTrcQr').src = window.globalSettings.trcQr || "";
-  if (document.getElementById('displayBnbQr')) document.getElementById('displayBnbQr').src = window.globalSettings.bnbQr || "";
-
+  grid.innerHTML = html;
+  if (sel) sel.innerHTML = opts;
+  if (document.getElementById("displayUpi")) document.getElementById("displayUpi").value = window.globalSettings.upi || "";
+  if (document.getElementById("displayTrc")) document.getElementById("displayTrc").value = window.globalSettings.trc || "";
+  if (document.getElementById("displayBnb")) document.getElementById("displayBnb").value = window.globalSettings.bnb || "";
+  if (document.getElementById("displayPhonePeQr")) document.getElementById("displayPhonePeQr").src = window.globalSettings.phonepeQr || "";
+  if (document.getElementById("displayTrcQr")) document.getElementById("displayTrcQr").src = window.globalSettings.trcQr || "";
+  if (document.getElementById("displayBnbQr")) document.getElementById("displayBnbQr").src = window.globalSettings.bnbQr || "";
   filterApps();
 }
 
 function chatSpecificApp(appTitle) {
   if (typeof window.pushVisitorLeadToFirebase === "function") {
-    window.pushVisitorLeadToFirebase({
-      visitorName: "WhatsApp Chat Click",
-      phone: "",
-      appInterested: appTitle,
-      source: "whatsapp_button"
-    });
+    window.pushVisitorLeadToFirebase({ visitorName: "WhatsApp Click", phone: "", appInterested: appTitle, source: "whatsapp_button" });
   }
-  const ref = getActiveReferralCode();
-  const msg = `Hello Max Grid App Store, I want to inquire about ${appTitle}${ref ? ` (Ref: ${ref})` : ""}. Please share more details.`;
-  window.open(`https://wa.me/${window.globalSettings.wa}?text=${encodeURIComponent(msg)}`, '_blank');
+  const msg = `Hello Max Grid App Studio, inquiry about ${appTitle}.`;
+  window.open(`https://wa.me/${window.globalSettings.wa}?text=${encodeURIComponent(msg)}`, "_blank");
 }
 
-function toggleSupportModal() {
-  const modal = document.getElementById('supportModal');
-  modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
-}
+function toggleSupportModal() { document.getElementById("supportModal").classList.toggle("open"); }
 
 function sendSupportForm() {
-  const name = document.getElementById('supName').value.trim();
-  const phone = document.getElementById('supPhone').value.trim();
-  const city = document.getElementById('supCity').value.trim() || 'Not specified';
-  const app = document.getElementById('supApp').value.trim() || 'General Inquiry';
-  const msg = document.getElementById('supMsg').value.trim() || 'No description';
-
-  if (!name || !phone) {
-    alert("Please enter your Name and Mobile Number!");
-    return;
-  }
-
+  const name = document.getElementById("supName").value.trim();
+  const phone = document.getElementById("supPhone").value.trim();
+  const city = document.getElementById("supCity").value.trim() || "N/A";
+  const app = document.getElementById("supApp").value.trim() || "General";
+  const msg = document.getElementById("supMsg").value.trim() || "";
+  if (!name || !phone) { alert("Name and Mobile Number required!"); return; }
   if (typeof window.pushVisitorLeadToFirebase === "function") {
-    window.pushVisitorLeadToFirebase({
-      visitorName: `${name} (${city})`,
-      phone: phone,
-      appInterested: app,
-      message: msg,
-      source: "whatsapp_form"
-    });
+    window.pushVisitorLeadToFirebase({ visitorName: `${name} (${city})`, phone, appInterested: app, message: msg, source: "whatsapp_form" });
   }
-
-  const ref = getActiveReferralCode();
-  const waText = 
-    `🔔 *NEW MAX GRID APP STORE INQUIRY* 🔔\n\n` +
-    `👤 *Name:* ${name}\n` +
-    `📞 *Phone:* ${phone}\n` +
-    `🌍 *City:* ${city}\n` +
-    `📱 *App/Service:* ${app}\n` +
-    (ref ? `🏷️ *Referral:* ${ref}\n` : ``) +
-    `💬 *Message:* ${msg}`;
-
-  window.open(`https://wa.me/${window.globalSettings.wa}?text=${encodeURIComponent(waText)}`, '_blank');
+  const waText = `Name: ${name}\nPhone: ${phone}\nCity: ${city}\nApp: ${app}\nMessage: ${msg}`;
+  window.open(`https://wa.me/${window.globalSettings.wa}?text=${encodeURIComponent(waText)}`, "_blank");
   toggleSupportModal();
 }
 
-function selectAppToOrder(appTitle) {
-  openPayModal(appTitle);
-}
+function selectAppToOrder(title) { openPayModal(title); }
 
 function openUpiApp() {
-  const amt = document.getElementById('upiPayAmount').value.trim();
-  if (!amt || Number(amt) <= 0) {
-    alert("Please enter the amount (₹) first!");
-    return;
-  }
-  const upiId = window.globalSettings.upi;
-  const upiLink = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=Max%20Grid%20App%20Store&am=${encodeURIComponent(amt)}&cu=INR`;
-  
-  document.getElementById('verifyAmount').value = `₹${amt}`;
-  document.getElementById('verifyMethod').value = "PhonePe / UPI";
-  
-  window.location.href = upiLink;
+  const amt = document.getElementById("upiPayAmount").value.trim();
+  if (!amt || Number(amt) <= 0) { alert("Enter amount first!"); return; }
+  document.getElementById("verifyAmount").value = `₹${amt}`;
+  document.getElementById("verifyMethod").value = "PhonePe / UPI";
+  window.location.href = `upi://pay?pa=${encodeURIComponent(window.globalSettings.upi)}&pn=Max%20Grid%20App%20Studio&am=${encodeURIComponent(amt)}&cu=INR`;
 }
 
 function submitPaymentProof() {
-  const app = document.getElementById('verifyAppSelect').value;
-  const method = document.getElementById('verifyMethod').value;
-  const amount = document.getElementById('verifyAmount').value.trim() || "Not Specified";
-  const txHash = document.getElementById('verifyTxHash').value.trim();
-
-  if (!txHash) {
-    alert("⚠️ Please enter your 12-digit PhonePe UTR / Transaction ID or Crypto Hash Code!");
-    return;
-  }
-
+  const app = document.getElementById("verifyAppSelect").value;
+  const method = document.getElementById("verifyMethod").value;
+  const amount = document.getElementById("verifyAmount").value.trim() || "Not Specified";
+  const txHash = document.getElementById("verifyTxHash").value.trim();
+  if (!txHash) { alert("Enter UTR / Hash!"); return; }
   const numericAmount = Number(amount.replace(/[^0-9.]/g, "")) || 0;
-  const referredBy = getActiveReferralCode() || "Direct";
-  const now = new Date().toLocaleString();
-  const orderObj = {
-    date: now,
-    item: app,
-    method: `${method} (${amount})`,
-    numericAmount,
-    referredBy,
-    hash: txHash,
-    status: 'Pending'
-  };
-
-  window.orderHistory.unshift(orderObj);
+  window.orderHistory.unshift({ date: new Date().toLocaleString(), item: app, method: `${method} (${amount})`, numericAmount, referredBy: getActiveReferralCode() || "Direct", hash: txHash, status: "Pending" });
   saveLocalCache();
-  if (typeof window.saveOrdersToFirebase === "function") {
-    window.saveOrdersToFirebase();
-  }
-  
-  document.getElementById('verifyTxHash').value = "";
-  closeModal('payModal');
-  alert("✅ Order & 12-Digit UTR / Hash saved successfully!\n\nRedirecting to WhatsApp for instant confirmation...");
-  
-  const waMsg = `Hello Max Grid App Store, I have placed an order!\n*App:* ${app}\n*Method:* ${method}\n*Amount:* ${amount}\n*Ref:* ${referredBy}\n*UTR / Hash:* ${txHash}`;
-  window.open(`https://wa.me/${window.globalSettings.wa}?text=${encodeURIComponent(waMsg)}`, '_blank');
+  if (typeof window.saveOrdersToFirebase === "function") window.saveOrdersToFirebase();
+  document.getElementById("verifyTxHash").value = "";
+  closeModal("payModal");
+  alert("Order proof saved!");
 }
 
 function renderHistoryTable() {
-  const tbody = document.getElementById('historyTableBody');
+  const tbody = document.getElementById("historyTableBody");
   if (!tbody) return;
-  document.getElementById('historyCount').innerText = window.orderHistory.length;
-  if (window.orderHistory.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-500">No order history found yet.</td></tr>`;
-    return;
-  }
-  tbody.innerHTML = "";
-  window.orderHistory.forEach((ord, index) => {
-    const badgeColor = ord.status === 'Verified' ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' : 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30';
-    tbody.innerHTML += `
-      <tr class="border-b border-gray-800 hover:bg-gray-900/50">
-        <td class="p-3 text-gray-400 text-[11px]">${escapeAttr(ord.date)}</td>
-        <td class="p-3 font-bold text-white">${escapeAttr(ord.item)} <span class="text-[10px] text-cyan-300">[${escapeAttr(ord.referredBy || 'Direct')}]</span></td>
-        <td class="p-3 text-sky-300">${escapeAttr(ord.method)}</td>
-        <td class="p-3 font-mono text-emerald-300 text-[11px]">${escapeAttr(ord.hash || 'N/A')}</td>
-        <td class="p-3">
-          <button type="button" onclick="toggleOrderStatus(${index})" class="${badgeColor} px-2.5 py-1 rounded text-[10px] font-bold border">${escapeAttr(ord.status)}</button>
-        </td>
-      </tr>`;
-  });
+  document.getElementById("historyCount").innerText = window.orderHistory.length;
+  tbody.innerHTML = window.orderHistory.length ? window.orderHistory.map((ord, i) => `
+    <tr>
+      <td>${escapeAttr(ord.date)}</td>
+      <td>${escapeAttr(ord.item)}</td>
+      <td>${escapeAttr(ord.method)}</td>
+      <td>${escapeAttr(ord.hash || "N/A")}</td>
+      <td><button type="button" onclick="toggleOrderStatus(${i})" class="btn btn-sky btn-sm">${escapeAttr(ord.status)}</button></td>
+    </tr>
+  `).join("") : `<tr><td colspan="5" class="text-muted">No orders yet.</td></tr>`;
 }
 
-function toggleOrderStatus(index) {
-  window.orderHistory[index].status = window.orderHistory[index].status === 'Verified' ? 'Pending' : 'Verified';
+function toggleOrderStatus(i) {
+  window.orderHistory[i].status = window.orderHistory[i].status === "Verified" ? "Pending" : "Verified";
   saveLocalCache();
-  if (typeof window.saveOrdersToFirebase === "function") {
-    window.saveOrdersToFirebase();
-  }
+  if (typeof window.saveOrdersToFirebase === "function") window.saveOrdersToFirebase();
   renderHistoryTable();
 }
 
 function clearHistory() {
-  if (confirm("Are you sure you want to clear all order history?")) {
-    window.orderHistory = [];
-    saveLocalCache();
-    if (typeof window.saveOrdersToFirebase === "function") {
-      window.saveOrdersToFirebase();
-    }
-    renderHistoryTable();
-    alert("✅ Order history cleared successfully!");
-  }
+  if (!confirm("Clear all history?")) return;
+  window.orderHistory = [];
+  saveLocalCache();
+  if (typeof window.saveOrdersToFirebase === "function") window.saveOrdersToFirebase();
+  renderHistoryTable();
 }
 
 function switchTab(tab) {
-  const btnSet = document.getElementById('tabBtnSettings');
-  const btnHis = document.getElementById('tabBtnHistory');
-  const btnPro = document.getElementById('tabBtnPromoters');
-  const divSet = document.getElementById('tabSettings');
-  const divHis = document.getElementById('tabHistory');
-  const divPro = document.getElementById('tabPromoters');
-
-  const inactiveBtn = "bg-gray-800 text-gray-300 font-extrabold px-4 py-2 rounded-lg text-xs transition";
-  const inactiveProBtn = "bg-indigo-600/25 text-indigo-300 border border-indigo-500/40 font-extrabold px-4 py-2 rounded-lg text-xs transition";
-  const activeBtn = "bg-sky-500 text-gray-950 font-extrabold px-4 py-2 rounded-lg text-xs transition";
-
-  btnSet.className = inactiveBtn;
-  btnHis.className = inactiveBtn;
-  if (btnPro) btnPro.className = inactiveProBtn;
-
-  divSet.classList.add('hidden');
-  divHis.classList.add('hidden');
-  if (divPro) divPro.classList.add('hidden');
-
-  if (tab === 'settings') {
-    btnSet.className = activeBtn;
-    divSet.classList.remove('hidden');
-  } else if (tab === 'history') {
-    btnHis.className = activeBtn;
-    divHis.classList.remove('hidden');
-    renderHistoryTable();
-  } else if (tab === 'promoters') {
-    if (btnPro) btnPro.className = "bg-indigo-500 text-white font-extrabold px-4 py-2 rounded-lg text-xs transition";
-    if (divPro) divPro.classList.remove('hidden');
-    if (typeof window.renderAdminPromoters === "function") {
-      window.renderAdminPromoters();
-    }
-  }
+  ["tabSettings", "tabHistory", "tabPromoters"].forEach(id => document.getElementById(id).classList.add("hidden"));
+  if (tab === "settings") document.getElementById("tabSettings").classList.remove("hidden");
+  if (tab === "history") { document.getElementById("tabHistory").classList.remove("hidden"); renderHistoryTable(); }
+  if (tab === "promoters") { document.getElementById("tabPromoters").classList.remove("hidden"); if (typeof window.renderAdminPromoters === "function") window.renderAdminPromoters(); }
 }
 
-function compressQrImage(file, callback) {
+function handleQrUpload(input, key, label) {
+  const file = input.files && input.files[0];
+  if (!file) return;
   const reader = new FileReader();
-  reader.onload = function(event) {
-    const img = new Image();
-    img.onload = function() {
-      const canvas = document.createElement("canvas");
-      const maxDim = 260;
-      let w = img.width;
-      let h = img.height;
-      if (w > h && w > maxDim) {
-        h = Math.round((h * maxDim) / w);
-        w = maxDim;
-      } else if (h >= w && h > maxDim) {
-        w = Math.round((w * maxDim) / h);
-        h = maxDim;
-      }
-      canvas.width = w;
-      canvas.height = h;
-      const ctx = canvas.getContext("2d");
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, w, h);
-      ctx.drawImage(img, 0, 0, w, h);
-      callback(canvas.toDataURL("image/jpeg", 0.82));
-    };
-    img.src = event.target.result;
+  reader.onload = (ev) => {
+    window.globalSettings[key] = ev.target.result;
+    saveLocalCache();
+    if (typeof window.syncSingleSettingCloud === "function") window.syncSingleSettingCloud(key, ev.target.result);
+    renderApps();
+    alert(`${label} uploaded!`);
   };
   reader.readAsDataURL(file);
 }
 
-function handleQrUpload(input, key, labelName) {
-  const file = input.files && input.files[0];
-  if (!file) return;
-  compressQrImage(file, function(compressedDataUrl) {
-    window.globalSettings[key] = compressedDataUrl;
-    if (key === 'phonepeQr') document.getElementById('setPhonepeQrUrl').value = compressedDataUrl;
-    if (key === 'trcQr') document.getElementById('setTrcQrUrl').value = compressedDataUrl;
-    if (key === 'bnbQr') document.getElementById('setBnbQrUrl').value = compressedDataUrl;
-    saveLocalCache();
-    if (typeof window.syncSingleSettingCloud === "function") {
-      window.syncSingleSettingCloud(key, compressedDataUrl);
-    }
-    renderApps();
-    alert(`✅ ${labelName} saved successfully!`);
-  });
-}
-
 function addCustomApp() {
-  const nameEl = document.getElementById('newCustomName');
-  const descEl = document.getElementById('newCustomDesc');
-  const linkEl = document.getElementById('newCustomLink');
-
-  const name = nameEl.value.trim();
-  const desc = descEl.value.trim();
-  const link = linkEl.value.trim();
-
-  if (!name) {
-    alert("⚠️ Please enter a name for the custom button/app!");
-    return;
-  }
-
-  window.customApps.push({
-    id: "custom_" + Date.now(),
-    name,
-    desc,
-    link
-  });
-
-  nameEl.value = "";
-  descEl.value = "";
-  linkEl.value = "";
-
+  const name = document.getElementById("newCustomName").value.trim();
+  const desc = document.getElementById("newCustomDesc").value.trim();
+  const link = document.getElementById("newCustomLink").value.trim();
+  if (!name) { alert("Enter name!"); return; }
+  window.customApps.push({ id: "c_" + Date.now(), name, desc, link });
+  document.getElementById("newCustomName").value = "";
+  document.getElementById("newCustomDesc").value = "";
+  document.getElementById("newCustomLink").value = "";
   saveLocalCache();
-  if (typeof window.saveCustomAppsToFirebase === "function") {
-    window.saveCustomAppsToFirebase();
-  }
+  if (typeof window.saveCustomAppsToFirebase === "function") window.saveCustomAppsToFirebase();
   renderApps();
   renderCustomAppsAdmin();
-  alert(`✅ Custom button "${name}" saved successfully!`);
 }
 
 function saveCustomApp(idx) {
-  const linkInput = document.getElementById(`custom_link_${idx}`);
-  const nameInput = document.getElementById(`custom_name_${idx}`);
-  if (!window.customApps[idx]) return;
-
-  if (nameInput && nameInput.value.trim()) {
-    window.customApps[idx].name = nameInput.value.trim();
-  }
-  if (linkInput) {
-    window.customApps[idx].link = linkInput.value.trim();
-  }
-
+  window.customApps[idx].name = document.getElementById(`custom_name_${idx}`).value.trim() || window.customApps[idx].name;
+  window.customApps[idx].link = document.getElementById(`custom_link_${idx}`).value.trim();
   saveLocalCache();
-  if (typeof window.saveCustomAppsToFirebase === "function") {
-    window.saveCustomAppsToFirebase();
-  }
+  if (typeof window.saveCustomAppsToFirebase === "function") window.saveCustomAppsToFirebase();
   renderApps();
-  alert("✅ Custom button updated successfully!");
+  alert("Custom button saved!");
 }
 
 function deleteCustomApp(idx) {
-  if (!confirm("Delete this custom button?")) return;
   window.customApps.splice(idx, 1);
   saveLocalCache();
-  if (typeof window.saveCustomAppsToFirebase === "function") {
-    window.saveCustomAppsToFirebase();
-  }
+  if (typeof window.saveCustomAppsToFirebase === "function") window.saveCustomAppsToFirebase();
   renderApps();
   renderCustomAppsAdmin();
-  alert("✅ Custom button deleted!");
 }
 
 function renderCustomAppsAdmin() {
-  const box = document.getElementById('customAppsAdminList');
+  const box = document.getElementById("customAppsAdminList");
   if (!box) return;
-  if (!window.customApps || window.customApps.length === 0) {
-    box.innerHTML = `<p class="text-[11px] text-gray-500">No custom buttons created yet. Add one above anytime.</p>`;
-    return;
-  }
-  box.innerHTML = window.customApps.map((item, idx) => `
-    <div class="flex flex-col sm:flex-row items-center gap-2 bg-gray-900 p-3 rounded-xl border border-cyan-500/30">
-      <span class="text-[10px] font-extrabold text-cyan-300 bg-cyan-500/15 px-2 py-1 rounded">CUSTOM #${idx + 1}</span>
-      <input type="text" id="custom_name_${idx}" value="${escapeAttr(item.name)}" class="bg-gray-950 border border-cyan-500/25 rounded-lg px-2.5 py-1.5 text-xs text-white flex-1 w-full">
-      <input type="text" id="custom_link_${idx}" value="${escapeAttr(item.link || '')}" placeholder="Paste GitHub / Demo URL..." class="bg-gray-950 border border-cyan-500/25 rounded-lg px-2.5 py-1.5 text-xs text-white w-full sm:w-64">
-      <div class="flex gap-1.5 w-full sm:w-auto justify-end">
-        <button type="button" onclick="saveCustomApp(${idx})" class="bg-cyan-400 hover:bg-cyan-300 text-gray-950 px-3 py-1.5 rounded-lg text-xs font-extrabold">Save</button>
-        <button type="button" onclick="deleteCustomApp(${idx})" class="bg-red-500/20 hover:bg-red-500 text-red-300 hover:text-white border border-red-500/40 px-2.5 py-1.5 rounded-lg text-xs font-bold"><i class="fas fa-trash"></i></button>
-      </div>
+  box.innerHTML = (window.customApps || []).map((item, idx) => `
+    <div class="row-flex mb-2" style="flex-wrap:wrap;">
+      <input type="text" id="custom_name_${idx}" value="${escapeAttr(item.name)}" class="field-input flex-1">
+      <input type="text" id="custom_link_${idx}" value="${escapeAttr(item.link || "")}" placeholder="Demo URL" class="field-input flex-1">
+      <button type="button" onclick="saveCustomApp(${idx})" class="btn btn-cyan btn-sm">Save</button>
+      <button type="button" onclick="deleteCustomApp(${idx})" class="btn btn-dark btn-sm">Delete</button>
     </div>
   `).join("");
 }
 
 function renderAdminApps() {
-  const adminList = document.getElementById('adminAppList');
-  if (!adminList) return;
-  adminList.innerHTML = "";
-  window.defaultApps.forEach((name, i) => {
-    const num = String(i + 1).padStart(2, '0');
-    adminList.innerHTML += `
-      <div class="flex flex-col sm:flex-row items-center gap-2 bg-gray-900 p-3 rounded-xl border border-sky-900/50">
-        <span class="text-xs font-extrabold text-sky-400 w-12">#${num}</span>
-        <span class="text-xs text-white flex-1 font-semibold">${escapeAttr(name)}</span>
-        <input type="text" id="link_${i}" value="${escapeAttr(window.appLinks[i] || '')}" placeholder="Paste GitHub / Demo URL here..." class="bg-gray-950 border border-sky-500/30 rounded-lg px-3 py-1.5 text-xs text-white w-full sm:w-72">
-        <button type="button" onclick="saveSingleLink(${i})" class="bg-sky-500 hover:bg-sky-400 text-gray-950 px-3.5 py-1.5 rounded-lg text-xs font-extrabold">Save</button>
+  const list = document.getElementById("adminAppList");
+  if (!list) return;
+  list.innerHTML = window.defaultApps.map((name, i) => {
+    const num = String(i + 1).padStart(2, "0");
+    return `
+      <div class="panel-card row-flex mb-2" style="flex-wrap:wrap;">
+        <span class="badge-num">#${num}</span>
+        <span class="text-xs font-bold flex-1">${escapeAttr(name)}</span>
+        <input type="text" id="link_${i}" value="${escapeAttr(window.appLinks[i] || "")}" placeholder="Demo URL" class="field-input" style="max-width:260px;">
+        <button type="button" onclick="saveSingleLink(${i})" class="btn btn-cyan btn-sm">Save</button>
       </div>`;
-  });
+  }).join("");
 }
 
 function saveSingleLink(i) {
-  const val = document.getElementById(`link_${i}`).value.trim();
-  window.appLinks[i] = val;
+  window.appLinks[i] = document.getElementById(`link_${i}`).value.trim();
   saveLocalCache();
-  if (typeof window.saveLinksToFirebase === "function") {
-    window.saveLinksToFirebase();
-  }
+  if (typeof window.saveLinksToFirebase === "function") window.saveLinksToFirebase();
   renderApps();
-  alert(`✅ #${String(i + 1).padStart(2, '0')} demo link saved successfully!`);
+  alert(`#${String(i + 1).padStart(2, "0")} link saved!`);
 }
 
-function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-
 function filterApps() {
-  const searchEl = document.getElementById('search');
-  const q = searchEl ? searchEl.value.toLowerCase() : "";
-  document.querySelectorAll('.app-card').forEach(c => {
-    c.style.display = (c.dataset.name || "").includes(q) ? 'flex' : 'none';
+  const q = (document.getElementById("search")?.value || "").toLowerCase();
+  document.querySelectorAll(".app-card").forEach(c => {
+    c.style.display = (c.dataset.name || "").includes(q) ? "flex" : "none";
   });
 }
 
